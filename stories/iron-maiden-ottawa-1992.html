@@ -98,6 +98,86 @@
   .sc-venue { font-family:'Cabin Condensed',sans-serif; font-size:9px; letter-spacing:.06em; color:rgba(138,128,112,.6); }
   @media (max-width:600px) { .sc-grid { grid-template-columns:1fr; } }
 
+
+  /* ── venue image ── */
+  .venue-img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: #0a0907;
+  }
+  .venue-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: sepia(60%) contrast(1.1) brightness(0.75);
+    transition: filter .5s;
+  }
+  .venue-img-wrap:hover .venue-img {
+    filter: sepia(40%) contrast(1.05) brightness(0.85);
+  }
+  /* amber colour wash overlay */
+  .venue-img-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      linear-gradient(to top, rgba(10,9,7,.85) 0%, rgba(10,9,7,.2) 50%, transparent 100%),
+      linear-gradient(to right, rgba(200,75,17,.15) 0%, transparent 60%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .venue-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    z-index: 2;
+    padding: 24px 28px;
+  }
+  .venue-overlay-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .venue-tag {
+    font-family: 'Cabin Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--ember);
+  }
+  .venue-name {
+    font-family: 'Abril Fatface', serif;
+    font-size: clamp(18px, 3vw, 28px);
+    color: var(--parchment);
+    line-height: 1.1;
+    text-shadow: 0 2px 12px rgba(0,0,0,.8);
+  }
+  .venue-credit {
+    font-family: 'Cabin Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: .1em;
+    color: rgba(138,128,112,.5);
+    margin-top: 8px;
+    text-align: right;
+    font-style: italic;
+  }
+  .venue-credit a {
+    color: rgba(138,128,112,.5);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(138,128,112,.2);
+    transition: color .2s;
+  }
+  .venue-credit a:hover { color: var(--fog); }
+  .venue-sub {
+    font-family: 'Cabin Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: .12em;
+    color: var(--fog);
+  }
+
 </style>
 </head>
 <body>
@@ -213,9 +293,21 @@
 </header>
 
 <div class="video-wrap">
-  <div class="video-wanted">
-    <p>📹 Video coming — if you were there and have footage, get in touch.</p>
+  <div class="venue-img-wrap">
+    <img 
+      src="../images/coliseum-ottawa-1947.jpg"
+      alt="The Coliseum at Lansdowne Park, Ottawa, 1947"
+      class="venue-img"
+    />
+    <div class="venue-overlay">
+      <div class="venue-overlay-inner">
+        <div class="venue-tag">The Venue</div>
+        <div class="venue-name">The Coliseum · Lansdowne Park</div>
+        <div class="venue-sub">Bank Street, Ottawa · Built 1903 · Demolished 2012</div>
+      </div>
+    </div>
   </div>
+  <p class="venue-credit">The Coliseum at Lansdowne Park, Ottawa, 1947 · <a href="https://www.flickr.com/photos/rdb466/15556974013" target="_blank" rel="noopener">Photo: rdb466 / Flickr</a> · <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></p>
 </div>
 
 <article class="story-body">
