@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go Hear Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+
+/* ─── TOKENS ─── */
+:root {
+  --void:      #0a0806;
+  --deep:      #141008;
+  --coal:      #1c1510;
+  --char:      #252018;
+  --ember:     #c45a10;
+  --amber:     #d4821a;
+  --gold:      #c8961e;
+  --wheat:     #d4b87a;
+  --bone:      #e8d9b8;
+  --fog:       #8a7d6a;
+  --smoke:     #5a5048;
+  --rust:      #7a2e08;
+  --content-bg: rgba(14,10,6,0.91);
+  --card-bg:    rgba(20,15,8,0.93);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--void); color: var(--bone); font-family: 'Lora', Georgia, serif; }
+
+/* ─── STICKER WALL ─── */
+.sticker-wall {
+  position: fixed; inset: 0; z-index: 0;
+  overflow: hidden; pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 47px, rgba(255,255,255,0.012) 47px, rgba(255,255,255,0.012) 48px),
+    repeating-linear-gradient(90deg, transparent, transparent 47px, rgba(255,255,255,0.012) 47px, rgba(255,255,255,0.012) 48px),
+    radial-gradient(ellipse at 30% 40%, rgba(60,40,10,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 70%, rgba(80,20,0,0.3) 0%, transparent 55%),
+    #0d0906;
+}
+
+.sticker { position: absolute; line-height: 1; user-select: none; filter: drop-shadow(1px 2px 5px rgba(0,0,0,0.8)); }
+
+/* ─── SITE WRAP ─── */
+.site-wrap { position: relative; z-index: 10; }
+
+/* ─── TOP BAR ─── */
+.topbar {
+  background: rgba(196,90,16,0.93); backdrop-filter: blur(8px);
+  padding: 5px 40px; display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Cabin Condensed', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.9);
+  position: sticky; top: 0; z-index: 100;
+}
+.topbar-nav { display: flex; gap: 20px; }
+.topbar-nav a { color: rgba(255,255,255,0.7); text-decoration: none; transition: color .2s; }
+.topbar-nav a:hover { color: #fff; }
+
+/* ─── MASTHEAD ─── */
+.masthead {
+  background: var(--content-bg); backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--ember); padding: 36px 40px 28px; position: relative;
+}
+.masthead::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background-image: radial-gradient(circle, rgba(196,90,16,0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.masthead-inner { position: relative; text-align: center; }
+.mast-eyebrow { font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.35em; text-transform:uppercase; color:var(--ember); margin-bottom:12px; }
+.site-title { font-family:'Abril Fatface',serif; font-size:clamp(54px,9.5vw,108px); line-height:.88; color:var(--bone); text-shadow:3px 3px 0 var(--ember),6px 6px 0 rgba(196,90,16,.2); margin-bottom:16px; }
+.site-title em { font-style:normal; color:var(--amber); text-shadow:3px 3px 0 var(--rust); }
+.mast-rule { display:flex; align-items:center; gap:14px; justify-content:center; margin:14px 0; }
+.mast-rule-line { flex:1; max-width:120px; height:1px; background:linear-gradient(90deg,transparent,var(--smoke),transparent); }
+.mast-rule-gem { width:6px; height:6px; background:var(--ember); transform:rotate(45deg); }
+.mast-tagline {
+  font-family:'Abril Fatface',serif;
+  font-size:clamp(18px,2.4vw,28px);
+  color:var(--wheat);
+  letter-spacing:.04em;
+  font-style:italic;
+}
+.mast-deck {
+  font-family:'Special Elite',monospace;
+  font-size:12px;
+  color:var(--fog);
+  letter-spacing:.12em;
+  margin-top:8px;
+}
+.mast-cities { display:flex; justify-content:center; gap:6px; flex-wrap:wrap; margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,.07); }
+.city-pill { font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--fog); background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); padding:5px 14px; cursor:pointer; transition:all .2s; }
+.city-pill:hover,.city-pill.active { color:var(--bone); border-color:var(--ember); background:rgba(196,90,16,.15); }
+
+/* ─── GAPS ─── */
+.sticker-gap { height: 60px; }
+.gap-sm { height: 48px; }
+.gap-md { height: 72px; }
+
+/* ─── CONTENT PANEL ─── */
+.content-panel { background:var(--content-bg); backdrop-filter:blur(14px); border-top:1px solid rgba(255,255,255,.04); border-bottom:1px solid rgba(255,255,255,.04); }
+
+/* ─── HERO ─── */
+.hero { display:grid; grid-template-columns:1fr 1fr; }
+.hero-media { position:relative; cursor:pointer; overflow:hidden; min-height:460px; background:#000; }
+.hero-media img { width:100%; height:100%; object-fit:cover; display:block; position:absolute; inset:0; opacity:.6; transition:opacity .5s,transform .7s ease; }
+.hero-media:hover img { opacity:.4; transform:scale(1.04); }
+.hero-media::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to right,transparent 55%,rgba(14,10,6,.8) 100%),linear-gradient(to top,rgba(14,10,6,.65) 0%,transparent 50%); }
+.hero-badge { position:absolute; top:20px; left:20px; z-index:4; background:var(--ember); color:#fff; font-family:'Cabin Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:.25em; text-transform:uppercase; padding:4px 12px; clip-path:polygon(0 0,calc(100% - 6px) 0,100% 50%,calc(100% - 6px) 100%,0 100%); }
+.hero-play { position:absolute; inset:0; z-index:3; display:flex; align-items:center; justify-content:center; }
+.play-ring { width:68px; height:68px; border:2px solid rgba(255,255,255,.55); border-radius:50%; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); background:rgba(0,0,0,.2); transition:all .2s; }
+.hero-media:hover .play-ring { border-color:var(--amber); background:rgba(196,90,16,.3); transform:scale(1.1); }
+.play-ring svg { width:26px; height:26px; fill:#fff; margin-left:4px; }
+.hero-cap { position:absolute; bottom:0; left:0; right:0; z-index:4; padding:14px 22px; font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:rgba(232,217,184,.55); }
+.hero-text { padding:40px 44px; background:var(--card-bg); border-left:1px solid rgba(255,255,255,.05); display:flex; flex-direction:column; justify-content:center; gap:16px; }
+.kicker { font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.25em; text-transform:uppercase; color:var(--ember); }
+.kicker span { color:var(--smoke); margin:0 6px; }
+.hero-hl { font-family:'Abril Fatface',serif; font-size:clamp(24px,2.8vw,38px); line-height:1.06; color:var(--bone); }
+.hero-deck { font-size:15px; line-height:1.68; color:var(--wheat); font-style:italic; border-left:3px solid var(--ember); padding-left:14px; }
+.hero-body { font-size:14px; line-height:1.82; color:var(--fog); }
+.hero-body p+p { margin-top:12px; }
+.read-btn { display:inline-flex; align-items:center; gap:10px; width:fit-content; font-family:'Cabin Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--ember); text-decoration:none; border-bottom:1px solid var(--ember); padding-bottom:2px; transition:gap .2s,color .2s; }
+.read-btn:hover { gap:16px; color:var(--amber); }
+
+/* ─── SECTION DIVIDER ─── */
+.section-div { background:var(--content-bg); backdrop-filter:blur(14px); padding:0 40px; display:flex; align-items:center; gap:14px; height:44px; border-top:1px solid rgba(255,255,255,.04); }
+.sdlabel { font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.28em; text-transform:uppercase; color:var(--ember); white-space:nowrap; }
+.sdline { flex:1; height:1px; background:rgba(255,255,255,.06); }
+.sddot { width:4px; height:4px; background:var(--smoke); transform:rotate(45deg); flex-shrink:0; }
+
+/* ─── CARDS ─── */
+.cards-wrap { background:var(--content-bg); backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,.05); }
+.cards-grid { display:grid; grid-template-columns:repeat(3,1fr); padding:0 40px; }
+.card { padding:26px 22px 30px; border-right:1px solid rgba(255,255,255,.05); transition:background .2s; }
+.card:last-child { border-right:none; }
+.card:hover { background:rgba(255,255,255,.02); }
+.card-thumb { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; margin-bottom:16px; cursor:pointer; background:#000; }
+.card-thumb img { width:100%; height:100%; object-fit:cover; display:block; opacity:.55; transition:opacity .35s,transform .5s; }
+.card:hover .card-thumb img { opacity:.4; transform:scale(1.05); }
+.card-thumb::before { content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(135deg,rgba(196,90,16,.18) 0%,transparent 45%),linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 45%); }
+.thumb-play { position:absolute; bottom:10px; right:10px; z-index:2; width:32px; height:32px; background:var(--ember); display:flex; align-items:center; justify-content:center; opacity:0; transform:scale(.8); transition:opacity .25s,transform .25s; }
+.card:hover .thumb-play { opacity:1; transform:scale(1); }
+.thumb-play svg { width:13px; height:13px; fill:#fff; margin-left:2px; }
+.card-kicker { font-family:'Cabin Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--ember); margin-bottom:7px; }
+.card-kicker .vt { color:var(--smoke); }
+.card-hl { font-family:'Abril Fatface',serif; font-size:18px; line-height:1.15; color:var(--bone); margin-bottom:9px; }
+.card-ex { font-size:13px; line-height:1.7; color:var(--fog); }
+.card-lnk { display:inline-block; margin-top:13px; font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--ember); text-decoration:none; border-bottom:1px solid var(--rust); padding-bottom:1px; transition:color .2s; }
+.card-lnk:hover { color:var(--amber); }
+
+/* ─── QUOTE ─── */
+.quote-wrap { background:rgba(10,6,2,.94); backdrop-filter:blur(14px); border-top:1px solid rgba(255,255,255,.04); border-bottom:3px solid var(--ember); padding:34px 40px; display:flex; align-items:flex-start; gap:24px; }
+.qmark { font-family:'Abril Fatface',serif; font-size:80px; line-height:.65; color:var(--ember); opacity:.45; flex-shrink:0; user-select:none; }
+.qtext { font-family:'Lora',serif; font-style:italic; font-size:clamp(15px,1.9vw,21px); line-height:1.52; color:var(--wheat); flex:1; }
+.qattr { font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--smoke); margin-top:10px; }
+
+/* ─── VENUE BLOCK ─── */
+.venue-wrap { background:var(--content-bg); backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,.05); padding:36px 40px; display:grid; grid-template-columns:230px 1fr; gap:0; }
+.venue-plate { background:rgba(10,6,2,.6); border:1px solid rgba(255,255,255,.08); padding:20px; margin-right:36px; position:relative; }
+.venue-plate::before { content:''; position:absolute; inset:4px; border:1px dashed rgba(255,255,255,.06); pointer-events:none; }
+.vp-eye { font-family:'Cabin Condensed',sans-serif; font-size:8px; font-weight:700; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.vp-name { font-family:'Abril Fatface',serif; font-size:17px; line-height:1.15; color:var(--bone); margin-bottom:4px; }
+.vp-loc { font-family:'Cabin Condensed',sans-serif; font-size:9px; letter-spacing:.12em; color:var(--smoke); margin-bottom:14px; text-transform:uppercase; }
+.vp-row { display:flex; justify-content:space-between; align-items:baseline; padding:5px 0; border-top:1px solid rgba(255,255,255,.05); font-family:'Cabin Condensed',sans-serif; font-size:10px; letter-spacing:.05em; color:var(--smoke); }
+.vp-row .v { color:var(--gold); font-weight:600; }
+.vsp-title { font-family:'Abril Fatface',serif; font-size:21px; color:var(--bone); margin-bottom:4px; }
+.vsp-sub { font-family:'Cabin Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:.25em; text-transform:uppercase; color:var(--smoke); margin-bottom:18px; }
+.vlist { list-style:none; }
+.vl-item { display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,.05); cursor:pointer; transition:padding-left .2s; }
+.vl-item:hover { padding-left:8px; }
+.vl-item:last-child { border-bottom:none; }
+.vl-num { font-family:'Special Elite',monospace; font-size:13px; color:var(--ember); width:22px; flex-shrink:0; }
+.vl-txt { flex:1; }
+.vl-band { font-family:'Lora',serif; font-weight:600; font-size:14px; color:var(--bone); }
+.vl-date { font-family:'Cabin Condensed',sans-serif; font-size:9px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--smoke); margin-top:1px; }
+.vl-arr { color:rgba(255,255,255,.12); font-size:15px; transition:color .2s,transform .2s; }
+.vl-item:hover .vl-arr { color:var(--ember); transform:translateX(4px); }
+
+/* ─── SUBMIT STICKER SECTION ─── */
+.submit-wrap {
+  background: var(--content-bg); backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.05);
+  padding: 40px 40px;
+}
+
+.submit-inner {
+  max-width: 800px; margin: 0 auto;
+}
+
+.submit-hl {
+  font-family:'Abril Fatface',serif; font-size:28px;
+  color:var(--bone); margin-bottom:6px;
+}
+
+.submit-sub {
+  font-size:14px; line-height:1.7; color:var(--fog);
+  margin-bottom:28px; font-style:italic;
+}
+
+.submit-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.form-group.full { grid-column: 1 / -1; }
+
+.form-label {
+  font-family:'Cabin Condensed',sans-serif; font-size:9px; font-weight:700;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--amber);
+}
+
+.form-input, .form-select, .form-textarea {
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
+  color: var(--bone); padding: 10px 14px;
+  font-family:'Cabin Condensed',sans-serif; font-size:13px; font-weight:600;
+  letter-spacing:.04em;
+  outline: none; transition: border-color .2s, background .2s;
+  -webkit-appearance: none; appearance: none;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--ember); background: rgba(196,90,16,.06);
+}
+.form-input::placeholder, .form-textarea::placeholder { color: var(--smoke); }
+.form-select option { background: #1a1008; color: var(--bone); }
+.form-textarea { resize: vertical; min-height: 60px; line-height:1.5; }
+
+/* Style row — sticker shape / color pickers */
+.style-row {
+  grid-column: 1 / -1;
+  display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start;
+}
+.style-group { display:flex; flex-direction:column; gap:6px; }
+.style-group .form-label { display:block; }
+
+.shape-options { display:flex; gap:8px; }
+.shape-btn {
+  font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase;
+  padding:6px 12px; cursor:pointer;
+  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1);
+  color:var(--fog); transition:all .2s;
+}
+.shape-btn.active, .shape-btn:hover {
+  background:rgba(196,90,16,.15); border-color:var(--ember); color:var(--bone);
+}
+
+.color-options { display:flex; gap:8px; flex-wrap:wrap; }
+.color-swatch {
+  width:26px; height:26px; border-radius:0; cursor:pointer;
+  border:2px solid transparent; transition:border-color .15s, transform .15s;
+}
+.color-swatch.active, .color-swatch:hover { border-color:#fff; transform:scale(1.15); }
+
+/* Preview + submit row */
+.preview-submit-row {
+  grid-column: 1 / -1;
+  display: flex; gap: 20px; align-items: flex-end; flex-wrap: wrap;
+}
+
+.sticker-preview-box {
+  background: rgba(0,0,0,.4); border:1px solid rgba(255,255,255,.08);
+  width:180px; height:110px; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; position:relative; overflow:hidden;
+}
+.sticker-preview-box::before {
+  content:'PREVIEW'; position:absolute; bottom:6px; left:0; right:0;
+  text-align:center;
+  font-family:'Cabin Condensed',sans-serif; font-size:8px; font-weight:700;
+  letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.2);
+}
+
+.submit-btn {
+  font-family:'Cabin Condensed',sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:.22em; text-transform:uppercase;
+  padding:12px 28px; cursor:pointer;
+  background:var(--ember); color:#fff; border:none;
+  transition:background .2s, transform .1s;
+}
+.submit-btn:hover { background:var(--amber); transform:translateY(-1px); }
+.submit-btn:active { transform:translateY(0); }
+
+.submit-note {
+  font-family:'Cabin Condensed',sans-serif; font-size:10px; letter-spacing:.08em;
+  color:var(--smoke); line-height:1.6; flex:1; min-width:180px;
+}
+
+/* success toast */
+.toast {
+  display:none; position:fixed; bottom:32px; left:50%; transform:translateX(-50%);
+  background:var(--ember); color:#fff;
+  font-family:'Cabin Condensed',sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:.2em; text-transform:uppercase;
+  padding:12px 28px; z-index:500;
+  animation: toastIn .35s ease both;
+}
+.toast.show { display:block; }
+@keyframes toastIn { from{opacity:0;transform:translateX(-50%) translateY(12px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+
+/* ─── FOOTER ─── */
+footer { background:rgba(6,4,2,.96); backdrop-filter:blur(14px); border-top:2px solid rgba(255,255,255,.06); padding:40px 40px 24px; display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:48px; }
+.ft-logo { font-family:'Abril Fatface',serif; font-size:28px; color:var(--bone); margin-bottom:10px; }
+.ft-logo em { font-style:normal; color:var(--ember); }
+.ft-p { font-size:12px; line-height:1.65; color:var(--smoke); margin-top:8px; }
+.ft-col h4 { font-family:'Cabin Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; }
+.ft-col ul { list-style:none; }
+.ft-col li+li { margin-top:8px; }
+.ft-col a { font-family:'Cabin Condensed',sans-serif; font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--smoke); text-decoration:none; transition:color .2s; }
+.ft-col a:hover { color:var(--bone); }
+.ft-bottom { background:rgba(4,2,0,.98); padding:14px 40px; display:flex; justify-content:space-between; align-items:center; font-family:'Cabin Condensed',sans-serif; font-size:9px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.12); }
+
+/* ─── MODAL ─── */
+.modal-bg { display:none; position:fixed; inset:0; z-index:999; background:rgba(0,0,0,.93); backdrop-filter:blur(8px); align-items:center; justify-content:center; }
+.modal-bg.open { display:flex; }
+.modal-shell { width:92%; max-width:880px; position:relative; }
+.modal-shell .cls { position:absolute; top:-38px; right:0; font-family:'Cabin Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--fog); background:none; border:none; cursor:pointer; transition:color .2s; }
+.modal-shell .cls:hover { color:var(--ember); }
+.modal-vid { width:100%; aspect-ratio:16/9; background:#000; border:1px solid rgba(255,255,255,.08); }
+.modal-vid iframe { width:100%; height:100%; border:none; display:block; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width:860px) {
+  .hero { grid-template-columns:1fr; }
+  .cards-grid { grid-template-columns:1fr; padding:0 20px; }
+  .card { border-right:none; border-bottom:1px solid rgba(255,255,255,.05); }
+  .venue-wrap { grid-template-columns:1fr; padding:24px 20px; }
+  .venue-plate { margin-right:0; margin-bottom:24px; }
+  footer { grid-template-columns:1fr; padding:28px 20px 20px; gap:24px; }
+  .topbar,.masthead,.section-div,.quote-wrap,.submit-wrap,.ft-bottom { padding-left:20px; padding-right:20px; }
+  .submit-form { grid-template-columns:1fr; }
+  .style-row,.preview-submit-row { flex-direction:column; }
+}
+
+@keyframes rise { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.masthead-inner { animation:rise .55s ease both; }
+.hero           { animation:rise .55s .08s ease both; }
+.cards-wrap     { animation:rise .55s .16s ease both; }
+
+</style>
+</head>
+<body>
+
+<div class="sticker-wall" id="stickerWall"></div>
+
+<div class="site-wrap">
+
+  <!-- TOP BAR -->
+  <div class="topbar" style="justify-content:center;">
+    <nav class="topbar-nav">
+      <a href="#">About</a>
+      <a href="#submitSection">Post Your Sticker</a>
+      <a href="#">Newsletter</a>
+      <a href="#">Search</a>
+    </nav>
+  </div>
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="site-title">Go Hear <em>Live</em></div>
+      <div class="mast-rule"><div class="mast-rule-line"></div><div class="mast-rule-gem"></div><div class="mast-rule-line"></div></div>
+      <div class="mast-tagline">The stage remembers.</div>
+      <div class="mast-deck">The music and the room. The band and the moment.</div>
+      <div class="mast-cities">
+        <button class="city-pill active">All Cities</button>
+        <button class="city-pill">Seattle</button>
+        <button class="city-pill">Portland</button>
+        <button class="city-pill">Chicago</button>
+        <button class="city-pill">New York</button>
+        <button class="city-pill">Los Angeles</button>
+        <button class="city-pill">London</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sticker-gap"></div>
+
+  <!-- HERO -->
+  <div class="content-panel">
+    <section class="hero">
+      <div class="hero-media" onclick="openModal('Z53nb74H7Vc')">
+        <div class="hero-badge">Featured Story</div>
+        <img src="https://img.youtube.com/vi/Z53nb74H7Vc/maxresdefault.jpg" alt="Nirvana at the Paramount" onerror="this.src='https://img.youtube.com/vi/Z53nb74H7Vc/hqdefault.jpg'"/>
+        <div class="hero-play"><div class="play-ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+        <div class="hero-cap">Oct 31, 1991 · The Paramount Theatre · Seattle, WA</div>
+      </div>
+      <div class="hero-text">
+        <div class="kicker">Nirvana <span>·</span> The Paramount Theatre <span>·</span> Seattle</div>
+        <h1 class="hero-hl">Halloween in the Palace of Splendor</h1>
+        <p class="hero-deck">Five weeks after Nevermind, the most important band in the world played their biggest show yet — for ten dollars a ticket, in their own city, in a room built for silent films.</p>
+        <div class="hero-body">
+          <p>The show wasn't even supposed to be here. It had been booked at the smaller Moore Theatre, but the unexpected commercial surge of <em>Nevermind</em> forced a last-minute move. Nirvana had outgrown a venue they hadn't even played yet.</p>
+          <p>Photographer Charles Peterson watched the label's film crew moving through the crowd and felt something shift. Six camera operators in black, he said, "reeked of money." Something was ending. But something extraordinary was being preserved.</p>
+        </div>
+        <a href="#" class="read-btn">Read the full story →</a>
+      </div>
+    </section>
+  </div>
+
+  <div class="gap-sm"></div>
+  <div class="section-div">
+    <div class="sdlabel">More Stories</div><div class="sddot"></div>
+    <div class="sdline"></div>
+    <div class="sdlabel" style="color:var(--smoke)">Seattle</div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="cards-wrap">
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-thumb" onclick="openModal('StqioKCPqF8')">
+          <img src="https://img.youtube.com/vi/StqioKCPqF8/maxresdefault.jpg" alt="Mad Season" onerror="this.src='https://img.youtube.com/vi/StqioKCPqF8/hqdefault.jpg'"/>
+          <div class="thumb-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="card-kicker">Mad Season <span class="vt">· The Moore Theatre · Apr 29, 1995</span></div>
+        <h2 class="card-hl">A Brief Lightning Bolt</h2>
+        <p class="card-ex">Their final show. A band formed in a rehab clinic in Minnesota returned to Seattle and made one extraordinary album before the darkness closed in.</p>
+        <a href="#" class="card-lnk">Read the full story →</a>
+      </div>
+      <div class="card">
+        <div class="card-thumb" onclick="openModal('c1Ji69G3Jnw')">
+          <img src="https://img.youtube.com/vi/c1Ji69G3Jnw/maxresdefault.jpg" alt="Neil Young Pearl Jam" onerror="this.src='https://img.youtube.com/vi/c1Ji69G3Jnw/hqdefault.jpg'"/>
+          <div class="thumb-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="card-kicker">Neil Young &amp; Pearl Jam <span class="vt">· Moe's Mo' Rockin' · Jun 1995</span></div>
+        <h2 class="card-hl">The Godfather Comes to Capitol Hill</h2>
+        <p class="card-ex">He showed up with one guitar, no roadie, and docked his boat in the harbour each night to write new songs. Four days later, Mirror Ball existed.</p>
+        <a href="#" class="card-lnk">Read the full story →</a>
+      </div>
+      <div class="card">
+        <div class="card-thumb" onclick="openModal('0WDARg9r_6s')">
+          <img src="https://img.youtube.com/vi/0WDARg9r_6s/maxresdefault.jpg" alt="Alice in Chains" onerror="this.src='https://img.youtube.com/vi/0WDARg9r_6s/hqdefault.jpg'"/>
+          <div class="thumb-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="card-kicker">Alice in Chains <span class="vt">· The Central Saloon · Jan 6, 1990</span></div>
+        <h2 class="card-hl">Before the Box</h2>
+        <p class="card-ex">Facelift hasn't been recorded yet. Seattle's oldest bar — a Gold Rush saloon now witnessing the birth of something new. This is what it looked like before.</p>
+        <a href="#" class="card-lnk">Read the full story →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="gap-md"></div>
+
+  <!-- QUOTE -->
+  <div class="quote-wrap">
+    <div class="qmark">"</div>
+    <div>
+      <div class="qtext">It was a brief lightning bolt of music that lasted six months, tops, and then it was gone.</div>
+      <div class="qattr">— Mike McCready &nbsp;·&nbsp; on Mad Season</div>
+    </div>
+  </div>
+
+  <div class="gap-sm"></div>
+  <div class="section-div"><div class="sdlabel">Venue Spotlight</div><div class="sddot"></div><div class="sdline"></div></div>
+
+  <!-- VENUE -->
+  <div class="venue-wrap">
+    <div class="venue-plate">
+      <div class="vp-eye">Historic Venue · Seattle, WA</div>
+      <div class="vp-name">The Paramount Theatre</div>
+      <div class="vp-loc">911 Pine St · Est. 1928</div>
+      <div class="vp-row"><span>Capacity</span><span class="v">2,807</span></div>
+      <div class="vp-row"><span>Opened</span><span class="v">Mar 1, 1928</span></div>
+      <div class="vp-row"><span>Built by</span><span class="v">Paramount Pictures</span></div>
+      <div class="vp-row"><span>Architect</span><span class="v">Rapp &amp; Rapp</span></div>
+      <div class="vp-row"><span>Stories archived</span><span class="v">3</span></div>
+    </div>
+    <div>
+      <div class="vsp-title">Stories from this venue</div>
+      <div class="vsp-sub">The Paramount Theatre · Seattle</div>
+      <ul class="vlist">
+        <li class="vl-item"><div class="vl-num">01</div><div class="vl-txt"><div class="vl-band">Nirvana</div><div class="vl-date">October 31, 1991 · Halloween in the Palace of Splendor</div></div><div class="vl-arr">→</div></li>
+        <li class="vl-item"><div class="vl-num">02</div><div class="vl-txt"><div class="vl-band">Soundgarden</div><div class="vl-date">Coming soon · The Night Seattle's Heaviest Band Said Goodbye</div></div><div class="vl-arr">→</div></li>
+        <li class="vl-item"><div class="vl-num">03</div><div class="vl-txt"><div class="vl-band">Pearl Jam</div><div class="vl-date">Coming soon · Ten Years on the Stage They Started From</div></div><div class="vl-arr">→</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="gap-md"></div>
+
+  <!-- ═══ SUBMIT STICKER ═══ -->
+  <div class="section-div" id="submitSection">
+    <div class="sdlabel">Post Your Sticker</div><div class="sddot"></div><div class="sdline"></div>
+    <div class="sdlabel" style="color:var(--smoke)">The Virtual Wall</div>
+  </div>
+
+  <div class="submit-wrap">
+    <div class="submit-inner">
+      <h2 class="submit-hl">Slap Your Sticker on the Wall</h2>
+      <p class="submit-sub">The stage remembers everyone who ever stood on it. Kurt Cobain played the Paramount. Layne Staley played the Central. If you're playing these rooms — or dreaming about it — your band belongs on this wall. The stage is waiting.</p>
+
+      <div class="submit-form" id="stickerForm">
+
+        <div class="form-group">
+          <label class="form-label">Band Name</label>
+          <input class="form-input" id="bandName" type="text" placeholder="The Rust Bucket Five" maxlength="28"/>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">City</label>
+          <input class="form-input" id="bandCity" type="text" placeholder="Seattle, WA" maxlength="22"/>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Genre / Tagline</label>
+          <input class="form-input" id="bandTagline" type="text" placeholder="Loud. Honest. Loud again." maxlength="30"/>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Dream Venue</label>
+          <select class="form-select" id="bandVenue">
+            <option value="The Paramount Theatre · Seattle">The Paramount Theatre · Seattle</option>
+            <option value="The Moore Theatre · Seattle">The Moore Theatre · Seattle</option>
+            <option value="The Central Saloon · Seattle">The Central Saloon · Seattle</option>
+            <option value="Neumos · Seattle">Neumos · Seattle</option>
+            <option value="The Crocodile · Seattle">The Crocodile · Seattle</option>
+            <option value="The Showbox · Seattle">The Showbox · Seattle</option>
+            <option value="Metro · Chicago">Metro · Chicago</option>
+            <option value="The Roxy · Los Angeles">The Roxy · Los Angeles</option>
+            <option value="The Bowery Ballroom · New York">The Bowery Ballroom · New York</option>
+          </select>
+        </div>
+
+        <!-- Style row -->
+        <div class="style-row">
+          <div class="style-group">
+            <span class="form-label">Sticker Shape</span>
+            <div class="shape-options">
+              <button class="shape-btn active" data-shape="circle" onclick="setShape('circle',this)">Circle</button>
+              <button class="shape-btn" data-shape="rect" onclick="setShape('rect',this)">Rect</button>
+              <button class="shape-btn" data-shape="oval" onclick="setShape('oval',this)">Oval</button>
+              <button class="shape-btn" data-shape="shield" onclick="setShape('shield',this)">Shield</button>
+              <button class="shape-btn" data-shape="pennant" onclick="setShape('pennant',this)">Pennant</button>
+            </div>
+          </div>
+
+          <div class="style-group">
+            <span class="form-label">Colour</span>
+            <div class="color-options" id="colorSwatches">
+              <div class="color-swatch active" data-bg="#1a1a2e" data-accent="#5566cc" data-color="#e8e4f0" style="background:#1a1a2e; border-color:rgba(255,255,255,0.15)" onclick="setColor(this)"></div>
+              <div class="color-swatch" data-bg="#1a0800" data-accent="#cc4400" data-color="#f0d080" style="background:#cc4400" onclick="setColor(this)"></div>
+              <div class="color-swatch" data-bg="#0a1a0a" data-accent="#448844" data-color="#d0f0d0" style="background:#448844" onclick="setColor(this)"></div>
+              <div class="color-swatch" data-bg="#1a0808" data-accent="#aa2222" data-color="#f0d8c0" style="background:#aa2222" onclick="setColor(this)"></div>
+              <div class="color-swatch" data-bg="#0a0a1a" data-accent="#4488cc" data-color="#c8d8f0" style="background:#4488cc" onclick="setColor(this)"></div>
+              <div class="color-swatch" data-bg="#14100a" data-accent="#c89020" data-color="#f0e0a0" style="background:#c89020" onclick="setColor(this)"></div>
+              <div class="color-swatch" data-bg="#100010" data-accent="#aa44aa" data-color="#e8c8f0" style="background:#aa44aa" onclick="setColor(this)"></div>
+              <div class="color-swatch" data-bg="#0a1010" data-accent="#208888" data-color="#c0f0f0" style="background:#208888" onclick="setColor(this)"></div>
+              <div class="color-swatch" data-bg="#0e0e0e" data-accent="#cccccc" data-color="#ffffff" style="background:#666666" onclick="setColor(this)"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview + submit -->
+        <div class="preview-submit-row">
+          <div class="sticker-preview-box" id="previewBox"></div>
+          <button class="submit-btn" onclick="submitSticker()">Slap It On the Wall</button>
+          <p class="submit-note">Every band that's ever headlined these rooms started as someone's local act. This is your somewhere.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="gap-md"></div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="ft-logo">Go Hear <em>Live</em></div>
+      <p class="ft-p">The music and the room. The band and the moment. Stories from the stages where history happened — and keeps happening.</p>
+    </div>
+    <div class="ft-col">
+      <h4>Cities</h4>
+      <ul>
+        <li><a href="#">Seattle</a></li><li><a href="#">Portland</a></li>
+        <li><a href="#">Chicago</a></li><li><a href="#">New York</a></li>
+        <li><a href="#">Los Angeles</a></li><li><a href="#">London</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#">All Stories</a></li><li><a href="#">Venues</a></li>
+        <li><a href="#">Bands</a></li><li><a href="#">Decades</a></li>
+        <li><a href="#submitSection">Post Your Sticker</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="ft-bottom">
+    <div>The Stage Remembers · gohearlive.com</div>
+    <div>The music and the room. The band and the moment.</div>
+  </div>
+
+</div><!-- /site-wrap -->
+
+<!-- TOAST -->
+<div class="toast" id="toast">Your sticker is on the wall ✓</div>
+
+<!-- VIDEO MODAL -->
+<div class="modal-bg" id="modal" onclick="handleBg(event)">
+  <div class="modal-shell">
+    <button class="cls" onclick="closeModal()">✕ Close</button>
+    <div class="modal-vid">
+      <iframe id="mframe" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     ALL THE JS
+════════════════════════════════════════ -->
+<script>
+
+/* ── modal ── */
+function openModal(id) {
+  document.getElementById('mframe').src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('mframe').src = '';
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleBg(e) { if (e.target === document.getElementById('modal')) closeModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+document.querySelectorAll('.city-pill').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.city-pill').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+/* ── sticker form state ── */
+let currentShape = 'circle';
+let currentColor = { bg:'#1a1a2e', accent:'#5566cc', color:'#e8e4f0' };
+
+function setShape(shape, el) {
+  currentShape = shape;
+  document.querySelectorAll('.shape-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  updatePreview();
+}
+
+function setColor(el) {
+  document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  currentColor = { bg: el.dataset.bg, accent: el.dataset.accent, color: el.dataset.color };
+  updatePreview();
+}
+
+document.getElementById('bandName').addEventListener('input', updatePreview);
+document.getElementById('bandTagline').addEventListener('input', updatePreview);
+document.getElementById('bandCity').addEventListener('input', updatePreview);
+
+function updatePreview() {
+  const name = document.getElementById('bandName').value || 'YOUR BAND';
+  const tagline = document.getElementById('bandTagline').value || 'TAGLINE';
+  const svg = makeUserSticker({ name, tagline, shape: currentShape, ...currentColor }, 1, false, true);
+  document.getElementById('previewBox').innerHTML = svg;
+}
+
+/* ── make a user sticker SVG ── */
+function makeUserSticker(s, opacity, worn, preview) {
+  const name = s.name.toUpperCase();
+  const tag = (s.tagline || '').toUpperCase();
+  const f = `opacity="${opacity}"`;
+
+  if (s.shape === 'circle') {
+    const r = preview ? 44 : 50;
+    return `<svg width="${r*2}" height="${r*2}" viewBox="0 0 ${r*2} ${r*2}" xmlns="http://www.w3.org/2000/svg" ${f}>
+      <circle cx="${r}" cy="${r}" r="${r-1}" fill="${s.bg}" stroke="${s.accent}" stroke-width="2.5"/>
+      <circle cx="${r}" cy="${r}" r="${r-6}" fill="none" stroke="${s.accent}" stroke-width="0.8" stroke-dasharray="2.5,2.5"/>
+      <text x="${r}" y="${r+1}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Black,sans-serif" font-size="${name.length > 14 ? 7.5 : 9}" font-weight="900" letter-spacing="1.2" fill="${s.color}">${name}</text>
+      <text x="${r}" y="${r+13}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Narrow,sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.5" fill="${s.accent}">${tag}</text>
+    </svg>`;
+  }
+  if (s.shape === 'rect') {
+    const w = preview ? 160 : 130, h = preview ? 70 : 52;
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" ${f}>
+      <rect x="1" y="1" width="${w-2}" height="${h-2}" rx="3" fill="${s.bg}" stroke="${s.accent}" stroke-width="2"/>
+      <rect x="5" y="5" width="${w-10}" height="${h-10}" rx="1" fill="none" stroke="${s.accent}" stroke-width="0.6" opacity="0.4"/>
+      <text x="${w/2}" y="${h/2-5}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Black,sans-serif" font-size="${name.length > 16 ? 8 : 10}" font-weight="900" letter-spacing="1.5" fill="${s.color}">${name}</text>
+      <text x="${w/2}" y="${h/2+9}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Narrow,sans-serif" font-size="7" font-weight="700" letter-spacing="1.5" fill="${s.color}" opacity="0.65">${tag}</text>
+    </svg>`;
+  }
+  if (s.shape === 'oval') {
+    const rx = preview ? 78 : 72, ry = preview ? 42 : 36;
+    return `<svg width="${rx*2}" height="${ry*2}" viewBox="0 0 ${rx*2} ${ry*2}" xmlns="http://www.w3.org/2000/svg" ${f}>
+      <ellipse cx="${rx}" cy="${ry}" rx="${rx-2}" ry="${ry-2}" fill="${s.bg}" stroke="${s.accent}" stroke-width="2"/>
+      <ellipse cx="${rx}" cy="${ry}" rx="${rx-7}" ry="${ry-7}" fill="none" stroke="${s.accent}" stroke-width="0.7" stroke-dasharray="2,3"/>
+      <text x="${rx}" y="${ry-4}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Black,sans-serif" font-size="${name.length > 16 ? 7.5 : 9}" font-weight="900" letter-spacing="1.2" fill="${s.color}">${name}</text>
+      <text x="${rx}" y="${ry+10}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Narrow,sans-serif" font-size="7" font-weight="700" letter-spacing="1.8" fill="${s.accent}">${tag}</text>
+    </svg>`;
+  }
+  if (s.shape === 'shield') {
+    const w = preview ? 80 : 80, h = preview ? 96 : 96;
+    const p = `M${w/2},${h-4} L4,${h*.44} L4,8 Q${w/2},4 ${w-4},8 L${w-4},${h*.44} Z`;
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" ${f}>
+      <path d="${p}" fill="${s.bg}" stroke="${s.accent}" stroke-width="2.5"/>
+      <text x="${w/2}" y="${h*.36}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Black,sans-serif" font-size="${name.length > 12 ? 7.5 : 9}" font-weight="900" letter-spacing="0.8" fill="${s.color}">${name}</text>
+      <text x="${w/2}" y="${h*.54}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Narrow,sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.2" fill="${s.accent}">${tag}</text>
+    </svg>`;
+  }
+  if (s.shape === 'pennant') {
+    const w = preview ? 150 : 130, h = preview ? 70 : 60;
+    const p = `M0,${h/2} L${w-2},4 L${w-2},${h-4} Z`;
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" ${f}>
+      <path d="${p}" fill="${s.bg}" stroke="${s.accent}" stroke-width="2"/>
+      <circle cx="8" cy="${h/2}" r="5" fill="${s.accent}" opacity="0.8"/>
+      <text x="${w*.42}" y="${h/2-5}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Black,sans-serif" font-size="${name.length > 14 ? 7.5 : 9}" font-weight="900" letter-spacing="1" fill="${s.color}">${name}</text>
+      <text x="${w*.42}" y="${h/2+8}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Narrow,sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.5" fill="${s.accent}">${tag}</text>
+    </svg>`;
+  }
+  return '';
+}
+
+/* ── submit sticker to wall ── */
+function submitSticker() {
+  const name = document.getElementById('bandName').value.trim();
+  if (!name) { document.getElementById('bandName').focus(); return; }
+  const tagline = document.getElementById('bandTagline').value.trim();
+  const city = document.getElementById('bandCity').value.trim();
+  const venue = document.getElementById('bandVenue').value;
+
+  const stickerDef = {
+    name,
+    tagline: tagline || city || 'LIVE MUSIC',
+    shape: currentShape,
+    ...currentColor,
+    isUserSticker: true
+  };
+
+  // Place 3–5 copies scattered around the wall
+  const wall = document.getElementById('stickerWall');
+  const W = window.innerWidth;
+  const H = parseInt(wall.style.height) || 3000;
+  const count = 3 + Math.floor(Math.random() * 3);
+
+  for (let i = 0; i < count; i++) {
+    const rot = (Math.random() - 0.5) * 50;
+    const opacity = 0.45 + Math.random() * 0.45;
+    const scale = 0.8 + Math.random() * 0.6;
+    const x = 30 + Math.random() * (W - 200);
+    const y = 80 + Math.random() * (H - 150);
+
+    const el = document.createElement('div');
+    el.className = 'sticker user-sticker';
+    el.style.cssText = `left:${x}px; top:${y}px; transform:rotate(${rot}deg) scale(${scale}); opacity:${opacity}; transition:all 0.5s ease;`;
+    // start invisible, fade in
+    el.style.opacity = 0;
+    el.innerHTML = makeUserSticker(stickerDef, 1, false, false);
+    wall.appendChild(el);
+    // animate in
+    setTimeout(() => { el.style.opacity = opacity; }, 50 + i * 120);
+  }
+
+  // Show toast
+  const toast = document.getElementById('toast');
+  toast.textContent = `${name} is on the wall ✓`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+
+  // Reset form
+  document.getElementById('bandName').value = '';
+  document.getElementById('bandTagline').value = '';
+  document.getElementById('bandCity').value = '';
+  updatePreview();
+}
+
+/* ══════════════════════════════════════
+   STICKER WALL BUILDER
+══════════════════════════════════════ */
+
+// Legend bands
+const legendStickers = [
+  { type:'circle', label:'NIRVANA', sub:'NEVERMIND', color:'#e8e0c0', bg:'#1a1a2e', accent:'#4444aa', r:52 },
+  { type:'circle', label:'PEARL JAM', sub:'TEN', color:'#f0d080', bg:'#1a0a00', accent:'#c84400', r:46 },
+  { type:'circle', label:'ALICE IN CHAINS', sub:'DIRT', color:'#d0e0d0', bg:'#0a1a0a', accent:'#448844', r:56 },
+  { type:'circle', label:'SOUNDGARDEN', sub:'SUPERUNKNOWN', color:'#e0c8a0', bg:'#180808', accent:'#aa2222', r:50 },
+  { type:'circle', label:'MAD SEASON', sub:'ABOVE', color:'#c8d0e0', bg:'#0a0a1a', accent:'#446688', r:44 },
+  { type:'circle', label:'MUDHONEY', sub:'SUB POP', color:'#f0e0a0', bg:'#1a1200', accent:'#cc8800', r:40 },
+  { type:'circle', label:'THE MELVINS', sub:'STONER WITCH', color:'#e0c0e0', bg:'#120012', accent:'#884488', r:42 },
+  { type:'circle', label:'SCREAMING TREES', sub:'SWEET OBLIVION', color:'#d4e8d4', bg:'#081208', accent:'#336633', r:54 },
+  { type:'circle', label:'NEIL YOUNG', sub:'CRAZY HORSE', color:'#f0d4a0', bg:'#140c00', accent:'#c87020', r:48 },
+  { type:'circle', label:'MOTHER LOVE BONE', sub:'APPLE', color:'#f0d8e0', bg:'#1a0810', accent:'#aa3366', r:52 },
+  { type:'circle', label:'TAD', sub:'INHALER', color:'#e8e0c8', bg:'#181410', accent:'#887744', r:38 },
+  { type:'circle', label:'GREEN RIVER', sub:'DRY AS A BONE', color:'#d0e8e0', bg:'#081410', accent:'#338866', r:44 },
+  { type:'rect', label:'SUB POP', sub:'SEATTLE', color:'#ffffff', bg:'#cc0000', w:100, h:44 },
+  { type:'rect', label:'PARAMOUNT', sub:'THEATRE · SEATTLE · EST.1928', color:'#d4aa50', bg:'#0a0808', w:130, h:52 },
+  { type:'rect', label:'THE CENTRAL', sub:'OLDEST SALOON IN SEATTLE', color:'#d0c090', bg:'#1a1000', w:140, h:48 },
+  { type:'rect', label:'MOORE THEATRE', sub:'SEATTLE · SINCE 1907', color:'#c0d0e0', bg:'#08101a', w:132, h:48 },
+  { type:'rect', label:'CROCODILE CAFE', sub:'2ND AVE · SEATTLE', color:'#90d090', bg:'#081208', w:128, h:48 },
+  { type:'rect', label:'BAD ANIMALS', sub:'RECORDING · SEATTLE', color:'#e0d0a0', bg:'#181008', w:116, h:44 },
+  { type:'rect', label:'THE SHOWBOX', sub:'1ST AVE · SEATTLE', color:'#e0d4c0', bg:'#141008', w:120, h:44 },
+  { type:'rect', label:'LONDON BRIDGE', sub:'STUDIO · SEATTLE', color:'#d0c0e0', bg:'#100a18', w:130, h:48 },
+  { type:'oval', label:'KURT COBAIN', sub:'1967–1994', color:'#e0e8f0', bg:'#08101a', accent:'#4466aa', rx:72, ry:38 },
+  { type:'oval', label:'LAYNE STALEY', sub:'1967–2002', color:'#e8f0e0', bg:'#0a120a', accent:'#448844', rx:76, ry:38 },
+  { type:'oval', label:'CHRIS CORNELL', sub:'1964–2017', color:'#f0e8e0', bg:'#140a04', accent:'#c87820', rx:74, ry:36 },
+  { type:'shield', label:'GRUNGE', sub:'SEATTLE 1991', color:'#f0e0b0', bg:'#1a1000', accent:'#c87820', w:80, h:96 },
+  { type:'shield', label:'LIVE MUSIC', sub:'FOREVER', color:'#d0e8d0', bg:'#080e08', accent:'#448844', w:72, h:88 },
+  { type:'dot', label:'SP', color:'#ffffff', bg:'#cc0000', r:22 },
+  { type:'dot', label:'AIC', color:'#90d090', bg:'#0a1a0a', r:24 },
+  { type:'dot', label:'PJ', color:'#f0d080', bg:'#1a0800', r:22 },
+  { type:'dot', label:'NY', color:'#f0e0b0', bg:'#141004', r:22 },
+];
+
+// Up-and-coming / fictional bands wanting a shot at the same stages
+const upcomingStickers = [
+  // Seattle up-and-comers
+  { type:'pennant', label:'RUST CHOIR', sub:'SEATTLE', color:'#e0d4c0', bg:'#160e06', accent:'#aa6620', w:130, h:60 },
+  { type:'pennant', label:'THE DRIFTWIRE', sub:'CAPITOL HILL', color:'#d0dce8', bg:'#080e16', accent:'#446688', w:120, h:56 },
+  { type:'pennant', label:'SLEEPER STATIC', sub:'PIONEER SQ.', color:'#e0d0e8', bg:'#100814', accent:'#886688', w:128, h:58 },
+  { type:'pennant', label:'COLD HARBOR', sub:'BELLTOWN', color:'#c8dcd0', bg:'#081410', accent:'#338866', w:120, h:56 },
+  { type:'pennant', label:'AMBER FAULT', sub:'FREMONT, SEA', color:'#f0e0a0', bg:'#181000', accent:'#cc9900', w:132, h:60 },
+  { type:'pennant', label:'GRAVEL CHOIR', sub:'QUEEN ANNE', color:'#e8d0c8', bg:'#160c08', accent:'#aa4422', w:126, h:58 },
+  { type:'pennant', label:'SIGNAL GHOST', sub:'SEATTLE, WA', color:'#d0e8e8', bg:'#081414', accent:'#229988', w:122, h:56 },
+  { type:'pennant', label:'THE OVERPASS', sub:'SODO · SEATTLE', color:'#e0e0d0', bg:'#141410', accent:'#998866', w:128, h:58 },
+  { type:'circle', label:'HOLLOW REEL', sub:'SEATTLE', color:'#e8e0d4', bg:'#16120c', accent:'#aa8844', r:42 },
+  { type:'circle', label:'DEAD SPARROW', sub:'CAPITOL HILL', color:'#e0d8e8', bg:'#0e0a14', accent:'#886699', r:44 },
+  { type:'circle', label:'WIRE HYMNAL', sub:'FREMONT', color:'#d8e8d8', bg:'#0a100a', accent:'#448855', r:40 },
+  { type:'circle', label:'SHALLOW TIDE', sub:'BALLARD, SEA', color:'#d4e4f0', bg:'#08101a', accent:'#336699', r:46 },
+  { type:'circle', label:'THE RUST MONKS', sub:'BEACON HILL', color:'#f0e4c0', bg:'#160e00', accent:'#cc8800', r:42 },
+  { type:'circle', label:'STATIC HYMN', sub:'PIONEER SQ.', color:'#e8d8d8', bg:'#140808', accent:'#aa3333', r:44 },
+  // Other cities
+  { type:'pennant', label:'BONE RADIO', sub:'PORTLAND, OR', color:'#d8e8d8', bg:'#081008', accent:'#449944', w:124, h:56 },
+  { type:'pennant', label:'GRAIN WITCH', sub:'CHICAGO, IL', color:'#e8e4d0', bg:'#141008', accent:'#cc9922', w:120, h:54 },
+  { type:'pennant', label:'LAKESHORE CULT', sub:'CHICAGO', color:'#d0dce8', bg:'#080e16', accent:'#334488', w:128, h:56 },
+  { type:'pennant', label:'SLOW MURDER', sub:'LOS ANGELES', color:'#f0d8c0', bg:'#160c06', accent:'#cc6622', w:126, h:58 },
+  { type:'pennant', label:'PALE CIRCUIT', sub:'NEW YORK, NY', color:'#e0e0e8', bg:'#0c0c14', accent:'#6666aa', w:122, h:54 },
+  { type:'pennant', label:'IRON PASTORAL', sub:'LONDON, UK', color:'#d8e8e0', bg:'#081210', accent:'#337755', w:128, h:56 },
+  { type:'circle', label:'STATIC CHOIR', sub:'PORTLAND', color:'#dce8d8', bg:'#0a100a', accent:'#447744', r:42 },
+  { type:'circle', label:'EMBER WEATHER', sub:'CHICAGO', color:'#f0e4b0', bg:'#181200', accent:'#cc9900', r:44 },
+  { type:'circle', label:'STONE ARCHIVE', sub:'NEW YORK', color:'#d8d8e8', bg:'#0c0c14', accent:'#5555aa', r:40 },
+  { type:'circle', label:'THE LOW TIDE', sub:'LOS ANGELES', color:'#e8d4c0', bg:'#160e06', accent:'#cc7733', r:46 },
+  { type:'circle', label:'PALE HARVEST', sub:'LONDON, UK', color:'#d4e8d4', bg:'#081008', accent:'#446644', r:44 },
+  // Small aspirational text stickers
+  { type:'rect', label:'PLAY THE PARAMOUNT', sub:'SOMEDAY', color:'#e8e0c0', bg:'#0e0c06', w:148, h:42 },
+  { type:'rect', label:'WE WANT THE MOORE', sub:'SEATTLE OR BUST', color:'#c0d8e8', bg:'#060c12', w:150, h:42 },
+  { type:'rect', label:'BORN ON THE CENTRAL STAGE', sub:'PIONEER SQUARE', color:'#d4c8a8', bg:'#100e06', w:172, h:42 },
+  { type:'rect', label:'NEXT YEAR AT THE SHOWBOX', sub:'MARK IT DOWN', color:'#d0e0d0', bg:'#080e08', w:170, h:42 },
+  { type:'rect', label:'GO HEAR LIVE', sub:'GOHEARLIVE.COM', color:'#ff8040', bg:'#100a04', w:124, h:50 },
+];
+
+function makeLegendSVG(s, opacity, worn) {
+  const f = `opacity="${opacity}"`;
+  const wf = worn ? 'filter:saturate(0.5) contrast(0.8) blur(0.3px)' : '';
+
+  if (s.type === 'circle') {
+    const r = s.r;
+    return `<svg width="${r*2}" height="${r*2}" viewBox="0 0 ${r*2} ${r*2}" xmlns="http://www.w3.org/2000/svg" ${f}>
+      <circle cx="${r}" cy="${r}" r="${r-1}" fill="${s.bg}" stroke="${s.accent}" stroke-width="2.5"/>
+      <circle cx="${r}" cy="${r}" r="${r-6}" fill="none" stroke="${s.accent}" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <text x="${r}" y="${r+1}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Black,sans-serif" font-size="${s.label.length > 14 ? 7.5 : s.r > 46 ? 9 : 8}" font-weight="900" letter-spacing="1.4" fill="${s.color}">${s.label}</text>
+      <text x="${r}" y="${r+13}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Narrow,sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.8" fill="${s.accent}">${s.sub}</text>
+    </svg>`;
+  }
+  if (s.type === 'rect') {
+    return `<svg width="${s.w}" height="${s.h}" viewBox="0 0 ${s.w} ${s.h}" xmlns="http://www.w3.org/2000/svg" ${f}>
+      <rect x="1" y="1" width="${s.w-2}" height="${s.h-2}" rx="3" fill="${s.bg}" stroke="${s.color}" stroke-width="2"/>
+      <rect x="4" y="4" width="${s.w-8}" height="${s.h-8}" rx="1" fill="none" stroke="${s.color}" stroke-width="0.6" opacity="0.35"/>
+      <text x="${s.w/2}" y="${s.h/2-4}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Black,sans-serif" font-size="${s.label.length > 18 ? 7.5 : 10}" font-weight="900" letter-spacing="1.4" fill="${s.color}">${s.label}</text>
+      <text x="${s.w/2}" y="${s.h/2+9}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Narrow,sans-serif" font-size="7" font-weight="700" letter-spacing="1.5" fill="${s.color}" opacity="0.6">${s.sub}</text>
+    </svg>`;
+  }
+  if (s.type === 'oval') {
+    return `<svg width="${s.rx*2}" height="${s.ry*2}" viewBox="0 0 ${s.rx*2} ${s.ry*2}" xmlns="http://www.w3.org/2000/svg" ${f}>
+      <ellipse cx="${s.rx}" cy="${s.ry}" rx="${s.rx-2}" ry="${s.ry-2}" fill="${s.bg}" stroke="${s.accent}" stroke-width="2"/>
+      <ellipse cx="${s.rx}" cy="${s.ry}" rx="${s.rx-7}" ry="${s.ry-7}" fill="none" stroke="${s.accent}" stroke-width="0.7" stroke-dasharray="2,3"/>
+      <text x="${s.rx}" y="${s.ry-3}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Black,sans-serif" font-size="${s.label.length>14?7.5:9}" font-weight="900" letter-spacing="1.2" fill="${s.color}">${s.label}</text>
+      <text x="${s.rx}" y="${s.ry+10}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Narrow,sans-serif" font-size="7" font-weight="700" letter-spacing="1.8" fill="${s.accent}">${s.sub}</text>
+    </svg>`;
+  }
+  if (s.type === 'shield') {
+    const w = s.w, h = s.h;
+    const p = `M${w/2},${h-4} L4,${h*.45} L4,8 Q${w/2},4 ${w-4},8 L${w-4},${h*.45} Z`;
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" ${f}>
+      <path d="${p}" fill="${s.bg}" stroke="${s.accent}" stroke-width="2.5"/>
+      <text x="${w/2}" y="${h*.38}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Black,sans-serif" font-size="10" font-weight="900" letter-spacing="1.2" fill="${s.color}">${s.label}</text>
+      <text x="${w/2}" y="${h*.56}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Narrow,sans-serif" font-size="7" font-weight="700" letter-spacing="1.5" fill="${s.accent}">${s.sub}</text>
+    </svg>`;
+  }
+  if (s.type === 'pennant') {
+    const w = s.w || 130, h = s.h || 60;
+    const p = `M0,${h/2} L${w-2},4 L${w-2},${h-4} Z`;
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" ${f}>
+      <path d="${p}" fill="${s.bg}" stroke="${s.accent}" stroke-width="1.8"/>
+      <circle cx="8" cy="${h/2}" r="5" fill="${s.accent}" opacity="0.75"/>
+      <text x="${w*.42}" y="${h/2-5}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Black,sans-serif" font-size="${(s.label||'').length>14?7.5:9}" font-weight="900" letter-spacing="1" fill="${s.color}">${s.label||''}</text>
+      <text x="${w*.42}" y="${h/2+8}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Narrow,sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.5" fill="${s.accent}">${s.sub||''}</text>
+    </svg>`;
+  }
+  if (s.type === 'dot') {
+    return `<svg width="${s.r*2}" height="${s.r*2}" viewBox="0 0 ${s.r*2} ${s.r*2}" xmlns="http://www.w3.org/2000/svg" ${f}>
+      <circle cx="${s.r}" cy="${s.r}" r="${s.r-1}" fill="${s.bg}" stroke="${s.color}" stroke-width="2"/>
+      <text x="${s.r}" y="${s.r}" text-anchor="middle" dominant-baseline="middle" font-family="Arial Black,sans-serif" font-size="${s.r>22?9:7}" font-weight="900" letter-spacing="0.5" fill="${s.color}">${s.label}</text>
+    </svg>`;
+  }
+  return '';
+}
+
+function buildWall() {
+  const wall = document.getElementById('stickerWall');
+  // clear non-user stickers
+  Array.from(wall.children).forEach(c => { if (!c.classList.contains('user-sticker')) c.remove(); });
+
+  const W = window.innerWidth;
+  const H = Math.max(window.innerHeight, document.body.scrollHeight, 3000);
+  wall.style.height = H + 'px';
+
+  const all = [...legendStickers, ...upcomingStickers];
+  const count = 130;
+
+  for (let i = 0; i < count; i++) {
+    const s = all[Math.floor(Math.random() * all.length)];
+    const rot = (Math.random() - 0.5) * 56;
+    const opacity = 0.25 + Math.random() * 0.52;
+    const worn = Math.random() > 0.5;
+    const scale = 0.65 + Math.random() * 0.72;
+    const x = Math.random() * (W - 180);
+    const y = Math.random() * (H - 100);
+
+    const el = document.createElement('div');
+    el.className = 'sticker';
+    el.style.cssText = `left:${x}px; top:${y}px; transform:rotate(${rot}deg) scale(${scale}); opacity:${opacity}; ${worn?'filter:saturate(0.5) contrast(0.82) blur(0.25px);':''}`;
+    el.innerHTML = makeLegendSVG(s, 1, worn);
+    wall.appendChild(el);
+  }
+
+  // tape marks
+  for (let i = 0; i < 22; i++) {
+    const t = document.createElement('div');
+    const w = 40 + Math.random() * 80;
+    t.style.cssText = `position:absolute; left:${Math.random()*W}px; top:${Math.random()*H}px; width:${w}px; height:${5+Math.random()*8}px; background:rgba(220,200,150,.05); transform:rotate(${(Math.random()-.5)*90}deg); border-radius:1px;`;
+    wall.appendChild(t);
+  }
+}
+
+buildWall();
+updatePreview();
+
+let rt;
+window.addEventListener('resize', () => {
+  clearTimeout(rt);
+  rt = setTimeout(() => buildWall(), 300);
+});
+
+</script>
+</body>
+</html>
