@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Four Minutes and Fifteen Seconds — Go Hear Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {--void:#0a0907;--ember:#c84b11;--amber:#e8930a;--fog:#8a8070;--parchment:#e8e0d0;}
+  * {margin:0;padding:0;box-sizing:border-box;}
+  body {background:var(--void);color:var(--parchment);font-family:'Lora',Georgia,serif;font-size:18px;line-height:1.8;}
+  .site-nav {position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:linear-gradient(to bottom,rgba(10,9,7,.98),transparent);}
+  .nav-logo {font-family:'Abril Fatface',serif;font-size:22px;color:var(--parchment);text-decoration:none;letter-spacing:.02em;}
+  .nav-logo span {color:var(--ember);font-style:italic;}
+  .back-btn {font-family:'Cabin Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);text-decoration:none;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;margin-right:50px;}
+  .back-btn:hover {color:var(--ember);border-color:var(--ember);}
+  .story-hero {padding:120px 40px 60px;max-width:800px;margin:0 auto;}
+  .story-meta {font-family:'Cabin Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--ember);margin-bottom:24px;}
+  .story-meta span {color:var(--fog);margin:0 8px;}
+  .story-title {font-family:'Abril Fatface',serif;font-size:clamp(36px,6vw,64px);line-height:1.1;color:var(--parchment);margin-bottom:16px;}
+  .story-subtitle {font-family:'Cabin Condensed',sans-serif;font-size:16px;font-weight:400;letter-spacing:.05em;color:var(--fog);margin-bottom:48px;}
+  .video-wrap {max-width:800px;margin:0 auto 40px;padding:0 40px;}
+  .video-frame {width:100%;aspect-ratio:16/9;background:#000;border:1px solid rgba(255,255,255,.08);}
+  .video-frame iframe {width:100%;height:100%;border:none;display:block;}
+  .video-caption {font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--fog);margin-top:12px;text-align:center;}
+  .video-wanted {width:100%;aspect-ratio:16/9;background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-family:'Cabin Condensed',sans-serif;font-size:13px;letter-spacing:.1em;color:var(--fog);text-align:center;padding:20px;}
+  .story-body {max-width:680px;margin:0 auto;padding:0 40px 80px;}
+  .story-body p {margin-bottom:28px;color:rgba(232,224,208,.88);}
+  .story-body p:first-of-type::first-letter {font-family:'Abril Fatface',serif;font-size:72px;line-height:.8;float:left;margin:8px 12px 0 0;color:var(--ember);}
+  .story-body hr {border:none;border-top:1px solid rgba(255,255,255,.08);margin:48px 0;}
+  .story-body em {color:var(--amber);font-style:italic;}
+  .story-body strong {color:var(--parchment);font-weight:600;}
+  .story-body blockquote {border-left:2px solid var(--ember);padding-left:24px;margin:40px 0;font-style:italic;color:var(--fog);}
+  .story-end {max-width:680px;margin:0 auto;padding:0 40px 100px;}
+  .site-footer {text-align:center;padding:40px;border-top:1px solid rgba(255,255,255,.06);font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);}
+  .site-footer a {color:var(--ember);text-decoration:none;}
+  @media (max-width:600px) {
+    .site-nav {padding:16px 20px;}
+    .story-hero,.video-wrap,.story-body,.story-end {padding-left:20px;padding-right:20px;}
+    .story-hero {padding-top:90px;}
+  }
+
+  /* ── drawer ── */
+  .drawer-overlay { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,.7); backdrop-filter:blur(4px); }
+  .drawer-overlay.open { display:block; }
+  .drawer { position:fixed; top:0; right:0; bottom:0; z-index:201; width:min(380px,90vw); background:#111009; border-left:1px solid rgba(255,255,255,.08); transform:translateX(100%); transition:transform .35s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; overflow:hidden; }
+  .drawer.open { transform:translateX(0); }
+  .drawer-head { display:flex; align-items:center; justify-content:space-between; padding:24px 24px 20px; border-bottom:1px solid rgba(255,255,255,.08); flex-shrink:0; }
+  .drawer-logo { font-family:'Abril Fatface',serif; font-size:18px; color:var(--parchment); text-decoration:none; }
+  .drawer-logo span { color:var(--ember); font-style:italic; }
+  .drawer-close { font-family:'Cabin Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--fog); background:none; border:none; cursor:pointer; transition:color .2s; }
+  .drawer-close:hover { color:var(--ember); }
+  .drawer-label { padding:16px 24px 10px; font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.25em; text-transform:uppercase; color:var(--fog); flex-shrink:0; }
+  .drawer-list { overflow-y:auto; flex:1; padding:0 0 24px; }
+  .drawer-list::-webkit-scrollbar { width:4px; }
+  .drawer-list::-webkit-scrollbar-thumb { background:rgba(255,255,255,.1); border-radius:2px; }
+  .drawer-item { display:flex; align-items:flex-start; gap:14px; padding:14px 24px; text-decoration:none; border-bottom:1px solid rgba(255,255,255,.04); transition:background .2s; }
+  .drawer-item:hover { background:rgba(255,255,255,.04); }
+  .drawer-item.active { background:rgba(200,75,17,.08); }
+  .drawer-num { font-family:'Cabin Condensed',sans-serif; font-size:11px; font-weight:700; color:var(--fog); min-width:22px; margin-top:2px; flex-shrink:0; }
+  .drawer-item.active .drawer-num { color:var(--ember); }
+  .drawer-info { display:flex; flex-direction:column; gap:3px; }
+  .drawer-title { font-family:'Lora',serif; font-size:14px; color:var(--parchment); line-height:1.3; }
+  .drawer-item.active .drawer-title { color:var(--ember); }
+  .drawer-band { font-family:'Cabin Condensed',sans-serif; font-size:10px; letter-spacing:.08em; color:var(--fog); }
+  .hamburger { position:fixed; top:18px; right:20px; z-index:150; background:rgba(10,9,7,.85); border:1px solid rgba(255,255,255,.1); border-radius:3px; padding:8px 10px; cursor:pointer; display:flex; flex-direction:column; gap:4px; transition:border-color .2s,background .2s; }
+  .hamburger:hover { border-color:var(--ember); background:rgba(200,75,17,.15); }
+  .hamburger span { display:block; width:18px; height:2px; background:var(--parchment); transition:background .2s; }
+  .hamburger:hover span { background:var(--ember); }
+
+  /* ── prev/next ── */
+  .pn-wrap { display:flex; gap:16px; margin:60px 0 0; padding-top:40px; border-top:1px solid rgba(255,255,255,.08); }
+  .pn-btn { flex:1; display:flex; align-items:center; gap:16px; padding:20px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); text-decoration:none; transition:background .2s, border-color .2s; }
+  .pn-btn:hover { background:rgba(200,75,17,.08); border-color:var(--ember); }
+  .pn-next { justify-content:flex-end; }
+  .pn-arrow { font-size:24px; color:var(--ember); flex-shrink:0; font-family:'Abril Fatface',serif; }
+  .pn-info { display:flex; flex-direction:column; gap:3px; }
+  .pn-label { font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--fog); }
+  .pn-title { font-family:'Lora',serif; font-size:14px; color:var(--parchment); line-height:1.3; }
+  .pn-band { font-family:'Cabin Condensed',sans-serif; font-size:10px; letter-spacing:.08em; color:var(--fog); }
+  @media (max-width:500px) { .pn-wrap { flex-direction:column; } }
+
+  /* ── suggestion cards ── */
+  .sc-section { margin-top:60px; padding-top:40px; border-top:1px solid rgba(255,255,255,.08); }
+  .sc-heading { font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.25em; text-transform:uppercase; color:var(--fog); margin-bottom:24px; }
+  .sc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .sc-card { text-decoration:none; display:flex; flex-direction:column; background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.06); transition:background .2s,border-color .2s; }
+  .sc-card:hover { background:rgba(200,75,17,.07); border-color:var(--ember); }
+  .sc-thumb { width:100%; aspect-ratio:16/9; overflow:hidden; background:#000; }
+  .sc-thumb img { width:100%; height:100%; object-fit:cover; display:block; opacity:.6; transition:opacity .3s; }
+  .sc-card:hover .sc-thumb img { opacity:.8; }
+  .sc-no-thumb { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-family:'Cabin Condensed',sans-serif; font-size:10px; letter-spacing:.1em; color:var(--fog); }
+  .sc-body { padding:14px; display:flex; flex-direction:column; gap:4px; flex:1; }
+  .sc-num { font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.2em; color:var(--ember); }
+  .sc-title { font-family:'Lora',serif; font-size:13px; color:var(--parchment); line-height:1.35; }
+  .sc-band { font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.08em; color:var(--fog); margin-top:2px; }
+  .sc-venue { font-family:'Cabin Condensed',sans-serif; font-size:9px; letter-spacing:.06em; color:rgba(138,128,112,.6); }
+  @media (max-width:600px) { .sc-grid { grid-template-columns:1fr; } }
+
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="openDrawer()" aria-label="All stories">
+  <span></span><span></span><span></span>
+</button>
+
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <a href="../index.html" class="drawer-logo">Go Hear <span>Live</span></a>
+    <button class="drawer-close" onclick="closeDrawer()">✕ Close</button>
+  </div>
+  <div class="drawer-label">All Stories</div>
+  <div class="drawer-list">
+      <a href="nirvana-paramount-1991.html" class="drawer-item">
+        <span class="drawer-num">01</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Halloween in the Palace of Splendor</span>
+          <span class="drawer-band">Nirvana · The Paramount, Seattle · 1991</span>
+        </span>
+      </a>
+      <a href="mad-season-moore-1995.html" class="drawer-item">
+        <span class="drawer-num">02</span>
+        <span class="drawer-info">
+          <span class="drawer-title">A Brief Lightning Bolt</span>
+          <span class="drawer-band">Mad Season · The Moore, Seattle · 1995</span>
+        </span>
+      </a>
+      <a href="neil-young-pearl-jam-moes-1995.html" class="drawer-item">
+        <span class="drawer-num">03</span>
+        <span class="drawer-info">
+          <span class="drawer-title">The Godfather Comes to Capitol Hill</span>
+          <span class="drawer-band">Neil Young & Pearl Jam · Moe's, Seattle · 1995</span>
+        </span>
+      </a>
+      <a href="alice-in-chains-central-saloon-1990.html" class="drawer-item">
+        <span class="drawer-num">04</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Before the Box</span>
+          <span class="drawer-band">Alice in Chains · Central Saloon, Seattle · 1990</span>
+        </span>
+      </a>
+      <a href="nirvana-foufounes-1991.html" class="drawer-item">
+        <span class="drawer-num">05</span>
+        <span class="drawer-info">
+          <span class="drawer-title">The Night Before Everything Changed</span>
+          <span class="drawer-band">Nirvana · Les Foufounes, Montréal · 1991</span>
+        </span>
+      </a>
+      <a href="further-festival-oob-1996.html" class="drawer-item">
+        <span class="drawer-num">06</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Without Jerry</span>
+          <span class="drawer-band">Further Festival · The Ballpark, Maine · 1996</span>
+        </span>
+      </a>
+      <a href="alanis-zaphod-1995.html" class="drawer-item">
+        <span class="drawer-num">07</span>
+        <span class="drawer-info">
+          <span class="drawer-title">The Girl Who Came Home</span>
+          <span class="drawer-band">Alanis Morissette · Zaphod Beeblebrox, Ottawa · 1995</span>
+        </span>
+      </a>
+      <a href="dylan-lesh-chicago-1999.html" class="drawer-item">
+        <span class="drawer-num">08</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Two Worlds Collide on Halloween</span>
+          <span class="drawer-band">Bob Dylan & Phil Lesh · UIC Pavilion, Chicago · 1999</span>
+        </span>
+      </a>
+      <a href="walkmen-troubadour-2008.html" class="drawer-item active">
+        <span class="drawer-num">09</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Four Minutes and Fifteen Seconds</span>
+          <span class="drawer-band">The Walkmen · The Troubadour, LA · 2008</span>
+        </span>
+      </a>
+      <a href="bowie-earls-court-1978.html" class="drawer-item">
+        <span class="drawer-num">10</span>
+        <span class="drawer-info">
+          <span class="drawer-title">We Can Be Heroes</span>
+          <span class="drawer-band">David Bowie · Earls Court, London · 1978</span>
+        </span>
+      </a>
+      <a href="urge-overkill-underworld-2004.html" class="drawer-item">
+        <span class="drawer-num">11</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Dressed to Thrill</span>
+          <span class="drawer-band">Urge Overkill · The Underworld, London · 2004</span>
+        </span>
+      </a>
+      <a href="iron-maiden-ottawa-1992.html" class="drawer-item">
+        <span class="drawer-num">12</span>
+        <span class="drawer-info">
+          <span class="drawer-title">The Longest Song in the World</span>
+          <span class="drawer-band">Iron Maiden · Coliseum, Ottawa · 1992</span>
+        </span>
+      </a>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <a href="../index.html" class="nav-logo">Go Hear <span>Live</span></a>
+  <a href="../index.html" class="back-btn">← All Stories</a>
+</nav>
+
+<header class="story-hero">
+  <div class="story-meta">The Walkmen · The Troubadour · West Hollywood, CA · August 22, 2008</div>
+  <h1 class="story-title">Four Minutes and Fifteen Seconds</h1>
+  <p class="story-subtitle">The music and the room. The band and the moment.</p>
+</header>
+
+<div class="video-wrap">
+  <div class="video-frame">
+    <iframe src="https://www.youtube.com/embed/SnnQSAfCuXU" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <p class="video-caption">The Walkmen — Live at the Troubadour · August 22, 2008</p>
+</div>
+
+<article class="story-body">
+  <p>The song saved itself for last. It always did.</p>
+
+  <p>Seventeen songs into a set at the Troubadour on an August night in West Hollywood, The Walkmen finally played "The Rat" — the encore, the last word, the thing the room had been quietly bracing for since the first note. When Matt Barrick's drums kicked in, the crowd already knew what was coming. And it still hit like a truck.</p>
+
+  <p>That's the thing about "The Rat." You can know it's coming and it still gets you.</p>
+
+  <hr>
+
+  <p>The Walkmen formed in New York City in 2000 from the wreckage of two earlier bands — Jonathan Fire<em>Eater and The Recoys, who between them accounted for four of the five members. Three of them — guitarist Paul Maroon, organist Walter Martin, and drummer Matt Barrick — had been in Jonathan Fire</em>Eater, a late-90s New York band that briefly held a major label deal with DreamWorks before frontman Stuart Lupton's heroin addiction led to too much erratic behavior, canceled shows, and the eventual end of the band. Hamilton Leithauser and Peter Bauer came from The Recoys. The five of them started over together, deliberately, from scratch.</p>
+
+  <p>Their 2002 debut, <em>Everyone Who Pretended to Like Me Is Gone</em>, introduced a uniquely tailored sound of tweed and hardwood — weathered and seasoned in both post-punk and pre-rock antiquities. The New York scene at that moment was exploding with guitar bands — the Strokes, the Yeah Yeah Yeahs, Interpol — each staking out different territory in the indie rock landscape. The Walkmen's music scarcely resembled the classic rock hedonism of the Strokes nor the ebullient chaos of the Yeah Yeah Yeahs, nor even the sleek moroseness of Interpol's bespoke post-punk. Their music had a bitter cold streak — jangling, droning songs where old pump organs and parlor pianos shared space with unhinged drums and electric guitar. It was music that sounded like it had been made in a room with a broken radiator.</p>
+
+  <p>And then, in a jam session in 2002, they stumbled onto something else entirely.</p>
+
+  <hr>
+
+  <p>Hamilton Leithauser said "The Rat" originated when the band was "just screwing around." Drummer Matt Barrick started playing a fast drum pattern, the band built on it quickly, and Leithauser wrote the words in five minutes. They debuted it live at the Bowery Ballroom on the Lower East Side — an 18-year-old Columbia freshman named Ezra Koenig was in the crowd that night, watching The Walkmen play the song under its original working title "Girls at Night." He would later tell Pitchfork: "It was this really dramatic song with these crazy drums." That freshman would go on to front Vampire Weekend. The song would go on to become one of the defining tracks of its decade.</p>
+
+  <p>But first it had to survive its own recording process.</p>
+
+  <p>The Walkmen tracked "The Rat" three different times, at their record label's insistence, searching for a properly emphatic take. They eventually landed on a version cut in a contentious one-off session with producer Dave Sardy — and perhaps the negative energy in the room gave the track some extra pissed-off edge. For the sound itself, the band ran a vacuum cleaner through Walter Martin's Hammond S6 pump organ, creating an otherworldly blown-out drone that blurs into Paul Maroon's tremolo guitar, giving you the sense of waking up inside the Walkmen's world.</p>
+
+  <p>The result, when it finally arrived as the lead single from <em>Bows + Arrows</em> in April 2004, was unlike anything else on the radio. Paul Maroon hits those distorted guitar chords so fast they almost blur into Martin's organ drone, creating a sound so beautifully violent it sends a tingle down your spine. Matt Barrick bombards his drums as if engaged in competition with Maroon to see who can strike their instrument harder. When Peter Bauer's bass kicks in, the whole thing coalesces into a tidal wave of melodic noise barreling forward without heed for tact or safety — and that's before Hamilton Leithauser jumps on the mic, angrily screech-wailing about broken relationships via lyrics so powerfully concise they almost overshadow the glorious racket.</p>
+
+  <p>Rolling Stone called it "one of the greatest songs of the century." Pitchfork named it the 20th best track of the 2000s. NME ranked it 13th. Modern Drummer called Barrick's performance "a jaw-dropping exercise in precision and velocity."</p>
+
+  <hr>
+
+  <p>The Troubadour had been waiting for songs like this since 1957.</p>
+
+  <p>Doug Weston opened it as a coffee house on La Cienega Boulevard, inspired by a visit to the newly opened Troubadour café in London, then moved it to its current address at 9081 Santa Monica Boulevard shortly after. It has been open continuously ever since. It was a major centre for folk music in the 1960s, and subsequently for singer-songwriters and rock. The list of careers it launched or accelerated reads like a syllabus: Elton John performed his first American show there in August 1970; Neil Diamond introduced him that night. The Eagles formed when Glenn Frey and Don Henley met at a show. Tom Waits was signed after a performance there. Joni Mitchell, Jackson Browne, Carole King, Van Morrison, Bonnie Raitt, Linda Ronstadt — all passed through.</p>
+
+  <p>In 1974, John Lennon and Harry Nilsson were both ejected for drunkenly heckling the Smothers Brothers. In the 1980s it hosted Metallica, Guns N' Roses, and Mötley Crüe. In the 1990s it was Radiohead, Fiona Apple, Mudhoney, the Red Hot Chili Peppers. The room had no genre allegiance. It had only one requirement: that what happened on the stage be worth watching.</p>
+
+  <p>The venue maintained an intimate capacity of approximately 500 patrons, designed primarily for standing room to foster a close connection between performers and audiences. That proximity was the whole point. The Troubadour was not a place you went to watch a band from a distance. It was a place you went to be inside the sound.</p>
+
+  <hr>
+
+  <p>On August 22, 2008, The Walkmen were touring behind <em>You & Me</em>, their fourth album, released just three days earlier. The setlist ran seventeen songs deep — new tracks, deep cuts, a cover of Mazarin's "Another One Goes By" — before the encore. Then Barrick counted it in.</p>
+
+  <p>The recorded version of "The Rat" is four minutes and twenty-two seconds. The live version at the Troubadour is something else. The drums are louder. The organ drones longer. Leithauser's voice is rawer, more desperate, the words delivered not as lyrics but as accusations. When he screams <em>"You've got a nerve to be calling my number"</em> in a 500-capacity room, it is not the same experience as hearing it through headphones on a subway platform. It is a fundamentally different thing. It fills the air. It shakes the floor. The 500 people standing in the Troubadour on that August night were not an audience. They were participants.</p>
+
+  <p>The Walkmen wound down quietly. After releasing <em>Heaven</em> in 2012 and completing the tour behind it, the band entered an extended hiatus in December 2013. Leithauser later reflected: "I think we were at a point where we'd been doing this together since we were little kids. We'd never not done it together. I wanted to see what it would be like to play all the instruments myself." No dramatic breakup, no acrimony — just five people who had been playing together since adolescence quietly dispersing to solo projects and other lives. The music stayed in the world. The band did not.</p>
+
+  <p>Ten years passed. Then, in April 2023, they came back — and they announced it in the most Walkmen way possible. Ahead of their reunion tour, the band posted a statement: "Ever since we started the Walkmen, we've done everything by the seat of our pants. We don't 'plan' much. So during our Zoom 'planning' meeting, we decided the best way to play together for the very first time would be on national television without a single rehearsal." Guitarist Paul Maroon had tweeted just weeks earlier that "The Rat" was "extremely fast and currently he cannot play it." They played it anyway. On April 18, 2023, the Walkmen performed "The Rat" on <em>The Late Show With Stephen Colbert</em> — their first live performance in a decade, played on national television, with essentially no rehearsal. Leithauser keened <em>"You've got a neeerve to be asking a favor"</em> into the CBS studio microphone, the organ rattled and the guitars surged, and the whole thing sounded just as lethal as it had in 2004. A sold-out five-night run at Webster Hall followed, then thirty more dates across the country.</p>
+
+  <hr>
+
+  <p>That is what "The Rat" does. That is why it was saved for last at the Troubadour. That is why the footage from this show has circulated for over fifteen years, why people who were in the room that night still talk about it. The song that took three attempts to record, that a 20-year-old Ezra Koenig heard at the Bowery Ballroom and couldn't stop thinking about, that closed the encore on an August night in West Hollywood in 2008 — it was the same song that woke the band back up nineteen years later. Some songs don't let go.</p>
+
+  <p>The stage remembers.</p>
+
+  <hr>
+
+  <hr>
+</article>
+
+<div class="story-end">
+  <div class="pn-wrap">
+  <a href="dylan-lesh-chicago-1999.html" class="pn-btn pn-prev">
+    <span class="pn-arrow">←</span>
+    <span class="pn-info">
+      <span class="pn-label">Previous</span>
+      <span class="pn-title">Two Worlds Collide on Halloween</span>
+      <span class="pn-band">Bob Dylan & Phil Lesh</span>
+    </span>
+  </a>
+  <a href="bowie-earls-court-1978.html" class="pn-btn pn-next">
+    <span class="pn-info" style="text-align:right">
+      <span class="pn-label">Next</span>
+      <span class="pn-title">We Can Be Heroes</span>
+      <span class="pn-band">David Bowie</span>
+    </span>
+    <span class="pn-arrow">→</span>
+  </a>
+</div>
+
+  <div class="sc-section">
+    <div class="sc-heading">More Stories</div>
+    <div class="sc-grid">
+    <a href="dylan-lesh-chicago-1999.html" class="sc-card">
+      <div class="sc-thumb"><img src="https://img.youtube.com/vi/guyhRMGsyG4/maxresdefault.jpg" alt="Two Worlds Collide on Halloween" onerror="this.src='https://img.youtube.com/vi/guyhRMGsyG4/hqdefault.jpg'"></div>
+      <div class="sc-body">
+        <div class="sc-num">08</div>
+        <div class="sc-title">Two Worlds Collide on Halloween</div>
+        <div class="sc-band">Bob Dylan & Phil Lesh</div>
+        <div class="sc-venue">UIC Pavilion, Chicago · 1999</div>
+      </div>
+    </a>
+    <a href="bowie-earls-court-1978.html" class="sc-card">
+      <div class="sc-thumb"><img src="https://img.youtube.com/vi/4qcAtflfVYs/maxresdefault.jpg" alt="We Can Be Heroes" onerror="this.src='https://img.youtube.com/vi/4qcAtflfVYs/hqdefault.jpg'"></div>
+      <div class="sc-body">
+        <div class="sc-num">10</div>
+        <div class="sc-title">We Can Be Heroes</div>
+        <div class="sc-band">David Bowie</div>
+        <div class="sc-venue">Earls Court, London · 1978</div>
+      </div>
+    </a>
+    <a href="alanis-zaphod-1995.html" class="sc-card">
+      <div class="sc-thumb"><div class="sc-no-thumb">No video yet</div></div>
+      <div class="sc-body">
+        <div class="sc-num">07</div>
+        <div class="sc-title">The Girl Who Came Home</div>
+        <div class="sc-band">Alanis Morissette</div>
+        <div class="sc-venue">Zaphod Beeblebrox, Ottawa · 1995</div>
+      </div>
+    </a>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>The Stage Remembers &nbsp;·&nbsp; <a href="../index.html">gohearlive.com</a></p>
+  <p style="margin-top:8px;">The music and the room. The band and the moment.</p>
+</footer>
+
+<script>
+  function openDrawer() {
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('drawerOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('drawerOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>
+</body>
+</html>
