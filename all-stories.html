@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Stories — Go Hear Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--void:#0a0907;--ember:#c84b11;--amber:#e8930a;--fog:#8a8070;--parchment:#e8e0d0;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--void);color:var(--parchment);font-family:'Lora',Georgia,serif;}
+
+  /* nav */
+  .site-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:linear-gradient(to bottom,rgba(10,9,7,.98),transparent);}
+  .nav-logo{font-family:'Abril Fatface',serif;font-size:22px;color:var(--parchment);text-decoration:none;}
+  .nav-logo span{color:var(--ember);font-style:italic;}
+  .nav-home{font-family:'Cabin Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);text-decoration:none;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;}
+  .nav-home:hover{color:var(--ember);border-color:var(--ember);}
+
+  /* header */
+  .page-hero{padding:120px 40px 60px;max-width:900px;margin:0 auto;}
+  .page-title{font-family:'Abril Fatface',serif;font-size:clamp(36px,6vw,64px);line-height:1.1;color:var(--parchment);margin-bottom:12px;}
+  .page-sub{font-family:'Cabin Condensed',sans-serif;font-size:14px;letter-spacing:.1em;color:var(--fog);}
+
+  /* filters */
+  .filters{max-width:900px;margin:0 auto 40px;padding:0 40px;display:flex;flex-wrap:wrap;gap:10px;}
+  .filter-group{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+  .filter-label{font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);margin-right:4px;}
+  .filter-btn{font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--fog);cursor:pointer;transition:all .2s;}
+  .filter-btn:hover{border-color:var(--ember);color:var(--parchment);}
+  .filter-btn.active{background:rgba(200,75,17,.15);border-color:var(--ember);color:var(--ember);}
+  .filter-divider{width:1px;height:20px;background:rgba(255,255,255,.1);margin:0 6px;}
+
+  /* story count */
+  .story-count{max-width:900px;margin:0 auto 24px;padding:0 40px;font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--fog);}
+
+  /* index grid */
+  .idx-grid{max-width:900px;margin:0 auto;padding:0 40px 100px;display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+  .idx-card{text-decoration:none;display:flex;gap:20px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:20px;transition:background .2s,border-color .2s;}
+  .idx-card:hover{background:rgba(200,75,17,.07);border-color:var(--ember);}
+  .idx-thumb{width:140px;flex-shrink:0;aspect-ratio:16/9;overflow:hidden;background:#000;}
+  .idx-thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:.7;transition:opacity .3s;}
+  .idx-card:hover .idx-thumb img{opacity:.9;}
+  .idx-no-thumb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Cabin Condensed',sans-serif;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--fog);background:linear-gradient(135deg,#1a0d00,#0d0700);}
+  .idx-body{display:flex;flex-direction:column;gap:6px;flex:1;}
+  .idx-meta{font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ember);}
+  .idx-title{font-family:'Abril Fatface',serif;font-size:18px;line-height:1.2;color:var(--parchment);}
+  .idx-band{font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.08em;color:var(--fog);}
+  .idx-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+  .idx-tag{font-family:'Cabin Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:3px 8px;border:1px solid rgba(200,75,17,.3);color:rgba(200,75,17,.7);}
+
+  /* empty state */
+  .idx-empty{max-width:900px;margin:0 auto;padding:60px 40px;text-align:center;font-family:'Cabin Condensed',sans-serif;font-size:13px;letter-spacing:.15em;color:var(--fog);}
+
+  /* footer */
+  .site-footer{text-align:center;padding:40px;border-top:1px solid rgba(255,255,255,.06);font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);}
+  .site-footer a{color:var(--ember);text-decoration:none;}
+
+  @media(max-width:640px){
+    .site-nav{padding:16px 20px;}
+    .page-hero,.filters,.story-count,.idx-grid{padding-left:20px;padding-right:20px;}
+    .idx-grid{grid-template-columns:1fr;}
+    .idx-thumb{width:100px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-logo">Go Hear <span>Live</span></a>
+  <a href="index.html" class="nav-home">← Home</a>
+</nav>
+
+<header class="page-hero">
+  <h1 class="page-title">All Stories</h1>
+  <p class="page-sub">The music and the room. The band and the moment.</p>
+</header>
+
+<div class="filters" id="filters">
+  <!-- populated by JS -->
+</div>
+
+<div class="story-count" id="storyCount"></div>
+
+<div class="idx-grid" id="storyIndex">
+  <div class="idx-empty">Loading stories…</div>
+</div>
+
+<footer class="site-footer">
+  <p>The Stage Remembers &nbsp;·&nbsp; <a href="index.html">gohearlive.com</a></p>
+</footer>
+
+<script src="gohearlive.js"></script>
+<script>
+  // Active filters state
+  const active = { city: null, decade: null, mood: null };
+
+  function buildFilters(stories) {
+    const cities   = [...new Set(stories.map(s => s.city))].sort();
+    const decades  = [...new Set(stories.map(s => s.decade))].sort();
+    const moods    = [...new Set(stories.flatMap(s => s.mood))].sort();
+
+    const el = document.getElementById('filters');
+    el.innerHTML = `
+      <div class="filter-group">
+        <span class="filter-label">City</span>
+        ${cities.map(c => `<button class="filter-btn" data-type="city" data-val="${c}">${c}</button>`).join('')}
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-group">
+        <span class="filter-label">Decade</span>
+        ${decades.map(d => `<button class="filter-btn" data-type="decade" data-val="${d}">${d}</button>`).join('')}
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-group">
+        <span class="filter-label">Mood</span>
+        ${moods.map(m => `<button class="filter-btn" data-type="mood" data-val="${m}">${m}</button>`).join('')}
+      </div>`;
+
+    el.addEventListener('click', e => {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      const type = btn.dataset.type;
+      const val  = btn.dataset.val;
+      if (active[type] === val) {
+        active[type] = null;
+        btn.classList.remove('active');
+      } else {
+        el.querySelectorAll(`.filter-btn[data-type="${type}"]`).forEach(b => b.classList.remove('active'));
+        active[type] = val;
+        btn.classList.add('active');
+      }
+      renderIndex();
+    });
+  }
+
+  function renderIndex() {
+    let stories = GHL.stories;
+    if (active.city)   stories = stories.filter(s => s.city === active.city);
+    if (active.decade) stories = stories.filter(s => s.decade === active.decade);
+    if (active.mood)   stories = stories.filter(s => s.mood.includes(active.mood));
+
+    document.getElementById('storyCount').textContent =
+      `${stories.length} ${stories.length === 1 ? 'story' : 'stories'}`;
+
+    const el = document.getElementById('storyIndex');
+    if (!stories.length) {
+      el.innerHTML = `<div class="idx-empty">No stories match those filters.</div>`;
+      return;
+    }
+    el.innerHTML = stories.map(s => {
+      const thumb = GHL.thumb(s);
+      const thumbHtml = thumb
+        ? `<img src="${thumb}" alt="${s.title}">`
+        : `<div class="idx-no-thumb">${s.city} · ${s.year}</div>`;
+      return `<a href="${s.file}" class="idx-card">
+        <div class="idx-thumb">${thumbHtml}</div>
+        <div class="idx-body">
+          <div class="idx-meta">${s.city} · ${s.year}</div>
+          <div class="idx-title">${s.title}</div>
+          <div class="idx-band">${s.band}</div>
+          <div class="idx-tags">${s.mood.map(m => `<span class="idx-tag">${m}</span>`).join('')}</div>
+        </div>
+      </a>`;
+    }).join('');
+  }
+
+  GHL.load().then(() => {
+    buildFilters(GHL.stories);
+    renderIndex();
+  });
+</script>
+</body>
+</html>
