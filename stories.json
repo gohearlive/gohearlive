@@ -11,10 +11,16 @@
       "date": "October 31, 1991",
       "year": 1991,
       "decade": "1990s",
-      "genre": ["Rock", "Grunge"],
-      "mood": ["Electric", "Historic"],
+      "genre": [
+        "Rock",
+        "Grunge"
+      ],
+      "mood": [
+        "Electric",
+        "Historic"
+      ],
       "youtube": "Z53nb74H7Vc",
-      "excerpt": "Five weeks after Nevermind, the most important band in the world played their biggest show yet — for ten dollars a ticket, in their own city, in a room built for silent films."
+      "excerpt": "Five weeks after Nevermind, the most important band in the world played their biggest show yet \u2014 for ten dollars a ticket, in their own city, in a room built for silent films."
     },
     {
       "id": 2,
@@ -27,8 +33,14 @@
       "date": "April 29, 1995",
       "year": 1995,
       "decade": "1990s",
-      "genre": ["Rock", "Grunge"],
-      "mood": ["Intimate", "Inspirational"],
+      "genre": [
+        "Rock",
+        "Grunge"
+      ],
+      "mood": [
+        "Intimate",
+        "Inspirational"
+      ],
       "youtube": "StqioKCPqF8",
       "excerpt": "Their final show. A band formed in a rehab clinic in Minnesota returned to Seattle and made one extraordinary album before the darkness closed in."
     },
@@ -37,14 +49,19 @@
       "file": "stories/neil-young-pearl-jam-moes-1995.html",
       "title": "The Godfather Comes to Capitol Hill",
       "band": "Neil Young & Pearl Jam",
-      "venue": "Moe's Mo' Rockin' Café",
+      "venue": "Moe's Mo' Rockin' Caf\u00e9",
       "city": "Seattle",
       "country": "USA",
       "date": "June 1995",
       "year": 1995,
       "decade": "1990s",
-      "genre": ["Rock"],
-      "mood": ["Electric", "Historic"],
+      "genre": [
+        "Rock"
+      ],
+      "mood": [
+        "Electric",
+        "Historic"
+      ],
       "youtube": "c1Ji69G3Jnw",
       "excerpt": "He showed up with one guitar, no roadie, and docked his boat in the harbour each night to write new songs. Four days later, Mirror Ball existed."
     },
@@ -59,26 +76,38 @@
       "date": "January 6, 1990",
       "year": 1990,
       "decade": "1990s",
-      "genre": ["Rock", "Grunge"],
-      "mood": ["Electric", "Historic"],
+      "genre": [
+        "Rock",
+        "Grunge"
+      ],
+      "mood": [
+        "Electric",
+        "Historic"
+      ],
       "youtube": "0WDARg9r_6s",
-      "excerpt": "Facelift hasn't been recorded yet. Seattle's oldest bar — a Gold Rush saloon now witnessing the birth of something new."
+      "excerpt": "Facelift hasn't been recorded yet. Seattle's oldest bar \u2014 a Gold Rush saloon now witnessing the birth of something new."
     },
     {
       "id": 5,
       "file": "stories/nirvana-foufounes-1991.html",
       "title": "The Night Before Everything Changed",
       "band": "Nirvana",
-      "venue": "Les Foufounes Électriques",
-      "city": "Montréal",
+      "venue": "Les Foufounes \u00c9lectriques",
+      "city": "Montr\u00e9al",
       "country": "Canada",
       "date": "September 21, 1991",
       "year": 1991,
       "decade": "1990s",
-      "genre": ["Rock", "Grunge"],
-      "mood": ["Electric", "Historic"],
+      "genre": [
+        "Rock",
+        "Grunge"
+      ],
+      "mood": [
+        "Electric",
+        "Historic"
+      ],
       "youtube": "Kl8vJlHUWSs",
-      "excerpt": "Three days before Nevermind dropped, Nirvana played a basement bar in Montréal. Nobody in the room knew what was about to happen."
+      "excerpt": "Three days before Nevermind dropped, Nirvana played a basement bar in Montr\u00e9al. Nobody in the room knew what was about to happen."
     },
     {
       "id": 6,
@@ -91,8 +120,13 @@
       "date": "July 8, 1996",
       "year": 1996,
       "decade": "1990s",
-      "genre": ["Rock"],
-      "mood": ["Euphoric", "Inspirational"],
+      "genre": [
+        "Rock"
+      ],
+      "mood": [
+        "Euphoric",
+        "Inspirational"
+      ],
       "youtube": "x6-XarqcHtM",
       "excerpt": "Less than a year after Jerry Garcia died, the Grateful Dead family tried to keep the music alive. An outdoor ballpark in Maine. A crowd that needed to believe."
     },
@@ -107,8 +141,13 @@
       "date": "June 20, 1995",
       "year": 1995,
       "decade": "1990s",
-      "genre": ["Rock"],
-      "mood": ["Intimate", "Historic"],
+      "genre": [
+        "Rock"
+      ],
+      "mood": [
+        "Intimate",
+        "Historic"
+      ],
       "youtube": null,
       "excerpt": "Seven days after Jagged Little Pill was released, Alanis Morissette came back to Ottawa and played the bar where she got her start."
     },
@@ -123,8 +162,14 @@
       "date": "October 31, 1999",
       "year": 1999,
       "decade": "1990s",
-      "genre": ["Rock", "Blues"],
-      "mood": ["Electric", "Historic"],
+      "genre": [
+        "Rock",
+        "Blues"
+      ],
+      "mood": [
+        "Electric",
+        "Historic"
+      ],
       "youtube": "guyhRMGsyG4",
       "excerpt": "Halloween night in Chicago. Bob Dylan played the first set. Phil Lesh and Friends played the second. Two separate gravitational fields sharing one arena."
     },
@@ -139,10 +184,15 @@
       "date": "August 22, 2008",
       "year": 2008,
       "decade": "2000s",
-      "genre": ["Rock"],
-      "mood": ["Electric", "Intimate"],
+      "genre": [
+        "Rock"
+      ],
+      "mood": [
+        "Electric",
+        "Intimate"
+      ],
       "youtube": "SnnQSAfCuXU",
-      "excerpt": "Seventeen songs in. The Troubadour in West Hollywood. And then, finally, The Rat — the song that sounds like a building on fire."
+      "excerpt": "Seventeen songs in. The Troubadour in West Hollywood. And then, finally, The Rat \u2014 the song that sounds like a building on fire."
     },
     {
       "id": 10,
@@ -152,11 +202,17 @@
       "venue": "Earls Court",
       "city": "London",
       "country": "UK",
-      "date": "June 29–July 1, 1978",
+      "date": "June 29\u2013July 1, 1978",
       "year": 1978,
       "decade": "1970s",
-      "genre": ["Rock"],
-      "mood": ["Euphoric", "Historic", "Inspirational"],
+      "genre": [
+        "Rock"
+      ],
+      "mood": [
+        "Euphoric",
+        "Historic",
+        "Inspirational"
+      ],
       "youtube": "4qcAtflfVYs",
       "excerpt": "The song was recorded 500 yards from the Berlin Wall. A year later, Bowie played it at Earls Court. The wall was still standing. The crowd sang every word anyway."
     },
@@ -171,8 +227,13 @@
       "date": "April 9, 2004",
       "year": 2004,
       "decade": "2000s",
-      "genre": ["Rock"],
-      "mood": ["Electric", "Inspirational"],
+      "genre": [
+        "Rock"
+      ],
+      "mood": [
+        "Electric",
+        "Inspirational"
+      ],
       "youtube": "CK4f4ItYfhE",
       "excerpt": "Seven years of silence, then a Camden basement. The band that Pulp Fiction made famous came back to prove the fire was still there."
     },
@@ -187,8 +248,14 @@
       "date": "June 14, 1992",
       "year": 1992,
       "decade": "1990s",
-      "genre": ["Rock", "Metal"],
-      "mood": ["Historic", "Inspirational"],
+      "genre": [
+        "Rock",
+        "Metal"
+      ],
+      "mood": [
+        "Historic",
+        "Inspirational"
+      ],
       "youtube": null,
       "excerpt": "A half-empty exhibition hall. The Fear of the Dark tour. A song played in its first week of existence that would become one of the great anthems in rock."
     },
@@ -203,8 +270,15 @@
       "date": "April 28, 2001",
       "year": 2001,
       "decade": "2000s",
-      "genre": ["Blues", "Jazz"],
-      "mood": ["Euphoric", "Intimate", "Inspirational"],
+      "genre": [
+        "Blues",
+        "Jazz"
+      ],
+      "mood": [
+        "Euphoric",
+        "Intimate",
+        "Inspirational"
+      ],
       "youtube": null,
       "excerpt": "The mystic who fights for transcendence and the king who arrives already carrying it. The same audience. The same night. The room next to Congo Square."
     },
@@ -219,10 +293,40 @@
       "date": "December 31, 1990",
       "year": 1990,
       "decade": "1990s",
-      "genre": ["Blues", "Rock"],
-      "mood": ["Electric", "Inspirational", "Historic"],
+      "genre": [
+        "Blues",
+        "Rock"
+      ],
+      "mood": [
+        "Electric",
+        "Inspirational",
+        "Historic"
+      ],
       "youtube": null,
       "excerpt": "Stevie Ray Vaughan had been dead for four months and four days. His rhythm section, and two guitarists who had learned from him, walked into his favourite room and played."
+    },
+    {
+      "id": 15,
+      "file": "stories/iggy-pop-olympia-1991.html",
+      "title": "Raw Power at the House of Piaf",
+      "band": "Iggy Pop",
+      "venue": "L'Olympia Bruno Coquatrix",
+      "city": "Paris",
+      "country": "France",
+      "date": "March 15, 1991",
+      "year": 1991,
+      "decade": "1990s",
+      "genre": [
+        "Rock",
+        "Blues"
+      ],
+      "mood": [
+        "Electric",
+        "Inspirational",
+        "Historic"
+      ],
+      "youtube": "Oso_nJQVT4c",
+      "excerpt": "Three weeks after his only US top 40 hit, Iggy Pop walked onto the stage at L'Olympia \u2014 Piaf's room, the Beatles' room \u2014 and opened with Raw Power. The culture had finally turned back toward him."
     }
   ]
 }
