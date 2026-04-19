@@ -113,7 +113,7 @@
     <button class="drawer-close" onclick="closeDrawer()">✕ Close</button>
   </div>
   <div class="drawer-label">All Stories</div>
-  <div class="drawer-list">
+  <div class="drawer-list" id="drawerList">
       <a href="nirvana-paramount-1991.html" class="drawer-item">
         <span class="drawer-num">01</span>
         <span class="drawer-info">
@@ -274,7 +274,7 @@
 </article>
 
 <div class="story-end">
-  <div class="pn-wrap">
+  <div id="prevNext"><div class="pn-wrap">
   <a href="nirvana-foufounes-1991.html" class="pn-btn pn-prev">
     <span class="pn-arrow">←</span>
     <span class="pn-info">
@@ -291,11 +291,11 @@
     </span>
     <span class="pn-arrow">→</span>
   </a>
-</div>
+</div></div>
 
   <div class="sc-section">
     <div class="sc-heading">More Stories</div>
-    <div class="sc-grid">
+    <div class="sc-grid" id="recGrid">
     <a href="nirvana-foufounes-1991.html" class="sc-card">
       <div class="sc-thumb"><img src="https://img.youtube.com/vi/Kl8vJlHUWSs/hqdefault.jpg"></div>
       <div class="sc-body">
@@ -332,6 +332,7 @@
   <p style="margin-top:8px;">The music and the room. The band and the moment.</p>
 </footer>
 
+<script src="../gohearlive.js"></script>
 <script>
   function openDrawer() {
     document.getElementById('drawer').classList.add('open');
@@ -343,6 +344,12 @@
     document.getElementById('drawerOverlay').classList.remove('open');
     document.body.style.overflow = '';
   }
+
+  GHL.load().then(() => {
+    GHL.renderDrawer('drawerList');
+    GHL.renderRecommendations('recGrid', 6);
+    GHL.renderPrevNext('prevNext', 6);
+  });
 </script>
 </body>
 </html>
