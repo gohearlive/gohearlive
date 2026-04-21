@@ -120,9 +120,14 @@
 
 
   /* ── sticker wall (background decoration) ── */
-  .sticker-wall { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: inherit; }
+  .sticker-wall { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
   .sticker { position: absolute; line-height: 1; user-select: none; filter: drop-shadow(1px 2px 5px rgba(0,0,0,0.8)); }
-  .story-hero, .video-wrap, .story-body, .sc-section, .site-footer, .pn-wrap, .story-end { position: relative; z-index: 2; }
+  .story-hero, .video-wrap, .story-body, .sc-section, .pn-wrap, .story-end {
+    position: relative; z-index: 2;
+    background: var(--void);
+    box-shadow: 0 0 40px 20px var(--void);
+  }
+  .site-footer { position: relative; z-index: 2; background: var(--void); }
 </style>
 </head>
 <body>
@@ -380,11 +385,11 @@
 <script>
   GHL.loadStickers().then(() => {
     const ctx = ["all-stories", "story:9", "venue:The Troubadour", "city:Los Angeles"];
-    GHL.renderStickerWall('stickerWall', ctx);
+    GHL.renderStickerWall('stickerWall', ctx, { topGutter: 500 });
     let stickerResizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(stickerResizeTimer);
-      stickerResizeTimer = setTimeout(() => GHL.renderStickerWall('stickerWall', ctx), 300);
+      stickerResizeTimer = setTimeout(() => GHL.renderStickerWall('stickerWall', ctx, { topGutter: 500 }), 300);
     });
   });
 </script>
