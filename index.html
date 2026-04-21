@@ -40,8 +40,8 @@
   --fog:       #8a7d6a;
   --smoke:     #5a5048;
   --rust:      #7a2e08;
-  --content-bg: rgba(14,10,6,0.91);
-  --card-bg:    rgba(20,15,8,0.93);
+  --content-bg: rgba(14,10,6,1);
+  --card-bg:    rgba(20,15,8,1);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -422,11 +422,12 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
     const footerCities = document.getElementById('footerCities');
 
     // Sticker wall — curated set filtered by "homepage" context
-    GHL.renderStickerWall('stickerWall', ['homepage']);
+    // topGutter: 700 keeps the masthead and upper hero sticker-free
+    GHL.renderStickerWall('stickerWall', ['homepage'], { topGutter: 700 });
     let rt;
     window.addEventListener('resize', () => {
       clearTimeout(rt);
-      rt = setTimeout(() => GHL.renderStickerWall('stickerWall', ['homepage']), 300);
+      rt = setTimeout(() => GHL.renderStickerWall('stickerWall', ['homepage'], { topGutter: 700 }), 300);
     });
 
     // Featured story — rotates daily

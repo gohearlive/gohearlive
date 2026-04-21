@@ -497,13 +497,15 @@ const GHL = {
   // Render a sticker wall into the given container. Context is either a
   // string ("homepage") or array of tags ("story:4", "city:Seattle", etc.).
   // Options: { count: total sticker instances to scatter (default 80),
-  //            tapeMarks: decorative tape pieces (default 18) }
+  //            tapeMarks: decorative tape pieces (default 18),
+  //            topGutter: pixels from top to keep sticker-free (default 0) }
   renderStickerWall(containerId, context, options) {
     const wall = document.getElementById(containerId);
     if (!wall) return;
     const opts = options || {};
     const count = opts.count || 80;
     const tapeMarks = opts.tapeMarks || 18;
+    const topGutter = opts.topGutter || 0;
 
     // Clear any existing
     wall.innerHTML = '';
@@ -515,6 +517,10 @@ const GHL = {
     const H = Math.max(window.innerHeight, document.body.scrollHeight, 3000);
     wall.style.height = H + 'px';
 
+    // Usable vertical range excludes the top gutter (typically the hero zone)
+    const yMin = topGutter;
+    const yMax = Math.max(yMin + 300, H - 100);  // guarantee at least some space
+
     for (let i = 0; i < count; i++) {
       const sticker = pool[Math.floor(Math.random() * pool.length)];
       const rot = (Math.random() - 0.5) * 56;
@@ -522,7 +528,7 @@ const GHL = {
       const worn = Math.random() > 0.5;
       const scale = 0.6 + Math.random() * 0.7;
       const x = Math.random() * (W - 180);
-      const y = Math.random() * (H - 100);
+      const y = yMin + Math.random() * (yMax - yMin);
 
       const el = document.createElement('div');
       el.className = 'sticker';
@@ -531,11 +537,12 @@ const GHL = {
       wall.appendChild(el);
     }
 
-    // Decorative tape marks for texture
+    // Decorative tape marks for texture — also respect the top gutter
     for (let i = 0; i < tapeMarks; i++) {
       const t = document.createElement('div');
       const w = 40 + Math.random() * 80;
-      t.style.cssText = `position:absolute; left:${Math.random()*W}px; top:${Math.random()*H}px; width:${w}px; height:${5+Math.random()*8}px; background:rgba(220,200,150,.05); transform:rotate(${(Math.random()-.5)*90}deg); border-radius:1px;`;
+      const tapeY = yMin + Math.random() * (yMax - yMin);
+      t.style.cssText = `position:absolute; left:${Math.random()*W}px; top:${tapeY}px; width:${w}px; height:${5+Math.random()*8}px; background:rgba(220,200,150,.05); transform:rotate(${(Math.random()-.5)*90}deg); border-radius:1px;`;
       wall.appendChild(t);
     }
   }

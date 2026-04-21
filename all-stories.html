@@ -83,9 +83,14 @@
   }
 
   /* ── sticker wall (background decoration) ── */
-  .sticker-wall { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: inherit; }
+  .sticker-wall { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
   .sticker { position: absolute; line-height: 1; user-select: none; filter: drop-shadow(1px 2px 5px rgba(0,0,0,0.8)); }
-  .site-nav, .page-hero, .filters, .story-count, .idx-grid, .site-footer { position: relative; z-index: 2; }
+  .page-hero, .filters, .story-count, .idx-grid {
+    position: relative; z-index: 2;
+    background: var(--void);
+    box-shadow: 0 0 40px 20px var(--void);
+  }
+  .site-nav, .site-footer { position: relative; z-index: 2; background: var(--void); }
 </style>
 </head>
 <body>
@@ -196,11 +201,12 @@
     renderIndex();
 
     // Sticker wall — curated set filtered by "all-stories" context
-    GHL.renderStickerWall('stickerWall', ['all-stories']);
+    // topGutter: 400 keeps the page title area sticker-free
+    GHL.renderStickerWall('stickerWall', ['all-stories'], { topGutter: 400 });
     let stickerResizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(stickerResizeTimer);
-      stickerResizeTimer = setTimeout(() => GHL.renderStickerWall('stickerWall', ['all-stories']), 300);
+      stickerResizeTimer = setTimeout(() => GHL.renderStickerWall('stickerWall', ['all-stories'], { topGutter: 400 }), 300);
     });
   });
 </script>
