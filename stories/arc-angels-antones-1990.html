@@ -4,6 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>New Year's Eve at the Home of the Blues — Go Hear Live</title>
+
+<meta name="description" content="Stevie Ray Vaughan had been gone four months and four days, and four musicians he had taught or played with took the stage at the club where he learned to play.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Go Hear Live">
+<meta property="og:title" content="New Year's Eve at the Home of the Blues — Go Hear Live">
+<meta property="og:description" content="Stevie Ray Vaughan had been gone four months and four days, and four musicians he had taught or played with took the stage at the club where he learned to play.">
+<meta property="og:url" content="https://gohearlive.com/stories/arc-angels-antones-1990.html">
+<meta property="og:image" content="https://img.youtube.com/vi/F7QXhg_ESzE/maxresdefault.jpg">
+<meta property="og:image:alt" content="Arc Angels at Antone's, Austin — Dec 31, 1990">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="New Year's Eve at the Home of the Blues — Go Hear Live">
+<meta name="twitter:description" content="Stevie Ray Vaughan had been gone four months and four days, and four musicians he had taught or played with took the stage at the club where he learned to play.">
+<meta name="twitter:image" content="https://img.youtube.com/vi/F7QXhg_ESzE/maxresdefault.jpg">
+
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -89,9 +109,16 @@
     .pn-wrap{flex-direction:column;}
     .sc-grid{grid-template-columns:1fr;}
   }
+
+  /* ── sticker wall (background decoration) ── */
+  .sticker-wall { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: inherit; }
+  .sticker { position: absolute; line-height: 1; user-select: none; filter: drop-shadow(1px 2px 5px rgba(0,0,0,0.8)); }
+  .story-hero, .video-wrap, .story-body, .sc-section, .site-footer, .pn-wrap, .story-end { position: relative; z-index: 2; }
 </style>
 </head>
 <body>
+<div class="sticker-wall" id="stickerWall"></div>
+
 
 <button class="hamburger" onclick="openDrawer()" aria-label="All stories">
   <span></span><span></span><span></span>
@@ -322,6 +349,19 @@
     GHL.renderDrawer('drawerList');
     GHL.renderRecommendations('recGrid', 14);
     GHL.renderPrevNext('prevNext', 14);
+  });
+</script>
+
+<script src="../gohearlive.js"></script>
+<script>
+  GHL.loadStickers().then(() => {
+    const ctx = ["all-stories", "story:14", "venue:Antone's", "city:Austin"];
+    GHL.renderStickerWall('stickerWall', ctx);
+    let stickerResizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(stickerResizeTimer);
+      stickerResizeTimer = setTimeout(() => GHL.renderStickerWall('stickerWall', ctx), 300);
+    });
   });
 </script>
 </body>
