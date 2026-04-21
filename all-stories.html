@@ -4,6 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>All Stories — Go Hear Live</title>
+<meta name="description" content="The complete archive of Go Hear Live stories — the music and the room, the band and the moment. Browse by city, decade, and mood.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Go Hear Live">
+<meta property="og:title" content="All Stories — Go Hear Live">
+<meta property="og:description" content="The complete archive of Go Hear Live stories — the music and the room, the band and the moment. Browse by city, decade, and mood.">
+<meta property="og:url" content="https://gohearlive.com/all-stories.html">
+<meta property="og:image" content="https://img.youtube.com/vi/Z53nb74H7Vc/maxresdefault.jpg">
+<meta property="og:image:alt" content="Nirvana at The Paramount Theatre, Seattle — October 31, 1991">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="All Stories — Go Hear Live">
+<meta name="twitter:description" content="The music and the room. The band and the moment.">
+<meta name="twitter:image" content="https://img.youtube.com/vi/Z53nb74H7Vc/maxresdefault.jpg">
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -63,9 +81,16 @@
     .idx-grid{grid-template-columns:1fr;}
     .idx-thumb{width:100px;}
   }
+
+  /* ── sticker wall (background decoration) ── */
+  .sticker-wall { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: inherit; }
+  .sticker { position: absolute; line-height: 1; user-select: none; filter: drop-shadow(1px 2px 5px rgba(0,0,0,0.8)); }
+  .site-nav, .page-hero, .filters, .story-count, .idx-grid, .site-footer { position: relative; z-index: 2; }
 </style>
 </head>
 <body>
+
+<div class="sticker-wall" id="stickerWall"></div>
 
 <nav class="site-nav">
   <a href="index.html" class="nav-logo">Go Hear <span>Live</span></a>
@@ -166,9 +191,17 @@
     }).join('');
   }
 
-  GHL.load().then(() => {
+  Promise.all([GHL.load(), GHL.loadStickers()]).then(() => {
     buildFilters(GHL.stories);
     renderIndex();
+
+    // Sticker wall — curated set filtered by "all-stories" context
+    GHL.renderStickerWall('stickerWall', ['all-stories']);
+    let stickerResizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(stickerResizeTimer);
+      stickerResizeTimer = setTimeout(() => GHL.renderStickerWall('stickerWall', ['all-stories']), 300);
+    });
   });
 </script>
 </body>
