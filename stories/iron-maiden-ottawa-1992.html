@@ -4,6 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Longest Song in the World — Go Hear Live</title>
+
+<meta name="description" content="Iron Maiden played in the first week of the new Coliseum at Lansdowne Park, and a teenager from Ottawa stood in the back row holding his breath.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Go Hear Live">
+<meta property="og:title" content="The Longest Song in the World — Go Hear Live">
+<meta property="og:description" content="Iron Maiden played in the first week of the new Coliseum at Lansdowne Park, and a teenager from Ottawa stood in the back row holding his breath.">
+<meta property="og:url" content="https://gohearlive.com/stories/iron-maiden-ottawa-1992.html">
+<meta property="og:image" content="https://gohearlive.com/images/og-default.jpg">
+<meta property="og:image:alt" content="Iron Maiden at Coliseum Building, Lansdowne Park, Ottawa — Jun 14, 1992">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Longest Song in the World — Go Hear Live">
+<meta name="twitter:description" content="Iron Maiden played in the first week of the new Coliseum at Lansdowne Park, and a teenager from Ottawa stood in the back row holding his breath.">
+<meta name="twitter:image" content="https://gohearlive.com/images/og-default.jpg">
+
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -178,9 +198,21 @@
     color: var(--fog);
   }
 
+
+  /* ── sticker wall (background decoration) ── */
+  .sticker-wall { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .sticker { position: absolute; line-height: 1; user-select: none; filter: drop-shadow(1px 2px 5px rgba(0,0,0,0.8)); }
+  .story-hero, .video-wrap, .story-body, .sc-section, .pn-wrap, .story-end {
+    position: relative; z-index: 2;
+    background: var(--void);
+    box-shadow: 0 0 40px 20px var(--void);
+  }
+  .site-footer { position: relative; z-index: 2; background: var(--void); }
 </style>
 </head>
 <body>
+<div class="sticker-wall" id="stickerWall"></div>
+
 
 <button class="hamburger" onclick="openDrawer()" aria-label="All stories">
   <span></span><span></span><span></span>
@@ -193,7 +225,7 @@
     <button class="drawer-close" onclick="closeDrawer()">✕ Close</button>
   </div>
   <div class="drawer-label">All Stories</div>
-  <div class="drawer-list" id="drawerList">
+  <div class="drawer-list">
       <a href="nirvana-paramount-1991.html" class="drawer-item">
         <span class="drawer-num">01</span>
         <span class="drawer-info">
@@ -376,7 +408,7 @@
 
   <p>"Fear of the Dark" has been on the setlist of virtually every Iron Maiden tour since 1992. It survived the Dickinson years, the Bayley years, the reunion, and every subsequent era. It is the song that ends the show. The one that 80,000 people sing back at the stage at Download and Donington and Rock in Rio, arms in the air, every word committed to memory. The song that journalists and fans consistently rank among the greatest in the band's catalogue — alongside "The Trooper," "Hallowed Be Thy Name," "Aces High" — songs from the imperial years of the 1980s when Iron Maiden could do no wrong.</p>
 
-  <p>It was written during the darkest commercial period of the band's career. It was played live in a half-empty exhibition hall in Ottawa in the first week of its existence, before anyone knew what it would become. It became an anthem that has outlasted almost everything that surrounded its creation — the era, the lineup, the venues, the turbulence.</p>
+  <p>It was written during the darkest commercial period of the band's career. It was first played live in a half-empty exhibition hall in Ottawa. It became an anthem that has outlasted almost everything that surrounded its creation — the era, the lineup, the venues, the turbulence.</p>
 
   <p>The seed planted in the difficult soil of 1992 turned out to be the one that grew tallest.</p>
 
@@ -387,7 +419,7 @@
 </article>
 
 <div class="story-end">
-  <div id="prevNext"><div class="pn-wrap">
+  <div class="pn-wrap">
   <a href="urge-overkill-underworld-2004.html" class="pn-btn pn-prev">
     <span class="pn-arrow">←</span>
     <span class="pn-info">
@@ -404,11 +436,11 @@
     </span>
     <span class="pn-arrow">→</span>
   </a>
-</div></div>
+</div>
 
   <div class="sc-section">
     <div class="sc-heading">More Stories</div>
-    <div class="sc-grid" id="recGrid">
+    <div class="sc-grid">
     <a href="urge-overkill-underworld-2004.html" class="sc-card">
       <div class="sc-thumb"><img src="https://img.youtube.com/vi/CK4f4ItYfhE/hqdefault.jpg"></div>
       <div class="sc-body">
@@ -445,7 +477,6 @@
   <p style="margin-top:8px;">The music and the room. The band and the moment.</p>
 </footer>
 
-<script src="../gohearlive.js"></script>
 <script>
   function openDrawer() {
     document.getElementById('drawer').classList.add('open');
@@ -457,11 +488,18 @@
     document.getElementById('drawerOverlay').classList.remove('open');
     document.body.style.overflow = '';
   }
+</script>
 
-  GHL.load().then(() => {
-    GHL.renderDrawer('drawerList');
-    GHL.renderRecommendations('recGrid', 12);
-    GHL.renderPrevNext('prevNext', 12);
+<script src="../gohearlive.js"></script>
+<script>
+  GHL.loadStickers().then(() => {
+    const ctx = ["all-stories", "story:12", "venue:Coliseum Building, Lansdowne Park", "city:Ottawa"];
+    GHL.renderStickerWall('stickerWall', ctx, { topGutter: 500 });
+    let stickerResizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(stickerResizeTimer);
+      stickerResizeTimer = setTimeout(() => GHL.renderStickerWall('stickerWall', ctx, { topGutter: 500 }), 300);
+    });
   });
 </script>
 </body>

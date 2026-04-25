@@ -4,6 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Two Worlds Collide on Halloween — Go Hear Live</title>
+
+<meta name="description" content="Dylan and a core member of the Grateful Dead shared a stage in Chicago on Halloween night, and neither of them was quite who the crowd remembered.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Go Hear Live">
+<meta property="og:title" content="Two Worlds Collide on Halloween — Go Hear Live">
+<meta property="og:description" content="Dylan and a core member of the Grateful Dead shared a stage in Chicago on Halloween night, and neither of them was quite who the crowd remembered.">
+<meta property="og:url" content="https://gohearlive.com/stories/dylan-lesh-chicago-1999.html">
+<meta property="og:image" content="https://img.youtube.com/vi/guyhRMGsyG4/maxresdefault.jpg">
+<meta property="og:image:alt" content="Bob Dylan &amp; Phil Lesh at UIC Pavilion, Chicago — Oct 31, 1999">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Two Worlds Collide on Halloween — Go Hear Live">
+<meta name="twitter:description" content="Dylan and a core member of the Grateful Dead shared a stage in Chicago on Halloween night, and neither of them was quite who the crowd remembered.">
+<meta name="twitter:image" content="https://img.youtube.com/vi/guyhRMGsyG4/maxresdefault.jpg">
+
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -98,9 +118,21 @@
   .sc-venue { font-family:'Cabin Condensed',sans-serif; font-size:9px; letter-spacing:.06em; color:rgba(138,128,112,.6); }
   @media (max-width:600px) { .sc-grid { grid-template-columns:1fr; } }
 
+
+  /* ── sticker wall (background decoration) ── */
+  .sticker-wall { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .sticker { position: absolute; line-height: 1; user-select: none; filter: drop-shadow(1px 2px 5px rgba(0,0,0,0.8)); }
+  .story-hero, .video-wrap, .story-body, .sc-section, .pn-wrap, .story-end {
+    position: relative; z-index: 2;
+    background: var(--void);
+    box-shadow: 0 0 40px 20px var(--void);
+  }
+  .site-footer { position: relative; z-index: 2; background: var(--void); }
 </style>
 </head>
 <body>
+<div class="sticker-wall" id="stickerWall"></div>
+
 
 <button class="hamburger" onclick="openDrawer()" aria-label="All stories">
   <span></span><span></span><span></span>
@@ -113,7 +145,7 @@
     <button class="drawer-close" onclick="closeDrawer()">✕ Close</button>
   </div>
   <div class="drawer-label">All Stories</div>
-  <div class="drawer-list" id="drawerList">
+  <div class="drawer-list">
       <a href="nirvana-paramount-1991.html" class="drawer-item">
         <span class="drawer-num">01</span>
         <span class="drawer-info">
@@ -290,7 +322,7 @@
 </article>
 
 <div class="story-end">
-  <div id="prevNext"><div class="pn-wrap">
+  <div class="pn-wrap">
   <a href="alanis-zaphod-1995.html" class="pn-btn pn-prev">
     <span class="pn-arrow">←</span>
     <span class="pn-info">
@@ -307,11 +339,11 @@
     </span>
     <span class="pn-arrow">→</span>
   </a>
-</div></div>
+</div>
 
   <div class="sc-section">
     <div class="sc-heading">More Stories</div>
-    <div class="sc-grid" id="recGrid">
+    <div class="sc-grid">
     <a href="alanis-zaphod-1995.html" class="sc-card">
       <div class="sc-thumb"><div class="sc-no-thumb">No video yet</div></div>
       <div class="sc-body">
@@ -348,7 +380,6 @@
   <p style="margin-top:8px;">The music and the room. The band and the moment.</p>
 </footer>
 
-<script src="../gohearlive.js"></script>
 <script>
   function openDrawer() {
     document.getElementById('drawer').classList.add('open');
@@ -360,11 +391,18 @@
     document.getElementById('drawerOverlay').classList.remove('open');
     document.body.style.overflow = '';
   }
+</script>
 
-  GHL.load().then(() => {
-    GHL.renderDrawer('drawerList');
-    GHL.renderRecommendations('recGrid', 8);
-    GHL.renderPrevNext('prevNext', 8);
+<script src="../gohearlive.js"></script>
+<script>
+  GHL.loadStickers().then(() => {
+    const ctx = ["all-stories", "story:8", "venue:UIC Pavilion", "city:Chicago"];
+    GHL.renderStickerWall('stickerWall', ctx, { topGutter: 500 });
+    let stickerResizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(stickerResizeTimer);
+      stickerResizeTimer = setTimeout(() => GHL.renderStickerWall('stickerWall', ctx, { topGutter: 500 }), 300);
+    });
   });
 </script>
 </body>

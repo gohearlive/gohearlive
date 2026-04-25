@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Go Hear Live</title>
+<meta name="description" content="Go Hear Live tells the stories of legendary concerts — the music and the room, the band and the moment.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Go Hear Live">
+<meta property="og:title" content="About — Go Hear Live">
+<meta property="og:description" content="Every concert worth remembering is two stories at once: the band arriving at that specific moment in their arc, and the room waiting to hold what happens next. Go Hear Live tells both.">
+<meta property="og:url" content="https://gohearlive.com/about.html">
+<meta property="og:image" content="https://img.youtube.com/vi/Z53nb74H7Vc/maxresdefault.jpg">
+<meta property="og:image:alt" content="Nirvana at The Paramount Theatre, Seattle — October 31, 1991">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About — Go Hear Live">
+<meta name="twitter:description" content="The music and the room. The band and the moment.">
+<meta name="twitter:image" content="https://img.youtube.com/vi/Z53nb74H7Vc/maxresdefault.jpg">
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+
+/* ─── TOKENS (shared with index.html) ─── */
+:root {
+  --void:      #0a0806;
+  --deep:      #141008;
+  --coal:      #1c1510;
+  --char:      #252018;
+  --ember:     #c45a10;
+  --amber:     #d4821a;
+  --gold:      #c8961e;
+  --wheat:     #d4b87a;
+  --bone:      #e8d9b8;
+  --fog:       #8a7d6a;
+  --smoke:     #5a5048;
+  --rust:      #7a2e08;
+  --content-bg: rgba(14,10,6,0.91);
+  --card-bg:    rgba(20,15,8,0.93);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--void); color: var(--bone); font-family: 'Lora', Georgia, serif; }
+
+/* Subtle background — match homepage tone without replicating the full sticker wall */
+body::before {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 47px, rgba(255,255,255,0.012) 47px, rgba(255,255,255,0.012) 48px),
+    repeating-linear-gradient(90deg, transparent, transparent 47px, rgba(255,255,255,0.012) 47px, rgba(255,255,255,0.012) 48px),
+    radial-gradient(ellipse at 30% 30%, rgba(60,40,10,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 75%, rgba(80,20,0,0.28) 0%, transparent 55%),
+    #0d0906;
+}
+
+.site-wrap { position: relative; z-index: 10; }
+
+/* ─── TOP BAR (shared with index) ─── */
+.topbar {
+  background: rgba(196,90,16,0.93); backdrop-filter: blur(8px);
+  padding: 5px 40px; display: flex; justify-content: center; align-items: center;
+  font-family: 'Cabin Condensed', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.9);
+  position: sticky; top: 0; z-index: 100;
+}
+.topbar-nav { display: flex; gap: 20px; }
+.topbar-nav a { color: rgba(255,255,255,0.7); text-decoration: none; transition: color .2s; }
+.topbar-nav a:hover { color: #fff; }
+
+/* ─── MASTHEAD — simplified for inner page ─── */
+.masthead {
+  background: var(--content-bg); backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--ember); padding: 44px 40px 32px;
+  text-align: center; position: relative;
+}
+.masthead::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background-image: radial-gradient(circle, rgba(196,90,16,0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.mast-eyebrow {
+  position: relative;
+  font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700;
+  letter-spacing:.35em; text-transform:uppercase; color:var(--ember);
+  margin-bottom:12px;
+}
+.site-title {
+  position: relative;
+  font-family:'Abril Fatface',serif; font-size:clamp(42px,7vw,72px);
+  line-height:.92; color:var(--bone);
+  text-shadow: 2px 2px 0 var(--ember), 4px 4px 0 rgba(196,90,16,.2);
+  margin-bottom:8px;
+}
+.site-title em { font-style:normal; color:var(--amber); text-shadow: 2px 2px 0 var(--rust); }
+.site-title a { color: inherit; text-decoration: none; }
+.page-title {
+  position: relative;
+  font-family:'Abril Fatface',serif; font-size:clamp(26px,3.2vw,38px);
+  color:var(--wheat); font-style:italic; margin-top:12px;
+}
+.mast-rule { display:flex; align-items:center; gap:14px; justify-content:center; margin:20px 0 6px; position:relative; }
+.mast-rule-line { flex:1; max-width:120px; height:1px; background:linear-gradient(90deg,transparent,var(--smoke),transparent); }
+.mast-rule-gem { width:6px; height:6px; background:var(--ember); transform:rotate(45deg); }
+.mast-deck {
+  position: relative;
+  font-family:'Special Elite',monospace;
+  font-size:12px; color:var(--fog); letter-spacing:.12em;
+}
+
+/* ─── CONTENT ─── */
+.content {
+  background: var(--content-bg); backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(255,255,255,.04);
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  padding: 64px 40px;
+}
+.content-inner { max-width: 680px; margin: 0 auto; }
+
+.lead {
+  font-family: 'Lora', serif; font-size: 20px; line-height: 1.7;
+  color: var(--wheat); font-style: italic;
+  border-left: 3px solid var(--ember);
+  padding-left: 22px; margin-bottom: 44px;
+}
+
+.content-inner h2 {
+  font-family:'Abril Fatface',serif; font-size:26px; color:var(--bone);
+  margin: 40px 0 14px; line-height:1.15;
+}
+.content-inner h2:first-child { margin-top: 0; }
+
+.content-inner p {
+  font-size: 16px; line-height: 1.78; color: var(--bone); margin-bottom: 16px;
+}
+.content-inner p + p { margin-top: 0; }
+
+.content-inner em { color: var(--wheat); }
+.content-inner strong { color: var(--amber); font-weight: 600; }
+
+/* Drop cap on the first paragraph after the lead */
+.dropcap::first-letter {
+  font-family: 'Abril Fatface', serif;
+  font-size: 64px; line-height: .85;
+  color: var(--ember);
+  float: left; margin: 4px 10px 0 0;
+}
+
+/* ─── CREDITS SECTION ─── */
+.credits {
+  margin-top: 56px; padding-top: 32px;
+  border-top: 1px dashed rgba(255,255,255,.12);
+}
+.credits h3 {
+  font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700;
+  letter-spacing:.28em; text-transform:uppercase; color:var(--gold);
+  margin-bottom: 18px;
+}
+.credits-list {
+  list-style: none; padding: 0;
+}
+.credits-list li {
+  font-family: 'Cabin Condensed', sans-serif; font-size: 12px;
+  line-height: 1.7; color: var(--fog); padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.credits-list li:last-child { border-bottom: none; }
+.credits-list strong { color: var(--wheat); font-weight: 600; }
+.credits-list a { color: var(--ember); text-decoration: none; border-bottom: 1px solid var(--rust); padding-bottom: 1px; }
+.credits-list a:hover { color: var(--amber); }
+
+/* ─── SIG LINE ─── */
+.sig {
+  margin-top: 56px;
+  font-family: 'Special Elite', monospace;
+  font-size: 12px; letter-spacing: .12em;
+  color: var(--ember);
+  text-align: center;
+}
+
+/* ─── FOOTER (shared with index) ─── */
+footer { background:rgba(6,4,2,.96); backdrop-filter:blur(14px); border-top:2px solid rgba(255,255,255,.06); padding:40px 40px 24px; display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:48px; }
+.ft-logo { font-family:'Abril Fatface',serif; font-size:28px; color:var(--bone); margin-bottom:10px; }
+.ft-logo em { font-style:normal; color:var(--ember); }
+.ft-logo a { color: inherit; text-decoration: none; }
+.ft-p { font-size:12px; line-height:1.65; color:var(--smoke); margin-top:8px; }
+.ft-col h4 { font-family:'Cabin Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; }
+.ft-col ul { list-style:none; }
+.ft-col li+li { margin-top:8px; }
+.ft-col a { font-family:'Cabin Condensed',sans-serif; font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--smoke); text-decoration:none; transition:color .2s; cursor: pointer; }
+.ft-col a:hover { color:var(--bone); }
+.ft-bottom { background:rgba(4,2,0,.98); padding:14px 40px; display:flex; justify-content:space-between; align-items:center; font-family:'Cabin Condensed',sans-serif; font-size:9px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.12); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width:860px) {
+  .topbar, .masthead, .content, .ft-bottom { padding-left: 20px; padding-right: 20px; }
+  .content { padding-top: 40px; padding-bottom: 40px; }
+  footer { grid-template-columns: 1fr; padding: 28px 20px 20px; gap: 24px; }
+}
+
+@keyframes rise { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.masthead { animation: rise .5s ease both; }
+.content { animation: rise .5s .08s ease both; }
+
+</style>
+</head>
+<body>
+
+<div class="site-wrap">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <nav class="topbar-nav">
+      <a href="index.html">Home</a>
+      <a href="all-stories.html">All Stories</a>
+      <a href="about.html" style="color:#fff">About</a>
+    </nav>
+  </div>
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="mast-eyebrow">About</div>
+    <div class="site-title"><a href="index.html">Go Hear <em>Live</em></a></div>
+    <div class="page-title">The music and the room.</div>
+    <div class="mast-rule"><div class="mast-rule-line"></div><div class="mast-rule-gem"></div><div class="mast-rule-line"></div></div>
+    <div class="mast-deck">The band and the moment.</div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+    <div class="content-inner">
+
+      <p class="lead">
+        Every concert worth remembering is two stories at once: the band arriving at
+        that specific moment in their arc, and the room waiting to hold what
+        happens next. Go Hear Live tells both.
+      </p>
+
+      <p class="dropcap">
+        The best thing about live music is that it's written into the rooms themselves.
+        A building that has held a few thousand nights of music stops being a building
+        and starts being a kind of witness. The stage at the Troubadour has seen Elton
+        John's first American show, Tom Waits in the corner booth, The Walkmen closing
+        with "The Rat." The Paramount in Seattle was a silent-film palace before it was
+        the room where Nirvana played on Halloween 1991. Antone's on Sixth Street in
+        Austin is where Stevie Ray Vaughan learned to play. The rooms remember.
+      </p>
+
+      <p>
+        This site tries to do the only thing worth doing with that kind of memory:
+        write it down. Not like an archive — like a love letter. Each story anchors
+        on a YouTube concert clip when one exists, and on the closest live document
+        when one doesn't. The writing does the rest.
+      </p>
+
+      <h2>What makes a story</h2>
+
+      <p>
+        A Go Hear Live piece tells you two things. Where the band was at that exact
+        moment in their career — what was pressing on them, what was breaking through,
+        what they didn't yet know was about to happen. And what made the room itself
+        worth being in that night, for that show, with that crowd.
+      </p>
+
+      <p>
+        The goal is the feeling of being told a great story by someone who has loved
+        this music their whole life. Warm, specific, unhurried. Alan Cross on
+        <em>The Ongoing History of New Music</em> is the standard we reach for.
+        Never a Wikipedia article. Never a blog post. A conversation, in prose.
+      </p>
+
+      <h2>Who's behind it</h2>
+
+      <p>
+        Go Hear Live is written by Richard — a music obsessive based in Seattle with
+        a deep Canadian connection. The catalogue reflects both sides of that: a lot
+        of Seattle rooms, a lot of Ottawa rooms, and everywhere in between that the
+        music has taken him. When a personal memory belongs in a story, it goes in.
+        When it doesn't, the research does the talking.
+      </p>
+
+      <h2>Every story closes the same way</h2>
+
+      <p>
+        <strong>The stage remembers.</strong> Four words at the end of every piece.
+        Not a signature — a reminder of what the site is for.
+      </p>
+
+      <!-- ─── CREDITS ─── -->
+      <div class="credits">
+        <h3>Image Credits</h3>
+        <p style="font-size:13px; color:var(--fog); margin-bottom:18px;">
+          Go Hear Live uses a small number of self-hosted photographs that depict
+          venues no longer standing. These images are licensed under Creative Commons
+          and are used with attribution as their licences require.
+        </p>
+        <ul class="credits-list">
+          <li>
+            <strong>Coliseum Building, Lansdowne Park — Ottawa, 1947.</strong><br>
+            Photographer: rdb466 · Source: Flickr · Licence:
+            <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a>.
+            Used in <em>The Longest Song in the World</em> (Iron Maiden, 1992).
+          </li>
+          <li>
+            <strong>Morris F.X. Jeff Municipal Auditorium — New Orleans.</strong><br>
+            Photographer: Spatms · Source: Wikimedia Commons · Licence:
+            <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>.
+            Used in <em>The Mystic and the King</em> (Van Morrison &amp; B.B. King, 2001).
+          </li>
+        </ul>
+      </div>
+
+      <div class="sig">— The stage remembers —</div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="ft-logo"><a href="index.html">Go Hear <em>Live</em></a></div>
+      <p class="ft-p">The music and the room. The band and the moment. Stories from the stages where history happened — and keeps happening.</p>
+    </div>
+    <div class="ft-col">
+      <h4>Cities</h4>
+      <ul id="footerCities">
+        <!-- Populated from stories.json -->
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="all-stories.html">All Stories</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html#submitSection">Post Your Sticker</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="ft-bottom">
+    <div>The Stage Remembers · gohearlive.com</div>
+    <div>The music and the room. The band and the moment.</div>
+  </div>
+
+</div><!-- /site-wrap -->
+
+<script src="gohearlive.js"></script>
+<script>
+  // Populate footer cities from stories.json — link back to home with city pre-selected via query string
+  GHL.load().then(() => {
+    const footerCities = document.getElementById('footerCities');
+    if (!footerCities) return;
+    const counts = {};
+    GHL.stories.forEach(s => { counts[s.city] = (counts[s.city] || 0) + 1; });
+    const cities = Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b));
+    footerCities.innerHTML = cities
+      .map(c => `<li><a href="index.html#dynamicCards">${c}</a></li>`)
+      .join('');
+  });
+</script>
+
+</body>
+</html>
