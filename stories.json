@@ -238,5 +238,21 @@
     "mood": ["Electric", "Historic"],
     "decade": "1990s",
     "file": "stories/iggy-pop-olympia-1991.html"
+  },
+  {
+    "id": 16,
+    "slug": "phish-lucerna-prague-1998",
+    "title": "Five Hundred People Below the Square",
+    "band": "Phish",
+    "venue": "Lucerna Music Bar",
+    "city": "Prague",
+    "date": "Jul 6, 1998",
+    "year": "1998",
+    "youtube": "Q6cR7PEyzW4",
+    "excerpt": "In a basement under Wenceslas Square, eight years after the Velvet Revolution, an American jam band played for five hundred people in a room built in 1920 by Václav Havel's grandfather.",
+    "genre": ["Rock"],
+    "mood": ["Euphoric", "Electric", "Historic"],
+    "decade": "1990s",
+    "file": "stories/phish-lucerna-prague-1998.html"
   }
 ]
