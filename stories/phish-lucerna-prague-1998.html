@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Five Hundred People Below the Square — Go Hear Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--void:#0a0907;--ember:#c84b11;--amber:#e8930a;--fog:#8a8070;--parchment:#e8e0d0;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--void);color:var(--parchment);font-family:'Lora',Georgia,serif;font-size:18px;line-height:1.8;}
+  .site-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:linear-gradient(to bottom,rgba(10,9,7,.98),transparent);}
+  .nav-logo{font-family:'Abril Fatface',serif;font-size:22px;color:var(--parchment);text-decoration:none;}
+  .nav-logo span{color:var(--ember);font-style:italic;}
+  .back-btn{font-family:'Cabin Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);text-decoration:none;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;margin-right:50px;}
+  .back-btn:hover{color:var(--ember);border-color:var(--ember);}
+  .story-hero{padding:120px 40px 60px;max-width:800px;margin:0 auto;}
+  .story-meta{font-family:'Cabin Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--ember);margin-bottom:24px;}
+  .story-meta span{color:var(--fog);margin:0 8px;}
+  .story-title{font-family:'Abril Fatface',serif;font-size:clamp(36px,6vw,64px);line-height:1.1;color:var(--parchment);margin-bottom:16px;}
+  .story-subtitle{font-family:'Cabin Condensed',sans-serif;font-size:16px;letter-spacing:.05em;color:var(--fog);margin-bottom:48px;}
+  .video-wrap{max-width:800px;margin:0 auto 40px;padding:0 40px;}
+  .video-frame{width:100%;aspect-ratio:16/9;background:#000;border:1px solid rgba(255,255,255,.08);}
+  .video-frame iframe{width:100%;height:100%;border:none;display:block;}
+  .video-caption{font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--fog);margin-top:12px;text-align:center;}
+  .story-body{max-width:680px;margin:0 auto;padding:0 40px 80px;}
+  .story-body p{margin-bottom:28px;color:rgba(232,224,208,.88);}
+  .story-body p:first-of-type::first-letter{font-family:'Abril Fatface',serif;font-size:72px;line-height:.8;float:left;margin:8px 12px 0 0;color:var(--ember);}
+  .story-body hr{border:none;border-top:1px solid rgba(255,255,255,.08);margin:48px 0;}
+  .story-body em{color:var(--amber);font-style:italic;}
+  .story-body strong{color:var(--parchment);font-weight:600;}
+  .story-end{max-width:680px;margin:0 auto;padding:0 40px 100px;}
+  .pn-wrap{display:flex;gap:16px;margin:60px 0 0;padding-top:40px;border-top:1px solid rgba(255,255,255,.08);}
+  .pn-btn{flex:1;display:flex;align-items:center;gap:16px;padding:20px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);text-decoration:none;transition:background .2s,border-color .2s;}
+  .pn-btn:hover{background:rgba(200,75,17,.08);border-color:var(--ember);}
+  .pn-next{justify-content:flex-end;}
+  .pn-arrow{font-size:24px;color:var(--ember);flex-shrink:0;font-family:'Abril Fatface',serif;}
+  .pn-info{display:flex;flex-direction:column;gap:3px;}
+  .pn-label{font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);}
+  .pn-title{font-family:'Lora',serif;font-size:14px;color:var(--parchment);line-height:1.3;}
+  .pn-band{font-family:'Cabin Condensed',sans-serif;font-size:10px;letter-spacing:.08em;color:var(--fog);}
+  .sc-section{margin-top:60px;padding-top:40px;border-top:1px solid rgba(255,255,255,.08);}
+  .sc-heading{font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--fog);margin-bottom:24px;}
+  .sc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .sc-card{text-decoration:none;display:flex;flex-direction:column;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);transition:background .2s,border-color .2s;}
+  .sc-card:hover{background:rgba(200,75,17,.07);border-color:var(--ember);}
+  .sc-thumb{width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;}
+  .sc-thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:.6;transition:opacity .3s;}
+  .sc-card:hover .sc-thumb img{opacity:.8;}
+  .sc-no-thumb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Cabin Condensed',sans-serif;font-size:10px;letter-spacing:.1em;color:var(--fog);background:linear-gradient(135deg,#1a0d00,#0d0700);}
+  .sc-body{padding:14px;display:flex;flex-direction:column;gap:4px;flex:1;}
+  .sc-num{font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--ember);}
+  .sc-title{font-family:'Lora',serif;font-size:13px;color:var(--parchment);line-height:1.35;}
+  .sc-band{font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--fog);margin-top:2px;}
+  .sc-venue{font-family:'Cabin Condensed',sans-serif;font-size:9px;letter-spacing:.06em;color:rgba(138,128,112,.6);}
+  .site-footer{text-align:center;padding:40px;border-top:1px solid rgba(255,255,255,.06);font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);}
+  .site-footer a{color:var(--ember);text-decoration:none;}
+  .drawer-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);}
+  .drawer-overlay.open{display:block;}
+  .drawer{position:fixed;top:0;right:0;bottom:0;z-index:201;width:min(380px,90vw);background:#111009;border-left:1px solid rgba(255,255,255,.08);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden;}
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{display:flex;align-items:center;justify-content:space-between;padding:24px 24px 20px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;}
+  .drawer-logo{font-family:'Abril Fatface',serif;font-size:18px;color:var(--parchment);text-decoration:none;}
+  .drawer-logo span{color:var(--ember);font-style:italic;}
+  .drawer-close{font-family:'Cabin Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);background:none;border:none;cursor:pointer;transition:color .2s;}
+  .drawer-close:hover{color:var(--ember);}
+  .drawer-label{padding:16px 24px 10px;font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--fog);flex-shrink:0;}
+  .drawer-list{overflow-y:auto;flex:1;padding:0 0 24px;}
+  .drawer-list::-webkit-scrollbar{width:4px;}
+  .drawer-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px;}
+  .drawer-item{display:flex;align-items:flex-start;gap:14px;padding:14px 24px;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);transition:background .2s;}
+  .drawer-item:hover{background:rgba(255,255,255,.04);}
+  .drawer-item.active{background:rgba(200,75,17,.08);}
+  .drawer-num{font-family:'Cabin Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--fog);min-width:22px;margin-top:2px;flex-shrink:0;}
+  .drawer-item.active .drawer-num{color:var(--ember);}
+  .drawer-info{display:flex;flex-direction:column;gap:3px;}
+  .drawer-title{font-family:'Lora',serif;font-size:14px;color:var(--parchment);line-height:1.3;}
+  .drawer-item.active .drawer-title{color:var(--ember);}
+  .drawer-band{font-family:'Cabin Condensed',sans-serif;font-size:10px;letter-spacing:.08em;color:var(--fog);}
+  .hamburger{position:fixed;top:18px;right:20px;z-index:150;background:rgba(10,9,7,.85);border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:8px 10px;cursor:pointer;display:flex;flex-direction:column;gap:4px;transition:border-color .2s,background .2s;}
+  .hamburger:hover{border-color:var(--ember);background:rgba(200,75,17,.15);}
+  .hamburger span{display:block;width:18px;height:2px;background:var(--parchment);transition:background .2s;}
+  .hamburger:hover span{background:var(--ember);}
+  @media(max-width:600px){
+    .site-nav{padding:16px 20px;}
+    .story-hero,.video-wrap,.story-body,.story-end{padding-left:20px;padding-right:20px;}
+    .story-hero{padding-top:90px;}
+    .pn-wrap{flex-direction:column;}
+    .sc-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="openDrawer()" aria-label="All stories">
+  <span></span><span></span><span></span>
+</button>
+
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <a href="../index.html" class="drawer-logo">Go Hear <span>Live</span></a>
+    <button class="drawer-close" onclick="closeDrawer()">✕ Close</button>
+  </div>
+  <div class="drawer-label">All Stories</div>
+  <div class="drawer-list" id="drawerList">
+      <a href="nirvana-paramount-1991.html" class="drawer-item">
+        <span class="drawer-num">01</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Halloween in the Palace of Splendor</span>
+          <span class="drawer-band">Nirvana · The Paramount Theatre · 1991</span>
+        </span>
+      </a>
+      <a href="mad-season-moore-1995.html" class="drawer-item">
+        <span class="drawer-num">02</span>
+        <span class="drawer-info">
+          <span class="drawer-title">A Brief Lightning Bolt</span>
+          <span class="drawer-band">Mad Season · The Moore Theatre · 1995</span>
+        </span>
+      </a>
+      <a href="neil-young-pearl-jam-moes-1995.html" class="drawer-item">
+        <span class="drawer-num">03</span>
+        <span class="drawer-info">
+          <span class="drawer-title">The Godfather Comes to Capitol Hill</span>
+          <span class="drawer-band">Neil Young & Pearl Jam · Moe's Mo' Rockin' Café · 1995</span>
+        </span>
+      </a>
+      <a href="alice-in-chains-central-saloon-1990.html" class="drawer-item">
+        <span class="drawer-num">04</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Before the Box</span>
+          <span class="drawer-band">Alice in Chains · The Central Saloon · 1990</span>
+        </span>
+      </a>
+      <a href="nirvana-foufounes-1991.html" class="drawer-item">
+        <span class="drawer-num">05</span>
+        <span class="drawer-info">
+          <span class="drawer-title">The Night Before Everything Changed</span>
+          <span class="drawer-band">Nirvana · Les Foufounes Électriques · 1991</span>
+        </span>
+      </a>
+      <a href="further-festival-oob-1996.html" class="drawer-item">
+        <span class="drawer-num">06</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Without Jerry</span>
+          <span class="drawer-band">Further Festival · The Ballpark · 1996</span>
+        </span>
+      </a>
+      <a href="alanis-zaphod-1995.html" class="drawer-item">
+        <span class="drawer-num">07</span>
+        <span class="drawer-info">
+          <span class="drawer-title">The Girl Who Came Home</span>
+          <span class="drawer-band">Alanis Morissette · Zaphod Beeblebrox · 1995</span>
+        </span>
+      </a>
+      <a href="dylan-lesh-chicago-1999.html" class="drawer-item">
+        <span class="drawer-num">08</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Two Worlds Collide on Halloween</span>
+          <span class="drawer-band">Bob Dylan & Phil Lesh · UIC Pavilion · 1999</span>
+        </span>
+      </a>
+      <a href="walkmen-troubadour-2008.html" class="drawer-item">
+        <span class="drawer-num">09</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Four Minutes and Fifteen Seconds</span>
+          <span class="drawer-band">The Walkmen · The Troubadour · 2008</span>
+        </span>
+      </a>
+      <a href="bowie-earls-court-1978.html" class="drawer-item">
+        <span class="drawer-num">10</span>
+        <span class="drawer-info">
+          <span class="drawer-title">We Can Be Heroes</span>
+          <span class="drawer-band">David Bowie · Earls Court · 1978</span>
+        </span>
+      </a>
+      <a href="urge-overkill-underworld-2004.html" class="drawer-item">
+        <span class="drawer-num">11</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Dressed to Thrill</span>
+          <span class="drawer-band">Urge Overkill · The Underworld · 2004</span>
+        </span>
+      </a>
+      <a href="iron-maiden-ottawa-1992.html" class="drawer-item">
+        <span class="drawer-num">12</span>
+        <span class="drawer-info">
+          <span class="drawer-title">The Longest Song in the World</span>
+          <span class="drawer-band">Iron Maiden · Coliseum Building, Lansdowne Park · 1992</span>
+        </span>
+      </a>
+      <a href="van-morrison-bb-king-nola-2001.html" class="drawer-item">
+        <span class="drawer-num">13</span>
+        <span class="drawer-info">
+          <span class="drawer-title">The Mystic and the King</span>
+          <span class="drawer-band">Van Morrison & B.B. King · Morris F.X. Jeff Municipal Auditorium · 2001</span>
+        </span>
+      </a>
+      <a href="arc-angels-antones-1990.html" class="drawer-item">
+        <span class="drawer-num">14</span>
+        <span class="drawer-info">
+          <span class="drawer-title">New Year's Eve at the Home of the Blues</span>
+          <span class="drawer-band">Arc Angels · Antone's · 1990</span>
+        </span>
+      </a>
+      <a href="iggy-pop-olympia-1991.html" class="drawer-item">
+        <span class="drawer-num">15</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Raw Power at the House of Piaf</span>
+          <span class="drawer-band">Iggy Pop · L'Olympia Bruno Coquatrix · 1991</span>
+        </span>
+      </a>
+      <a href="phish-lucerna-prague-1998.html" class="drawer-item active">
+        <span class="drawer-num">16</span>
+        <span class="drawer-info">
+          <span class="drawer-title">Five Hundred People Below the Square</span>
+          <span class="drawer-band">Phish · Lucerna Music Bar · 1998</span>
+        </span>
+      </a>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <a href="../index.html" class="nav-logo">Go Hear <span>Live</span></a>
+  <a href="../index.html" class="back-btn">← All Stories</a>
+</nav>
+
+<header class="story-hero">
+  <div class="story-meta">Phish <span>·</span> Lucerna Music Bar <span>·</span> Prague, Czech Republic <span>·</span> July 6, 1998</div>
+  <h1 class="story-title">Five Hundred People Below the Square</h1>
+  <p class="story-subtitle">The music and the room. The band and the moment.</p>
+</header>
+
+<div class="video-wrap">
+  <div class="video-frame">
+    <iframe src="https://www.youtube.com/embed/Q6cR7PEyzW4" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <p class="video-caption">Phish — Ghost, Live at the Lucerna Music Bar, Prague · July 6, 1998</p>
+</div>
+
+<article class="story-body">
+
+  <p>You descend a staircase to get there. Past the grand arcade of Palác Lucerna, past the marble columns and the lantern motifs and the upside-down horse sculpture hanging from the ceiling — David Černý's permanent provocation to the Wenceslas Square equestrian statue just above you — and then down, below street level, into a basement club built into an Art Nouveau palace that has held concerts, jazz nights, and Velvet Revolution meetings, that survived Nazis and communists and sixty years of state property neglect. The Lucerna Music Bar in Prague holds about five hundred people. Phish played two nights there in July 1998, in the middle of a nine-date European run that had begun in a place about as far from a conventional rock venue as it is possible to get. The Grey Hall in Copenhagen — Den Grå Hal — was an 800-capacity wooden shed that had once been a military horse-riding arena, now converted into a concert hall inside Freetown Christiania: a self-proclaimed anarchist commune that had occupied a decommissioned army barracks in the heart of the Danish capital since 1971, when a group of hippies cut a hole in the fence and simply moved in. By 1998, Christiania had its own flag, its own consensus-based governance, its own open cannabis market on the aptly named Pusher Street, and a weed garden no more than a hundred yards from The Grey Hall's front door with a handwritten sign on the fence that read "No Pictures Please." There was a graffiti wall along one side of the building, legally maintained by the locals. A skateboard halfpipe down the cobblestone path. Phish played three nights in this place, then one festival set in Ringe, then boarded a plane to Prague. The second night is what you're here for.</p>
+
+  <p>But before any of that — before the descent, before the music — there was the city itself. Prague in the summer of 1998 had a haunted, electric quality that is difficult to describe to anyone who wasn't there. It was only nine years out from the Velvet Revolution, still blinking in the light of its own freedom, still learning what it meant to be a place that tourists and artists and wanderers could simply arrive in without anyone asking why. The Gothic spires of the Old Town cast long shadows across cobblestone streets worn smooth by centuries of foot traffic. Street performers worked the squares — jugglers tossing pins above the heads of passing crowds, musicians with accordion cases open at their feet, fire-eaters and living statues and all the strange, joyful human carnival that fills a city the moment it stops being afraid. At night, especially, Prague carried the weight of its own beauty in a way that felt almost too much — too old, too ornate, too present. A city that had been held in amber and was only now beginning to move again.</p>
+
+  <p>Into this came Phish. Not in a tour bus. Not in a convoy of blacked-out SUVs. They came through the cobblestone streets on mountain bikes, weaving through the evening crowds, four guys from Vermont who had somehow ended up headlining arenas at home and were now pedalling past baroque façades toward a basement club that held five hundred people. Someone watching from the crowd outside the Lucerna saw them arrive. The band locked up their bikes and walked in.</p>
+
+  <p>The Ghost that came out of those speakers on July 6th is one of the most discussed jams in Phish history. People who have been to thousands of shows bring it up. People who have never seen Phish know the name of this one.</p>
+
+  <p>But to understand why it happened the way it did — why this particular room, on this particular night, pulled something out of this particular band that very few rooms ever have — you have to understand where Phish was in the summer of 1998, and where the Lucerna had been for the past ninety years.</p>
+
+  <hr>
+
+  <p>By the summer of 1998, Phish were one of the biggest bands in America, and they were carrying a secret. The secret was a new album — almost finished, still at the mixing stage as they boarded the plane for Europe — that was going to be unlike anything they had released before. <em>The Story of the Ghost</em> would arrive in October. It had been recorded in fragments across eighteen months: first at Bearsville Studios in upstate New York in 1997, then at Dave O's farmhouse near Stowe, Vermont during mud season, then back to Bearsville for overdubs after the Island Tour that spring. Songs had been built from improvised sessions, favourite moments pulled from hours of tape and shaped into something with verses and choruses. The process had been democratic almost to a fault — Trey Anastasio would later say that any song that didn't get unanimous enthusiasm was cut, which he felt had diluted the final product. But the music that made it through was tight, groove-centred, deeply influenced by the cow-funk experiments of 1997: <em>Ghost</em>, <em>Birds of a Feather</em>, <em>Meat</em>.</p>
+
+  <p>The album was being mixed in New York while the band was in Europe. They were playing songs they had spent a year building, in front of audiences who had never heard the studio versions — who only knew these tunes as eruptions from the second set, as living things that had been growing in real time on the road. The European fans who had saved up and shown up for these nine dates were, in a very real sense, closer to the origin of this music than most American listeners would ever get.</p>
+
+  <p>The band knew it. And they played accordingly.</p>
+
+  <hr>
+
+  <p>The Lucerna Music Bar is housed inside Palác Lucerna, which was built between 1907 and 1921 by Vácslav Havel — grandfather of Václav Havel, the playwright and dissident who would become the Czech Republic's first post-communist president. The elder Havel had spent time in New York absorbing its energy before returning to design this place: a covered arcade connecting two streets, with a cinema, a café, shops, and eventually a music club woven through its levels. It was one of the first reinforced concrete buildings in Prague. Named for the Czech word for lantern, it was built to be lit from within.</p>
+
+  <p>What happened inside Lucerna across the twentieth century is the compressed history of a city that had more history than it wanted. During the Nazi occupation, the great hall was used for planning sessions. The communists met there too. Jazz musicians, artists, and intellectuals used the wider Lucerna spaces as a gathering point for the democratic ideals that would shape the Velvet Revolution — five Jazz Section members died in prison under suspicious circumstances in the 1970s and 1980s, targeted by the state for their work. In 1964, the first Prague International Jazz Festival was held in the hall's main concert space; the following year, Louis Armstrong performed there, along with Ella Fitzgerald and Josephine Baker. After 1989, when communism fell and the building was returned to the Havel family in restitution, Lucerna became a symbol of what the new Czech Republic could be: art nouveau and modern, old and newly alive, memory and possibility held in the same walls. The music club in the basement — intimate, decorated in faded disco-era aesthetics, acoustically peculiar in the best way — opened in 1995, three years before Phish descended the stairs.</p>
+
+  <p>When Phish played there in July 1998, the palace above them had been a national cultural monument for twenty-two years and the whole city was still adjusting to freedom. Nine years after the Velvet Revolution. The statue of the upside-down horse hanging in the passage — Černý's irreverent commentary on Czech political culture — had been installed just the year before. Prague in 1998 was a city in the middle of becoming something, not quite sure yet what that thing was.</p>
+
+  <hr>
+
+  <p>Look at who was actually in that room. Half the crowd — maybe more — were American backpackers who had built their entire European summer around this tour. They had the nine-date itinerary folded into their Eurail passes. They had tracked the routing from Copenhagen to Prague to Barcelona the way a previous generation had tracked the Dead through Europe, writing hostel addresses on the backs of their hands, showing up in cities they'd never been to before because that was where Phish was going to be. The hostels around Wenceslas Square were overflowing. Kids from Ohio and Vermont and California, sleeping four to a room, comparing notes on the Christiania shows over Czech beer they couldn't quite believe cost less than a dollar. They had crossed an ocean for this. They were already deep inside the trip of their lives when they descended the Lucerna staircase.</p>
+
+  <p>The other half of the room was local — Czech music fans and European Phish devotees who had been waiting years for the band to make it to this part of the world, who had taped copies of copies of bootlegs and knew the songs without ever having stood in the same room as the band. Between them, the two halves of that crowd made a particular kind of energy: the Americans giddy with the accumulated intensity of weeks on the road, the locals burning with something that had been building much longer. It was one of those rooms where everyone present knew, even before the music started, that something was possible.</p>
+
+  <p>The first night, July 5th, was loose in ways that surprised even the band. The wheels came off partway through Reba and never entirely came back. The crowd, packed into a room that held fewer people than Phish typically drew to a single section of an American amphitheatre, clapped along through the composed sections, willing the music forward. There's something audible in the recordings from that night — a mutual good humour about the chaos, a sense of a band and a room figuring each other out.</p>
+
+  <p>Night two was the correction. It opened with <em>Buried Alive</em>, compact and precise, and then accelerated into an <em>AC/DC Bag</em> that detoured into a long funk jam before slipping, beautifully, into <em>Ghost</em>. And then Trey Anastasio — who was described by one person in the crowd as being in "full, unabated, unabashed rock star mode" — started running.</p>
+
+  <p>What happened in that Ghost is difficult to describe to anyone who wasn't in a basement in Prague that night, but people have spent years trying. Trey built the jam phrase by phrase, each run more aggressive than the last, until somewhere around the thirteen-minute mark a theme emerged and held for a moment before dissolving back into the groove. Mike Gordon was locked in behind him, his bass less an anchor than a second voice in conversation. Page McConnell — whom Trey cheerfully renamed "Petroff" when introducing him later in the night — coloured the space around them. Jon Fishman drove it all without ever overselling the moment. The room, which could not contain a single extra person, contained all of it.</p>
+
+  <p>The jam didn't end so much as transform, sliding into <em>Cities</em> with the kind of inevitability that makes the best Phish moments feel like they were always going to happen that way. The rest of the first set — <em>Limb By Limb</em>, <em>Roggae</em>, a <em>Maze</em> whose jam was halted when Trey stopped to thank the crowd and then kept going — maintained that current. The second set opened with <em>Julius</em> and built through <em>Piper</em> to a <em>David Bowie</em> that felt, in this particular city, in this particular year, less like a song title and more like an acknowledgment.</p>
+
+  <p>Trey told the crowd to whistle if Fishman's drum solo went on too long. He changed a lyric in <em>Makisupa Policeman</em> to reference Vermont. He quoted <em>Hip Hop Hooray</em> at the end of <em>Golgi Apparatus</em>. This is what Phish does when they love a room: they stop being a touring machine and start being four people who are genuinely delighted by where they have ended up. The basement of the Lantern Palace, below Wenceslas Square, in a city that had very recently stopped being afraid — it delighted them.</p>
+
+  <hr>
+
+  <p>The show was recorded by soundboard engineer Paul Languedoc on two-track DATs. It was later released as an official archival recording on LivePhish.com, fully mastered, available in MP3 and FLAC and on CD. The packaging Phish's team designed for the CD release leaned into the Europe '98 aesthetic: the whole tour had felt like a dispatch from somewhere outside the normal Phish world, and the Prague shows most of all.</p>
+
+  <p>There is a question that hangs over every exceptional concert performance: how much was the room? And in this case, the room was not just a basement club with good acoustics and an intimate capacity. The room was the Lucerna — which was the city. This building had been the cultural focal point of Prague through everything: the jazz festivals and the Nazi occupation and the communist meetings and the Jazz Section dissidents and the Velvet Revolution and the long, slow process of becoming free again. Every major turn in the city's modern history had passed through these walls. The ghosts of all of it were still present, still ambient, still pressing in from every direction on a warm July night in 1998.</p>
+
+  <p>Consider where this band had just come from. Christiania was freedom by declaration — a commune that had willed itself into existence by cutting a hole in a fence and refusing to leave, that had spent twenty-seven years fighting the Danish state for the right to exist on its own terms. The Lucerna was freedom by survival — a palace that had been occupied and neglected and stripped of itself and had simply outlasted everyone who tried to diminish it, until the city came back to reclaim it. Two rooms. Two different ways of holding out against the world. Phish had played both of them in the same week.</p>
+
+  <p>Phish played a song called *Ghost*.</p>
+
+  <p>Whether or not anyone in that basement was thinking about it consciously — the band on stage, the local Czech fans who had waited years for this, the American backpackers who had followed the tour across a continent and were standing there with hostels full of luggage and Eurail passes and the accumulated electricity of weeks on the road — the resonance was there. The song had been built from improvisation, from feeling, from whatever emerges when four musicians stop thinking and start listening. In the Lucerna, beneath the weight of what that room had witnessed, something in the music bent toward something larger than itself. The Ghost that Trey was chasing through those fifteen minutes of improvisation — phrase by phrase, run by run, the theme that appeared and dissolved and reappeared — felt like it knew where it was. Like the room was not just receiving the music but answering it. Like Prague itself was in the room, present and immense, offering up all its dead centuries and its new light and its particular, hard-won joy.</p>
+
+  <p>This is what the best live music does in the best rooms. It doesn't stay inside the song. It reaches into the walls. It finds what the walls have been holding.</p>
+
+  <p>Palác Lucerna is still there. The upside-down horse still hangs in the passage above. The paternoster lift — a doorless elevator that never stops, requiring passengers to jump on and jump off — still runs through the building, one of only a handful left in Europe. The music bar still holds five hundred people on a good night. The whole structure was named a national cultural monument in 2017. It has outlasted the Nazis and the communists and the decades of neglect and everything else the city threw at it, because cities need a place like this — a place that holds the memory of every night that ever mattered inside its walls, that keeps the light on no matter what is happening in the streets above.</p>
+
+  <p>Four guys from Vermont locked up their bikes outside and walked down the stairs. The ghosts of the city were waiting for them.</p>
+
+  <p>The stage remembers.</p>
+
+</article>
+
+<div class="story-end">
+  <div id="prevNext"></div>
+
+  <div class="sc-section">
+    <div class="sc-heading">More Stories</div>
+    <div class="sc-grid" id="recGrid"></div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>The Stage Remembers &nbsp;·&nbsp; <a href="../index.html">gohearlive.com</a></p>
+  <p style="margin-top:8px;">The music and the room. The band and the moment.</p>
+</footer>
+
+<script src="../gohearlive.js"></script>
+<script>
+  function openDrawer(){document.getElementById('drawer').classList.add('open');document.getElementById('drawerOverlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('drawerOverlay').classList.remove('open');document.body.style.overflow='';}
+
+  GHL.load().then(() => {
+    GHL.renderDrawer('drawerList');
+    GHL.renderRecommendations('recGrid', 16);
+    GHL.renderPrevNext('prevNext', 16);
+  });
+</script>
+</body>
+</html>
