@@ -97,7 +97,14 @@
     "address": "Bank St, Lansdowne Park",
     "opened": "1903",
     "capacity": "~10,000",
-    "status": "Demolished ~2012"
+    "status": "Demolished ~2012",
+    "image": "images/coliseum-ottawa-1947.jpg",
+    "imageCredit": {
+      "photographer": "rdb466",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "source": "Flickr"
+    }
   },
   "Morris F.X. Jeff Municipal Auditorium": {
     "city": "New Orleans",
@@ -105,7 +112,15 @@
     "address": "Louis Armstrong Park",
     "opened": "1930",
     "capacity": "7,853",
-    "status": "Vacant since Hurricane Katrina, 2005"
+    "status": "Vacant since Hurricane Katrina, 2005",
+    "image": "images/municipal-auditorium-nola.jpg",
+    "imageCredit": {
+      "photographer": "Spatms",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Municipal_Auditorium_(New_Orleans)_-_Entrance.jpg"
+    }
   },
   "Antone's": {
     "city": "Austin",

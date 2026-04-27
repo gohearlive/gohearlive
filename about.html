@@ -173,6 +173,14 @@ body::before {
 .credits-list strong { color: var(--wheat); font-weight: 600; }
 .credits-list a { color: var(--ember); text-decoration: none; border-bottom: 1px solid var(--rust); padding-bottom: 1px; }
 .credits-list a:hover { color: var(--amber); }
+.credits-list li.has-image { display: flex; gap: 18px; align-items: flex-start; }
+.credits-list .credit-thumb { flex-shrink: 0; width: 140px; height: 90px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); }
+.credits-list .credit-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.credits-list .credit-text { flex: 1; }
+@media (max-width: 600px) {
+  .credits-list li.has-image { flex-direction: column; gap: 10px; }
+  .credits-list .credit-thumb { width: 100%; height: 140px; }
+}
 
 /* ─── SIG LINE ─── */
 .sig {
@@ -300,17 +308,24 @@ footer { background:rgba(6,4,2,.96); backdrop-filter:blur(14px); border-top:2px 
           and are used with attribution as their licences require.
         </p>
         <ul class="credits-list">
-          <li>
-            <strong>Coliseum Building, Lansdowne Park — Ottawa, 1947.</strong><br>
-            Photographer: rdb466 · Source: Flickr · Licence:
-            <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a>.
-            Used in <em>The Longest Song in the World</em> (Iron Maiden, 1992).
+          <li class="has-image">
+            <div class="credit-thumb"><img src="images/coliseum-ottawa-1947.jpg" alt="Coliseum Building, Lansdowne Park, Ottawa"/></div>
+            <div class="credit-text">
+              <strong>Coliseum Building, Lansdowne Park — Ottawa, 1947.</strong><br>
+              Photographer: rdb466 · Source: Flickr · Licence:
+              <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a>.
+              Used in <em>The Longest Song in the World</em> (Iron Maiden, 1992).
+            </div>
           </li>
-          <li>
-            <strong>Morris F.X. Jeff Municipal Auditorium — New Orleans.</strong><br>
-            Photographer: Spatms · Source: Wikimedia Commons · Licence:
-            <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>.
-            Used in <em>The Mystic and the King</em> (Van Morrison &amp; B.B. King, 2001).
+          <li class="has-image">
+            <div class="credit-thumb"><img src="images/municipal-auditorium-nola.jpg" alt="Morris F.X. Jeff Municipal Auditorium, New Orleans"/></div>
+            <div class="credit-text">
+              <strong>Morris F.X. Jeff Municipal Auditorium — New Orleans.</strong><br>
+              Photographer: Spatms · Source:
+              <a href="https://commons.wikimedia.org/wiki/File:Municipal_Auditorium_(New_Orleans)_-_Entrance.jpg" target="_blank" rel="noopener">Wikimedia Commons</a> · Licence:
+              <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>.
+              Used in <em>The Mystic and the King</em> (Van Morrison &amp; B.B. King, 2001).
+            </div>
           </li>
         </ul>
       </div>

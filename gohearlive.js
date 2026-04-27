@@ -78,9 +78,21 @@ const GHL = {
       .map(x => x.story);
   },
 
-  // Thumb URL for a story
+  // Thumb URL for a story. Resolves in this order:
+  //   1. Venue image (if defined in venues.json for this story's venue)
+  //   2. YouTube hq thumbnail (if story.youtube is set)
+  //   3. null (no image — caller renders text fallback)
+  // Venue image paths are relative to the repo root; we add "../" prefix
+  // when the page is in /stories/ so the image resolves correctly.
   thumb(story) {
-    return story.youtube
+    if (this.venues && story && story.venue) {
+      const venue = this.venues[story.venue];
+      if (venue && venue.image) {
+        const inStories = window.location.pathname.includes('/stories/');
+        return inStories ? `../${venue.image}` : venue.image;
+      }
+    }
+    return story && story.youtube
       ? `https://img.youtube.com/vi/${story.youtube}/hqdefault.jpg`
       : null;
   },
@@ -292,7 +304,20 @@ const GHL = {
       const rowHtml = (label, value) => value
         ? `<div class="vp-row"><span>${label}</span><span class="v">${value}</span></div>`
         : '';
-      rowsEl.innerHTML = [
+
+      // Prefix with venue image if defined in venues.json
+      let imageHtml = '';
+      if (meta.image) {
+        const inStories = window.location.pathname.includes('/stories/');
+        const src = inStories ? `../${meta.image}` : meta.image;
+        const credit = meta.imageCredit;
+        const captionHtml = credit
+          ? `<div class="vp-img-credit">Photo: ${credit.photographer} · <a href="${credit.licenseUrl}" target="_blank" rel="noopener">${credit.license}</a></div>`
+          : '';
+        imageHtml = `<div class="vp-img-wrap"><img src="${src}" alt="${name}" class="vp-img"/>${captionHtml}</div>`;
+      }
+
+      rowsEl.innerHTML = imageHtml + [
         rowHtml('Capacity', meta.capacity),
         rowHtml('Opened', meta.opened),
         rowHtml('Architect', meta.architect),
