@@ -24,7 +24,6 @@
   .video-frame {width:100%;aspect-ratio:16/9;background:#000;border:1px solid rgba(255,255,255,.08);}
   .video-frame iframe {width:100%;height:100%;border:none;display:block;}
   .video-caption {font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--fog);margin-top:12px;text-align:center;}
-  .video-wanted {width:100%;aspect-ratio:16/9;background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-family:'Cabin Condensed',sans-serif;font-size:13px;letter-spacing:.1em;color:var(--fog);text-align:center;padding:20px;}
   .story-body {max-width:680px;margin:0 auto;padding:0 40px 80px;}
   .story-body p {margin-bottom:28px;color:rgba(232,224,208,.88);}
   .story-body p:first-of-type::first-letter {font-family:'Abril Fatface',serif;font-size:72px;line-height:.8;float:left;margin:8px 12px 0 0;color:var(--ember);}
@@ -32,9 +31,18 @@
   .story-body em {color:var(--amber);font-style:italic;}
   .story-body strong {color:var(--parchment);font-weight:600;}
   .story-body blockquote {border-left:2px solid var(--ember);padding-left:24px;margin:40px 0;font-style:italic;color:var(--fog);}
-  .story-figure {margin:40px 0;}
-  .story-figure img {width:100%;height:auto;display:block;border:1px solid rgba(255,255,255,.08);}
-  .story-figure figcaption {font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--fog);margin-top:12px;text-align:center;}
+  .venue-img-wrap{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#0a0907;}
+  .venue-img{width:100%;height:100%;object-fit:cover;display:block;filter:sepia(60%) contrast(1.1) brightness(0.75);transition:filter .5s;}
+  .venue-img-wrap:hover .venue-img{filter:sepia(40%) contrast(1.05) brightness(0.85);}
+  .venue-img-wrap::before{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,7,.85) 0%,rgba(10,9,7,.2) 50%,transparent 100%),linear-gradient(to right,rgba(200,75,17,.15) 0%,transparent 60%);z-index:1;pointer-events:none;}
+  .venue-overlay{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:24px 28px;}
+  .venue-overlay-inner{display:flex;flex-direction:column;gap:6px;}
+  .venue-tag{font-family:'Cabin Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--ember);}
+  .venue-name{font-family:'Abril Fatface',serif;font-size:clamp(18px,3vw,28px);color:var(--parchment);line-height:1.1;text-shadow:0 2px 12px rgba(0,0,0,.8);}
+  .venue-sub{font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.12em;color:var(--fog);}
+  .venue-credit{font-family:'Cabin Condensed',sans-serif;font-size:10px;letter-spacing:.1em;color:rgba(138,128,112,.5);margin-top:8px;text-align:right;font-style:italic;}
+  .venue-credit a{color:rgba(138,128,112,.5);text-decoration:none;border-bottom:1px solid rgba(138,128,112,.2);transition:color .2s;}
+  .venue-credit a:hover{color:var(--fog);}
   .story-end {max-width:680px;margin:0 auto;padding:0 40px 100px;}
   .site-footer {text-align:center;padding:40px;border-top:1px solid rgba(255,255,255,.06);font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);}
   .site-footer a {color:var(--ember);text-decoration:none;}
@@ -216,20 +224,23 @@
 </header>
 
 <div class="video-wrap">
-  <div class="video-wanted">
-    <p>📹 Video coming — if you were there and have footage, get in touch.</p>
+  <div class="venue-img-wrap">
+    <img src="../images/zaphod-beeblebrox-ottawa.jpg" alt="Zaphod Beeblebrox storefront, 27 York Street, Ottawa" class="venue-img"/>
+    <div class="venue-overlay">
+      <div class="venue-overlay-inner">
+        <div class="venue-tag">The Venue</div>
+        <div class="venue-name">Zaphod Beeblebrox</div>
+        <div class="venue-sub">27 York Street · ByWard Market, Ottawa · Opened 1992</div>
+      </div>
+    </div>
   </div>
+  <p class="venue-credit">Zaphod Beeblebrox, Ottawa · <a href="https://www.istockphoto.com/" target="_blank" rel="noopener">Photo: Paul McKinnon / iStock</a> · <a href="https://www.istockphoto.com/legal/license-agreement" target="_blank" rel="noopener">Editorial licence</a></p>
 </div>
 
 <article class="story-body">
   <p>She was 21 years old. She had just released the album that would change everything. And she had come home to play a bar.</p>
 
   <p><em>Jagged Little Pill</em> was released on June 13, 1995. Seven days later, Alanis Morissette was standing on the stage at Zaphod Beeblebrox — a small club on York Street in Ottawa's ByWard Market, a short walk from Parliament Hill, steps from the Rideau River — playing to the city that had watched her grow up. The same city that had watched her search for her sound, then leave, then disappear into Los Angeles with nothing but her voice and a determination nobody quite understood yet.</p>
-
-  <figure class="story-figure">
-    <img src="../images/zaphod-beeblebrox-ottawa.jpg" alt="Zaphod Beeblebrox storefront at 27 York Street, Ottawa">
-    <figcaption>Zaphod Beeblebrox · 27 York Street · Ottawa</figcaption>
-  </figure>
 
   <hr>
 
