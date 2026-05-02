@@ -49,6 +49,13 @@ const GHL = {
     return this.stories ? this.stories.find(s => s.file.endsWith(file)) : null;
   },
 
+  // Extract a 4-digit year from a story's date field (e.g. "Oct 31, 1991" → "1991")
+  yearOf(story) {
+    if (!story || !story.date) return '';
+    const m = String(story.date).match(/\d{4}/);
+    return m ? m[0] : '';
+  },
+
   // Score story relevance against a source story (0–10)
   score(source, candidate) {
     if (source.id === candidate.id) return -1;
@@ -80,10 +87,8 @@ const GHL = {
 
   // Thumb URL for a story. Resolves in this order:
   //   1. Venue image (if defined in venues.json for this story's venue)
-  //   2. YouTube hq thumbnail (if story.youtube is set)
+  //   2. YouTube hq thumbnail (if story.youtubeId is set)
   //   3. null (no image — caller renders text fallback)
-  // Venue image paths are relative to the repo root; we add "../" prefix
-  // when the page is in /stories/ so the image resolves correctly.
   thumb(story) {
     if (this.venues && story && story.venue) {
       const venue = this.venues[story.venue];
@@ -92,8 +97,8 @@ const GHL = {
         return inStories ? `../${venue.image}` : venue.image;
       }
     }
-    return story && story.youtube
-      ? `https://img.youtube.com/vi/${story.youtube}/hqdefault.jpg`
+    return story && story.youtubeId
+      ? `https://img.youtube.com/vi/${story.youtubeId}/hqdefault.jpg`
       : null;
   },
 
@@ -117,7 +122,7 @@ const GHL = {
         <span class="drawer-num">${String(s.id).padStart(2,'0')}</span>
         <span class="drawer-info">
           <span class="drawer-title">${s.title}</span>
-          <span class="drawer-band">${s.band} · ${s.venue} · ${s.year}</span>
+          <span class="drawer-band">${s.artist} · ${s.venue} · ${this.yearOf(s)}</span>
         </span>
       </a>`;
     }).join('');
@@ -132,15 +137,15 @@ const GHL = {
       const thumb = this.thumb(s);
       const thumbHtml = thumb
         ? `<img src="${thumb}" alt="${s.title}">`
-        : `<div class="sc-no-thumb">${s.band}</div>`;
+        : `<div class="sc-no-thumb">${s.artist}</div>`;
       const href = this.pathTo(s);
       return `<a href="${href}" class="sc-card">
         <div class="sc-thumb">${thumbHtml}</div>
         <div class="sc-body">
           <div class="sc-num">${String(s.id).padStart(2,'0')}</div>
           <div class="sc-title">${s.title}</div>
-          <div class="sc-band">${s.band}</div>
-          <div class="sc-venue">${s.venue} · ${s.year}</div>
+          <div class="sc-band">${s.artist}</div>
+          <div class="sc-venue">${s.venue} · ${this.yearOf(s)}</div>
         </div>
       </a>`;
     }).join('');
@@ -160,14 +165,14 @@ const GHL = {
           <span class="pn-info">
             <span class="pn-label">Previous</span>
             <span class="pn-title">${prev.title}</span>
-            <span class="pn-band">${prev.band}</span>
+            <span class="pn-band">${prev.artist}</span>
           </span>
         </a>
         <a href="${this.pathTo(next)}" class="pn-btn pn-next">
           <span class="pn-info" style="text-align:right">
             <span class="pn-label">Next</span>
             <span class="pn-title">${next.title}</span>
-            <span class="pn-band">${next.band}</span>
+            <span class="pn-band">${next.artist}</span>
           </span>
           <span class="pn-arrow">→</span>
         </a>
@@ -195,19 +200,19 @@ const GHL = {
 
     el.innerHTML = cards.map(s => {
       const thumb = this.thumb(s);
+      const yr = this.yearOf(s);
       const thumbHtml = thumb
-        ? `<img src="${thumb}" alt="${s.title}" onerror="this.parentElement.innerHTML='<div class=\\'card-novid-inner\\'><span class=\\'card-novid-label\\'>${s.city} · ${s.year}</span></div>'">`
+        ? `<img src="${thumb}" alt="${s.title}" onerror="this.parentElement.innerHTML='<div class=\\'card-novid-inner\\'><span class=\\'card-novid-label\\'>${s.city} · ${yr}</span></div>'">`
         : '';
       const thumbClass = thumb ? 'card-thumb' : 'card-thumb card-thumb-novid';
-      const clickAttr = thumb ? ` onclick="openModal('${s.youtube}')"` : '';
+      const clickAttr = thumb && s.youtubeId ? ` onclick="openModal('${s.youtubeId}')"` : '';
       return `<div class="card">
         <div class="${thumbClass}"${clickAttr}>
           ${thumbHtml}
-          ${thumb ? `<div class="thumb-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>` : `<div class="card-novid-inner"><span class="card-novid-label">${s.city} · ${s.year}</span></div>`}
+          ${thumb ? `<div class="thumb-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>` : `<div class="card-novid-inner"><span class="card-novid-label">${s.city} · ${yr}</span></div>`}
         </div>
-        <div class="card-kicker">${s.band} <span class="vt">· ${s.venue} · ${s.year}</span></div>
+        <div class="card-kicker">${s.artist} <span class="vt">· ${s.venue} · ${yr}</span></div>
         <h2 class="card-hl">${s.title}</h2>
-        <p class="card-ex">${s.excerpt}</p>
         <a href="${s.file}" class="card-lnk">Read the full story →</a>
       </div>`;
     }).join('');
@@ -254,21 +259,21 @@ const GHL = {
     const thumb = this.thumb(story);
 
     if (imgEl) {
-      if (thumb) { imgEl.src = thumb; imgEl.alt = `${story.band} at ${story.venue}`; imgEl.style.display = ''; }
+      if (thumb) { imgEl.src = thumb; imgEl.alt = `${story.artist} at ${story.venue}`; imgEl.style.display = ''; }
       else       { imgEl.removeAttribute('src'); imgEl.style.display = 'none'; }
     }
     if (mediaEl) {
-      if (thumb) mediaEl.setAttribute('onclick', `openModal('${story.youtube}')`);
-      else       mediaEl.removeAttribute('onclick');
-      mediaEl.style.cursor = thumb ? 'pointer' : 'default';
+      if (thumb && story.youtubeId) mediaEl.setAttribute('onclick', `openModal('${story.youtubeId}')`);
+      else                          mediaEl.removeAttribute('onclick');
+      mediaEl.style.cursor = (thumb && story.youtubeId) ? 'pointer' : 'default';
       // Hide the play ring if there's no video
       const playRing = mediaEl.querySelector('.hero-play');
-      if (playRing) playRing.style.display = thumb ? '' : 'none';
+      if (playRing) playRing.style.display = (thumb && story.youtubeId) ? '' : 'none';
     }
     if (capEl)    capEl.textContent    = `${story.date} · ${story.venue} · ${story.city}`;
-    if (kickerEl) kickerEl.innerHTML   = `${story.band} <span>·</span> ${story.venue} <span>·</span> ${story.city}`;
+    if (kickerEl) kickerEl.innerHTML   = `${story.artist} <span>·</span> ${story.venue} <span>·</span> ${story.city}`;
     if (titleEl)  titleEl.textContent  = story.title;
-    if (deckEl)   deckEl.textContent   = story.excerpt;
+    if (deckEl)   deckEl.textContent   = '';
     if (linkEl)   linkEl.setAttribute('href', story.file);
   },
 
@@ -340,7 +345,7 @@ const GHL = {
         <li class="vl-item" onclick="location.href='${this.pathTo(s)}'">
           <div class="vl-num">${String(i + 1).padStart(2, '0')}</div>
           <div class="vl-txt">
-            <div class="vl-band">${s.band}</div>
+            <div class="vl-band">${s.artist}</div>
             <div class="vl-date">${s.date} · ${s.title}</div>
           </div>
           <div class="vl-arr">→</div>
@@ -360,15 +365,16 @@ const GHL = {
     if (filters.mood) stories = stories.filter(s => s.mood.includes(filters.mood));
     el.innerHTML = stories.map(s => {
       const thumb = this.thumb(s);
+      const yr = this.yearOf(s);
       const thumbHtml = thumb
         ? `<img src="${thumb}" alt="${s.title}">`
-        : `<div class="idx-no-thumb">${s.city} · ${s.year}</div>`;
+        : `<div class="idx-no-thumb">${s.city} · ${yr}</div>`;
       return `<a href="${s.file}" class="idx-card">
         <div class="idx-thumb">${thumbHtml}</div>
         <div class="idx-body">
           <div class="idx-meta">${s.city} · ${s.decade}</div>
           <div class="idx-title">${s.title}</div>
-          <div class="idx-band">${s.band}</div>
+          <div class="idx-band">${s.artist}</div>
           <div class="idx-tags">
             ${s.mood.map(m => `<span class="idx-tag">${m}</span>`).join('')}
           </div>
