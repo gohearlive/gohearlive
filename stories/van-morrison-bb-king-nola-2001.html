@@ -4,26 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Mystic and the King — Go Hear Live</title>
-
-<meta name="description" content="In the oldest Black neighbourhood in America, next to Congo Square, in a building that had held Louis Armstrong and Mahalia Jackson, two men arrived from opposite pressures and found the same door marked joy.">
-
-<!-- Open Graph -->
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="Go Hear Live">
-<meta property="og:title" content="The Mystic and the King — Go Hear Live">
-<meta property="og:description" content="In the oldest Black neighbourhood in America, next to Congo Square, in a building that had held Louis Armstrong and Mahalia Jackson, two men arrived from opposite pressures and found the same door marked joy.">
-<meta property="og:url" content="https://gohearlive.com/stories/van-morrison-bb-king-nola-2001.html">
-<meta property="og:image" content="https://gohearlive.com/images/municipal-auditorium-nola.jpg">
-<meta property="og:image:alt" content="Van Morrison &amp; B.B. King at Morris F.X. Jeff Municipal Auditorium, New Orleans — Apr 28, 2001">
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Mystic and the King — Go Hear Live">
-<meta name="twitter:description" content="In the oldest Black neighbourhood in America, next to Congo Square, in a building that had held Louis Armstrong and Mahalia Jackson, two men arrived from opposite pressures and found the same door marked joy.">
-<meta name="twitter:image" content="https://gohearlive.com/images/municipal-auditorium-nola.jpg">
-
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -118,21 +98,9 @@
     .pn-wrap{flex-direction:column;}
     .sc-grid{grid-template-columns:1fr;}
   }
-
-  /* ── sticker wall (background decoration) ── */
-  .sticker-wall { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-  .sticker { position: absolute; line-height: 1; user-select: none; filter: drop-shadow(1px 2px 5px rgba(0,0,0,0.8)); }
-  .story-hero, .video-wrap, .story-body, .sc-section, .pn-wrap, .story-end {
-    position: relative; z-index: 2;
-    background: var(--void);
-    box-shadow: 0 0 40px 20px var(--void);
-  }
-  .site-footer { position: relative; z-index: 2; background: var(--void); }
 </style>
 </head>
 <body>
-<div class="sticker-wall" id="stickerWall"></div>
-
 
 <button class="hamburger" onclick="openDrawer()" aria-label="All stories">
   <span></span><span></span><span></span>
@@ -242,7 +210,7 @@
 
 <nav class="site-nav">
   <a href="../index.html" class="nav-logo">Go Hear <span>Live</span></a>
-  <a href="../index.html" class="back-btn">← All Stories</a>
+  <a href="../all-stories.html" class="back-btn">← All Stories</a>
 </nav>
 
 <header class="story-hero">
@@ -262,7 +230,7 @@
       </div>
     </div>
   </div>
-  <p class="venue-credit">Morris F.X. Jeff Municipal Auditorium, New Orleans · <a href="https://commons.wikimedia.org/wiki/File:Municipal_Auditorium_(New_Orleans)_-_Entrance.jpg" target="_blank" rel="noopener">Photo: Spatms / Wikimedia Commons</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a></p>
+  <p class="venue-credit">Morris F.X. Jeff Municipal Auditorium, New Orleans · <a href="https://commons.wikimedia.org/wiki/File:MunicipalAuditoriumNewOrleans.jpg" target="_blank" rel="noopener">Photo: Spatms / Wikimedia Commons</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a></p>
 </div>
 
 <article class="story-body">
@@ -392,25 +360,16 @@
 <footer class="site-footer">
   <p>The Stage Remembers &nbsp;·&nbsp; <a href="../index.html">gohearlive.com</a></p>
   <p style="margin-top:8px;">The music and the room. The band and the moment.</p>
+  <p style="margin-top:18px; font-size:10px; letter-spacing:0; text-transform:none; color:rgba(255,255,255,.35); line-height:1.6;">
+    Story © 2026 Go Hear Live. Original editorial writing — all rights reserved.<br>
+    Embedded video remains the property of its respective uploaders. Concert photographs used under Creative Commons license, unless otherwise noted; see <a href="../about.html" style="color:inherit; text-decoration:underline;">credits</a>.
+  </p>
 </footer>
 
 <script src="../gohearlive.js"></script>
 <script>
   function openDrawer(){document.getElementById('drawer').classList.add('open');document.getElementById('drawerOverlay').classList.add('open');document.body.style.overflow='hidden';}
   function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('drawerOverlay').classList.remove('open');document.body.style.overflow='';}
-</script>
-
-<script src="../gohearlive.js"></script>
-<script>
-  GHL.loadStickers().then(() => {
-    const ctx = ["all-stories", "story:13", "venue:Morris F.X. Jeff Municipal Auditorium", "city:New Orleans"];
-    GHL.renderStickerWall('stickerWall', ctx, { topGutter: 500 });
-    let stickerResizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(stickerResizeTimer);
-      stickerResizeTimer = setTimeout(() => GHL.renderStickerWall('stickerWall', ctx, { topGutter: 500 }), 300);
-    });
-  });
 </script>
 </body>
 </html>

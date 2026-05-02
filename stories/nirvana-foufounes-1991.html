@@ -4,26 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Night Before Everything Changed — Go Hear Live</title>
-
-<meta name="description" content="Three days before Nevermind was released, Nirvana played a punk club in Montréal for a crowd that had no idea what was about to happen.">
-
-<!-- Open Graph -->
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="Go Hear Live">
-<meta property="og:title" content="The Night Before Everything Changed — Go Hear Live">
-<meta property="og:description" content="Three days before Nevermind was released, Nirvana played a punk club in Montréal for a crowd that had no idea what was about to happen.">
-<meta property="og:url" content="https://gohearlive.com/stories/nirvana-foufounes-1991.html">
-<meta property="og:image" content="https://img.youtube.com/vi/Kl8vJlHUWSs/maxresdefault.jpg">
-<meta property="og:image:alt" content="Nirvana at Les Foufounes Électriques, Montréal — Sep 21, 1991">
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Night Before Everything Changed — Go Hear Live">
-<meta name="twitter:description" content="Three days before Nevermind was released, Nirvana played a punk club in Montréal for a crowd that had no idea what was about to happen.">
-<meta name="twitter:image" content="https://img.youtube.com/vi/Kl8vJlHUWSs/maxresdefault.jpg">
-
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -118,21 +98,9 @@
   .sc-venue { font-family:'Cabin Condensed',sans-serif; font-size:9px; letter-spacing:.06em; color:rgba(138,128,112,.6); }
   @media (max-width:600px) { .sc-grid { grid-template-columns:1fr; } }
 
-
-  /* ── sticker wall (background decoration) ── */
-  .sticker-wall { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-  .sticker { position: absolute; line-height: 1; user-select: none; filter: drop-shadow(1px 2px 5px rgba(0,0,0,0.8)); }
-  .story-hero, .video-wrap, .story-body, .sc-section, .pn-wrap, .story-end {
-    position: relative; z-index: 2;
-    background: var(--void);
-    box-shadow: 0 0 40px 20px var(--void);
-  }
-  .site-footer { position: relative; z-index: 2; background: var(--void); }
 </style>
 </head>
 <body>
-<div class="sticker-wall" id="stickerWall"></div>
-
 
 <button class="hamburger" onclick="openDrawer()" aria-label="All stories">
   <span></span><span></span><span></span>
@@ -235,7 +203,7 @@
 
 <nav class="site-nav">
   <a href="../index.html" class="nav-logo">Go Hear <span>Live</span></a>
-  <a href="../index.html" class="back-btn">← All Stories</a>
+  <a href="../all-stories.html" class="back-btn">← All Stories</a>
 </nav>
 
 <header class="story-hero">
@@ -350,6 +318,10 @@
 <footer class="site-footer">
   <p>The Stage Remembers &nbsp;·&nbsp; <a href="../index.html">gohearlive.com</a></p>
   <p style="margin-top:8px;">The music and the room. The band and the moment.</p>
+  <p style="margin-top:18px; font-size:10px; letter-spacing:0; text-transform:none; color:rgba(255,255,255,.35); line-height:1.6;">
+    Story © 2026 Go Hear Live. Original editorial writing — all rights reserved.<br>
+    Embedded video remains the property of its respective uploaders. Concert photographs used under Creative Commons license, unless otherwise noted; see <a href="../about.html" style="color:inherit; text-decoration:underline;">credits</a>.
+  </p>
 </footer>
 
 <script>
@@ -363,19 +335,6 @@
     document.getElementById('drawerOverlay').classList.remove('open');
     document.body.style.overflow = '';
   }
-</script>
-
-<script src="../gohearlive.js"></script>
-<script>
-  GHL.loadStickers().then(() => {
-    const ctx = ["all-stories", "story:5", "venue:Les Foufounes Électriques", "city:Montréal"];
-    GHL.renderStickerWall('stickerWall', ctx, { topGutter: 500 });
-    let stickerResizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(stickerResizeTimer);
-      stickerResizeTimer = setTimeout(() => GHL.renderStickerWall('stickerWall', ctx, { topGutter: 500 }), 300);
-    });
-  });
 </script>
 </body>
 </html>
