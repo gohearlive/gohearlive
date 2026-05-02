@@ -155,15 +155,16 @@
     }
     el.innerHTML = stories.map(s => {
       const thumb = GHL.thumb(s);
+      const yr = GHL.yearOf(s);
       const thumbHtml = thumb
         ? `<img src="${thumb}" alt="${s.title}">`
-        : `<div class="idx-no-thumb">${s.city} · ${s.year}</div>`;
+        : `<div class="idx-no-thumb">${s.city} · ${yr}</div>`;
       return `<a href="${s.file}" class="idx-card">
         <div class="idx-thumb">${thumbHtml}</div>
         <div class="idx-body">
-          <div class="idx-meta">${s.city} · ${s.year}</div>
+          <div class="idx-meta">${s.city} · ${yr}</div>
           <div class="idx-title">${s.title}</div>
-          <div class="idx-band">${s.band}</div>
+          <div class="idx-band">${s.artist}</div>
           <div class="idx-tags">${s.mood.map(m => `<span class="idx-tag">${m}</span>`).join('')}</div>
         </div>
       </a>`;
