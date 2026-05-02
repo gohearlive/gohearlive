@@ -56,7 +56,14 @@
     "address": "27 York St",
     "opened": "1992",
     "capacity": "200",
-    "status": "Active"
+    "status": "Active",
+    "image": "images/zaphod-beeblebrox-ottawa.jpg",
+    "imageCredit": {
+      "photographer": "Paul McKinnon",
+      "source": "iStock",
+      "license": "iStock editorial licence",
+      "licenseUrl": "https://www.istockphoto.com/legal/license-agreement"
+    }
   },
   "UIC Pavilion": {
     "city": "Chicago",
