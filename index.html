@@ -459,7 +459,8 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
         'New Orleans':'US','Old Orchard Beach':'US','New York':'US','Portland':'US',
         'Ottawa':'Canada','Montréal':'Canada','Toronto':'Canada','Vancouver':'Canada',
         'London':'UK','Manchester':'UK',
-        'Paris':'France','Berlin':'Germany','Tokyo':'Japan','Dublin':'Ireland'
+        'Paris':'France','Berlin':'Germany','Tokyo':'Japan','Dublin':'Ireland',
+        'Prague':'Czech Republic'
       };
       const countries = new Set();
       GHL.stories.forEach(s => { if (cityToCountry[s.city]) countries.add(cityToCountry[s.city]); });
