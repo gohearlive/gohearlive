@@ -113,7 +113,7 @@
     <button class="drawer-close" onclick="closeDrawer()">✕ Close</button>
   </div>
   <div class="drawer-label">All Stories</div>
-  <div class="drawer-list">
+  <div class="drawer-list" id="drawerList">
       <a href="nirvana-paramount-1991.html" class="drawer-item">
         <span class="drawer-num">01</span>
         <span class="drawer-info">
@@ -268,56 +268,11 @@
 </article>
 
 <div class="story-end">
-  <div class="pn-wrap">
-  <a href="nirvana-paramount-1991.html" class="pn-btn pn-prev">
-    <span class="pn-arrow">←</span>
-    <span class="pn-info">
-      <span class="pn-label">Previous</span>
-      <span class="pn-title">Halloween in the Palace of Splendor</span>
-      <span class="pn-band">Nirvana</span>
-    </span>
-  </a>
-  <a href="neil-young-pearl-jam-moes-1995.html" class="pn-btn pn-next">
-    <span class="pn-info" style="text-align:right">
-      <span class="pn-label">Next</span>
-      <span class="pn-title">The Godfather Comes to Capitol Hill</span>
-      <span class="pn-band">Neil Young & Pearl Jam</span>
-    </span>
-    <span class="pn-arrow">→</span>
-  </a>
-</div>
+  <div id="prevNext"></div>
 
   <div class="sc-section">
     <div class="sc-heading">More Stories</div>
-    <div class="sc-grid">
-    <a href="nirvana-paramount-1991.html" class="sc-card">
-      <div class="sc-thumb"><img src="https://img.youtube.com/vi/Z53nb74H7Vc/hqdefault.jpg"></div>
-      <div class="sc-body">
-        <div class="sc-num">01</div>
-        <div class="sc-title">Halloween in the Palace of Splendor</div>
-        <div class="sc-band">Nirvana</div>
-        <div class="sc-venue">The Paramount, Seattle · 1991</div>
-      </div>
-    </a>
-    <a href="neil-young-pearl-jam-moes-1995.html" class="sc-card">
-      <div class="sc-thumb"><img src="https://img.youtube.com/vi/c1Ji69G3Jnw/hqdefault.jpg"></div>
-      <div class="sc-body">
-        <div class="sc-num">03</div>
-        <div class="sc-title">The Godfather Comes to Capitol Hill</div>
-        <div class="sc-band">Neil Young & Pearl Jam</div>
-        <div class="sc-venue">Moe's, Seattle · 1995</div>
-      </div>
-    </a>
-    <a href="alanis-zaphod-1995.html" class="sc-card">
-      <div class="sc-thumb"><div class="sc-no-thumb">No video yet</div></div>
-      <div class="sc-body">
-        <div class="sc-num">07</div>
-        <div class="sc-title">The Girl Who Came Home</div>
-        <div class="sc-band">Alanis Morissette</div>
-        <div class="sc-venue">Zaphod Beeblebrox, Ottawa · 1995</div>
-      </div>
-    </a>
-    </div>
+    <div class="sc-grid" id="recGrid"></div>
   </div>
 </div>
 
@@ -330,6 +285,7 @@
   </p>
 </footer>
 
+<script src="../gohearlive.js"></script>
 <script>
   function openDrawer() {
     document.getElementById('drawer').classList.add('open');
@@ -340,6 +296,14 @@
     document.getElementById('drawer').classList.remove('open');
     document.getElementById('drawerOverlay').classList.remove('open');
     document.body.style.overflow = '';
+  }
+
+  if (typeof GHL !== 'undefined') {
+    Promise.all([GHL.load(), GHL.loadVenues()]).then(() => {
+      GHL.renderDrawer('drawerList');
+      GHL.renderRecommendations('recGrid', 2);
+      GHL.renderPrevNext('prevNext', 2);
+    });
   }
 </script>
 </body>

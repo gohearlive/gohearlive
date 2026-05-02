@@ -113,7 +113,7 @@
     <button class="drawer-close" onclick="closeDrawer()">✕ Close</button>
   </div>
   <div class="drawer-label">All Stories</div>
-  <div class="drawer-list">
+  <div class="drawer-list" id="drawerList">
       <a href="nirvana-paramount-1991.html" class="drawer-item">
         <span class="drawer-num">01</span>
         <span class="drawer-info">
@@ -274,56 +274,11 @@
 </article>
 
 <div class="story-end">
-  <div class="pn-wrap">
-  <a href="nirvana-foufounes-1991.html" class="pn-btn pn-prev">
-    <span class="pn-arrow">←</span>
-    <span class="pn-info">
-      <span class="pn-label">Previous</span>
-      <span class="pn-title">The Night Before Everything Changed</span>
-      <span class="pn-band">Nirvana</span>
-    </span>
-  </a>
-  <a href="alanis-zaphod-1995.html" class="pn-btn pn-next">
-    <span class="pn-info" style="text-align:right">
-      <span class="pn-label">Next</span>
-      <span class="pn-title">The Girl Who Came Home</span>
-      <span class="pn-band">Alanis Morissette</span>
-    </span>
-    <span class="pn-arrow">→</span>
-  </a>
-</div>
+  <div id="prevNext"></div>
 
   <div class="sc-section">
     <div class="sc-heading">More Stories</div>
-    <div class="sc-grid">
-    <a href="nirvana-foufounes-1991.html" class="sc-card">
-      <div class="sc-thumb"><img src="https://img.youtube.com/vi/Kl8vJlHUWSs/hqdefault.jpg"></div>
-      <div class="sc-body">
-        <div class="sc-num">05</div>
-        <div class="sc-title">The Night Before Everything Changed</div>
-        <div class="sc-band">Nirvana</div>
-        <div class="sc-venue">Les Foufounes, Montréal · 1991</div>
-      </div>
-    </a>
-    <a href="alanis-zaphod-1995.html" class="sc-card">
-      <div class="sc-thumb"><div class="sc-no-thumb">No video yet</div></div>
-      <div class="sc-body">
-        <div class="sc-num">07</div>
-        <div class="sc-title">The Girl Who Came Home</div>
-        <div class="sc-band">Alanis Morissette</div>
-        <div class="sc-venue">Zaphod Beeblebrox, Ottawa · 1995</div>
-      </div>
-    </a>
-    <a href="bowie-earls-court-1978.html" class="sc-card">
-      <div class="sc-thumb"><img src="https://img.youtube.com/vi/4qcAtflfVYs/hqdefault.jpg"></div>
-      <div class="sc-body">
-        <div class="sc-num">10</div>
-        <div class="sc-title">We Can Be Heroes</div>
-        <div class="sc-band">David Bowie</div>
-        <div class="sc-venue">Earls Court, London · 1978</div>
-      </div>
-    </a>
-    </div>
+    <div class="sc-grid" id="recGrid"></div>
   </div>
 </div>
 
@@ -336,6 +291,7 @@
   </p>
 </footer>
 
+<script src="../gohearlive.js"></script>
 <script>
   function openDrawer() {
     document.getElementById('drawer').classList.add('open');
@@ -346,6 +302,14 @@
     document.getElementById('drawer').classList.remove('open');
     document.getElementById('drawerOverlay').classList.remove('open');
     document.body.style.overflow = '';
+  }
+
+  if (typeof GHL !== 'undefined') {
+    Promise.all([GHL.load(), GHL.loadVenues()]).then(() => {
+      GHL.renderDrawer('drawerList');
+      GHL.renderRecommendations('recGrid', 6);
+      GHL.renderPrevNext('prevNext', 6);
+    });
   }
 </script>
 </body>

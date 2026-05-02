@@ -113,7 +113,7 @@
     <button class="drawer-close" onclick="closeDrawer()">✕ Close</button>
   </div>
   <div class="drawer-label">All Stories</div>
-  <div class="drawer-list">
+  <div class="drawer-list" id="drawerList">
       <a href="nirvana-paramount-1991.html" class="drawer-item">
         <span class="drawer-num">01</span>
         <span class="drawer-info">
@@ -276,56 +276,11 @@
 </article>
 
 <div class="story-end">
-  <div class="pn-wrap">
-  <a href="bowie-earls-court-1978.html" class="pn-btn pn-prev">
-    <span class="pn-arrow">←</span>
-    <span class="pn-info">
-      <span class="pn-label">Previous</span>
-      <span class="pn-title">We Can Be Heroes</span>
-      <span class="pn-band">David Bowie</span>
-    </span>
-  </a>
-  <a href="iron-maiden-ottawa-1992.html" class="pn-btn pn-next">
-    <span class="pn-info" style="text-align:right">
-      <span class="pn-label">Next</span>
-      <span class="pn-title">The Longest Song in the World</span>
-      <span class="pn-band">Iron Maiden</span>
-    </span>
-    <span class="pn-arrow">→</span>
-  </a>
-</div>
+  <div id="prevNext"></div>
 
   <div class="sc-section">
     <div class="sc-heading">More Stories</div>
-    <div class="sc-grid">
-    <a href="bowie-earls-court-1978.html" class="sc-card">
-      <div class="sc-thumb"><img src="https://img.youtube.com/vi/4qcAtflfVYs/hqdefault.jpg"></div>
-      <div class="sc-body">
-        <div class="sc-num">10</div>
-        <div class="sc-title">We Can Be Heroes</div>
-        <div class="sc-band">David Bowie</div>
-        <div class="sc-venue">Earls Court, London · 1978</div>
-      </div>
-    </a>
-    <a href="iron-maiden-ottawa-1992.html" class="sc-card">
-      <div class="sc-thumb"><div class="sc-no-thumb">No video yet</div></div>
-      <div class="sc-body">
-        <div class="sc-num">12</div>
-        <div class="sc-title">The Longest Song in the World</div>
-        <div class="sc-band">Iron Maiden</div>
-        <div class="sc-venue">Coliseum, Ottawa · 1992</div>
-      </div>
-    </a>
-    <a href="alice-in-chains-central-saloon-1990.html" class="sc-card">
-      <div class="sc-thumb"><img src="https://img.youtube.com/vi/0WDARg9r_6s/hqdefault.jpg"></div>
-      <div class="sc-body">
-        <div class="sc-num">04</div>
-        <div class="sc-title">Before the Box</div>
-        <div class="sc-band">Alice in Chains</div>
-        <div class="sc-venue">Central Saloon, Seattle · 1990</div>
-      </div>
-    </a>
-    </div>
+    <div class="sc-grid" id="recGrid"></div>
   </div>
 </div>
 
@@ -338,6 +293,7 @@
   </p>
 </footer>
 
+<script src="../gohearlive.js"></script>
 <script>
   function openDrawer() {
     document.getElementById('drawer').classList.add('open');
@@ -348,6 +304,14 @@
     document.getElementById('drawer').classList.remove('open');
     document.getElementById('drawerOverlay').classList.remove('open');
     document.body.style.overflow = '';
+  }
+
+  if (typeof GHL !== 'undefined') {
+    Promise.all([GHL.load(), GHL.loadVenues()]).then(() => {
+      GHL.renderDrawer('drawerList');
+      GHL.renderRecommendations('recGrid', 11);
+      GHL.renderPrevNext('prevNext', 11);
+    });
   }
 </script>
 </body>

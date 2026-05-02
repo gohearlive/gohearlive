@@ -113,7 +113,7 @@
     <button class="drawer-close" onclick="closeDrawer()">✕ Close</button>
   </div>
   <div class="drawer-label">All Stories</div>
-  <div class="drawer-list">
+  <div class="drawer-list" id="drawerList">
       <a href="nirvana-paramount-1991.html" class="drawer-item">
         <span class="drawer-num">01</span>
         <span class="drawer-info">
@@ -286,56 +286,11 @@
 </article>
 
 <div class="story-end">
-  <div class="pn-wrap">
-  <a href="walkmen-troubadour-2008.html" class="pn-btn pn-prev">
-    <span class="pn-arrow">←</span>
-    <span class="pn-info">
-      <span class="pn-label">Previous</span>
-      <span class="pn-title">Four Minutes and Fifteen Seconds</span>
-      <span class="pn-band">The Walkmen</span>
-    </span>
-  </a>
-  <a href="urge-overkill-underworld-2004.html" class="pn-btn pn-next">
-    <span class="pn-info" style="text-align:right">
-      <span class="pn-label">Next</span>
-      <span class="pn-title">Dressed to Thrill</span>
-      <span class="pn-band">Urge Overkill</span>
-    </span>
-    <span class="pn-arrow">→</span>
-  </a>
-</div>
+  <div id="prevNext"></div>
 
   <div class="sc-section">
     <div class="sc-heading">More Stories</div>
-    <div class="sc-grid">
-    <a href="walkmen-troubadour-2008.html" class="sc-card">
-      <div class="sc-thumb"><img src="https://img.youtube.com/vi/SnnQSAfCuXU/hqdefault.jpg"></div>
-      <div class="sc-body">
-        <div class="sc-num">09</div>
-        <div class="sc-title">Four Minutes and Fifteen Seconds</div>
-        <div class="sc-band">The Walkmen</div>
-        <div class="sc-venue">The Troubadour, LA · 2008</div>
-      </div>
-    </a>
-    <a href="urge-overkill-underworld-2004.html" class="sc-card">
-      <div class="sc-thumb"><img src="https://img.youtube.com/vi/CK4f4ItYfhE/hqdefault.jpg"></div>
-      <div class="sc-body">
-        <div class="sc-num">11</div>
-        <div class="sc-title">Dressed to Thrill</div>
-        <div class="sc-band">Urge Overkill</div>
-        <div class="sc-venue">The Underworld, London · 2004</div>
-      </div>
-    </a>
-    <a href="nirvana-paramount-1991.html" class="sc-card">
-      <div class="sc-thumb"><img src="https://img.youtube.com/vi/Z53nb74H7Vc/hqdefault.jpg"></div>
-      <div class="sc-body">
-        <div class="sc-num">01</div>
-        <div class="sc-title">Halloween in the Palace of Splendor</div>
-        <div class="sc-band">Nirvana</div>
-        <div class="sc-venue">The Paramount, Seattle · 1991</div>
-      </div>
-    </a>
-    </div>
+    <div class="sc-grid" id="recGrid"></div>
   </div>
 </div>
 
@@ -348,6 +303,7 @@
   </p>
 </footer>
 
+<script src="../gohearlive.js"></script>
 <script>
   function openDrawer() {
     document.getElementById('drawer').classList.add('open');
@@ -358,6 +314,14 @@
     document.getElementById('drawer').classList.remove('open');
     document.getElementById('drawerOverlay').classList.remove('open');
     document.body.style.overflow = '';
+  }
+
+  if (typeof GHL !== 'undefined') {
+    Promise.all([GHL.load(), GHL.loadVenues()]).then(() => {
+      GHL.renderDrawer('drawerList');
+      GHL.renderRecommendations('recGrid', 10);
+      GHL.renderPrevNext('prevNext', 10);
+    });
   }
 </script>
 </body>

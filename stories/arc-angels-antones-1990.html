@@ -323,7 +323,7 @@
   function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('drawerOverlay').classList.remove('open');document.body.style.overflow='';}
 
   if (typeof GHL !== 'undefined') {
-    GHL.load().then(() => {
+    Promise.all([GHL.load(), GHL.loadVenues()]).then(() => {
       GHL.renderDrawer('drawerList');
       GHL.renderRecommendations('recGrid', 14);
       GHL.renderPrevNext('prevNext', 14);
