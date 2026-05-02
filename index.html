@@ -382,6 +382,10 @@ footer { background:rgba(6,4,2,.96); backdrop-filter:blur(14px); border-top:2px 
     <div>The Stage Remembers · gohearlive.com</div>
     <div>The music and the room. The band and the moment.</div>
   </div>
+  <div style="background:rgba(4,2,0,.98); padding:0 40px 16px; font-family:'Cabin Condensed',sans-serif; font-size:10px; line-height:1.6; letter-spacing:0; text-transform:none; color:rgba(255,255,255,.35);">
+    © 2026 Go Hear Live. Original editorial writing — all rights reserved.<br>
+    Embedded video remains the property of its respective uploaders. Concert photographs used under Creative Commons license, unless otherwise noted; see <a href="about.html" style="color:inherit; text-decoration:underline;">credits</a>.
+  </div>
 
 </div><!-- /site-wrap -->
 
@@ -422,7 +426,8 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 
 <script src="gohearlive.js"></script>
 <script>
-  Promise.all([GHL.load(), GHL.loadVenues(), GHL.loadStickers()]).then(() => {
+  if (typeof GHL !== 'undefined') {
+    Promise.all([GHL.load(), GHL.loadVenues(), GHL.loadStickers()]).then(() => {
     const pillWrap = document.getElementById('cityPills');
     const footerCities = document.getElementById('footerCities');
 
@@ -506,6 +511,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
     // Initial card render — exclude whatever story is currently featured
     GHL.renderHomepageCards('dynamicCards', { excludeId: featuredId });
   });
+  }
 </script>
 </body>
 </html>

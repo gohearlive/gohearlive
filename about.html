@@ -277,19 +277,20 @@ footer { background:rgba(6,4,2,.96); backdrop-filter:blur(14px); border-top:2px 
 
       <p>
         The goal is the feeling of being told a great story by someone who has loved
-        this music their whole life. Warm, specific, unhurried. Alan Cross on
-        <em>The Ongoing History of New Music</em> is the standard we reach for.
-        Never a Wikipedia article. Never a blog post. A conversation, in prose.
+        this music their whole life. Warm, specific, unhurried. Alan Cross, Lester Bangs,
+        Cameron Crowe — the music writers who wrote like fans first and critics second —
+        are the standard we reach for. Never a Wikipedia article. Never a blog post.
+        A conversation, in prose.
       </p>
 
       <h2>Who's behind it</h2>
 
       <p>
-        Go Hear Live is written by Richard — a music obsessive based in Seattle with
-        a deep Canadian connection. The catalogue reflects both sides of that: a lot
-        of Seattle rooms, a lot of Ottawa rooms, and everywhere in between that the
-        music has taken him. When a personal memory belongs in a story, it goes in.
-        When it doesn't, the research does the talking.
+        Go Hear Live is produced by our editor Richard — a music obsessive and lifelong
+        fan of these artists, living in the Pacific Northwest. The catalogue reflects
+        the shows, venues, and artists that inspire him, and the particular thrill of
+        seeing a great artist in an iconic room. When a personal memory belongs in a
+        story, it goes in. When it doesn't, the research does the talking.
       </p>
 
       <h2>Every story closes the same way</h2>
@@ -360,22 +361,28 @@ footer { background:rgba(6,4,2,.96); backdrop-filter:blur(14px); border-top:2px 
     <div>The Stage Remembers · gohearlive.com</div>
     <div>The music and the room. The band and the moment.</div>
   </div>
+  <div style="background:rgba(4,2,0,.98); padding:0 40px 16px; font-family:'Cabin Condensed',sans-serif; font-size:10px; line-height:1.6; letter-spacing:0; text-transform:none; color:rgba(255,255,255,.35);">
+    © 2026 Go Hear Live. Original editorial writing — all rights reserved.<br>
+    Embedded video remains the property of its respective uploaders. Concert photographs used under Creative Commons license, unless otherwise noted; see <a href="about.html" style="color:inherit; text-decoration:underline;">credits</a>.
+  </div>
 
 </div><!-- /site-wrap -->
 
 <script src="gohearlive.js"></script>
 <script>
   // Populate footer cities from stories.json — link back to home with city pre-selected via query string
-  GHL.load().then(() => {
-    const footerCities = document.getElementById('footerCities');
-    if (!footerCities) return;
-    const counts = {};
-    GHL.stories.forEach(s => { counts[s.city] = (counts[s.city] || 0) + 1; });
-    const cities = Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b));
-    footerCities.innerHTML = cities
-      .map(c => `<li><a href="index.html#dynamicCards">${c}</a></li>`)
-      .join('');
-  });
+  if (typeof GHL !== 'undefined') {
+    GHL.load().then(() => {
+      const footerCities = document.getElementById('footerCities');
+      if (!footerCities) return;
+      const counts = {};
+      GHL.stories.forEach(s => { counts[s.city] = (counts[s.city] || 0) + 1; });
+      const cities = Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b));
+      footerCities.innerHTML = cities
+        .map(c => `<li><a href="index.html#dynamicCards">${c}</a></li>`)
+        .join('');
+    });
+  }
 </script>
 
 </body>
