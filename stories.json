@@ -311,5 +311,24 @@
     ],
     "decade": "1990s",
     "file": "stories/phish-lucerna-prague-1998.html"
+  },
+{
+    "id": 17,
+    "slug": "neil-young-crazy-horse-fillmore-east-1970",
+    "title": "Two Kinds of Electric",
+    "artist": "Neil Young & Crazy Horse",
+    "venue": "Fillmore East",
+    "city": "New York City",
+    "date": "Mar 7, 1970",
+    "youtubeId": "q4XXdESX4-o",
+    "genre": [
+      "Rock"
+    ],
+    "mood": [
+      "Electric",
+      "Historic"
+    ],
+    "decade": "1970s",
+    "file": "stories/neil-young-crazy-horse-fillmore-east-1970.html"
   }
 ]
