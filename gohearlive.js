@@ -15,7 +15,7 @@ const GHL = {
     if (this.stories) return this.stories;
     // Detect path depth for correct relative URL
     const depth = (window.location.pathname.match(/\//g) || []).length - 1;
-    const base = depth > 1 ? '../' : '';
+    const base = depth > 0 ? '../' : '';
     try {
       const res = await fetch(`${base}stories.json`);
       const data = await res.json();
@@ -32,7 +32,7 @@ const GHL = {
   async loadVenues() {
     if (this.venues) return this.venues;
     const depth = (window.location.pathname.match(/\//g) || []).length - 1;
-    const base = depth > 1 ? '../' : '';
+    const base = depth > 0 ? '../' : '';
     try {
       const res = await fetch(`${base}venues.json`);
       this.venues = await res.json();
@@ -501,7 +501,7 @@ const GHL = {
   async loadStickers() {
     if (this.stickers) return this.stickers;
     const depth = (window.location.pathname.match(/\//g) || []).length - 1;
-    const base = depth > 1 ? '../' : '';
+    const base = depth > 0 ? '../' : '';
     try {
       const res = await fetch(`${base}stickers.json`);
       const data = await res.json();
