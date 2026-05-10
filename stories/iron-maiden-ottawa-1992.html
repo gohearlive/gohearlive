@@ -339,13 +339,9 @@
 
   <hr>
 
-  <p>The Ottawa show was the second Canadian date of the North American leg — Quebec City the night before, Montreal two days after. Testament and Corrosion of Conformity opened. The setlist that night was a comprehensive survey of a decade's worth of Maiden: "Be Quick or Be Dead" opened proceedings, then "The Number of the Beast," "Wrathchild," "From Here to Eternity," "Wasting Love," "Tailgunner," "The Evil That Men Do," "Afraid to Shoot Strangers," "The Clairvoyant," "Heaven Can Wait," "The Trooper," "2 Minutes to Midnight," "Hallowed Be Thy Name," "Run to the Hills" — and "Fear of the Dark" as the main set closer, before "Sanctuary" and "Iron Maiden" as encores.</p>
-
-  <p>The Ottawa Senators were just beginning their first NHL season in the arena next door that same year; the city was in the middle of a hockey revival. But on June 14, the Coliseum belonged to something older and louder and considerably more dangerous-looking.</p>
+  <p>The Ottawa show was the second Canadian date of the North American leg — Quebec City the night before, Montreal two days after. Testament and Corrosion of Conformity opened. Then Maiden hit the stage and played fourteen songs before "Fear of the Dark" — a decade's worth of ammunition: "The Number of the Beast," "Wrathchild," "Hallowed Be Thy Name," "Run to the Hills." The crowd had been on their feet for two hours. The Coliseum had been shaking.</p>
 
   <hr>
-
-  <p>And then "Fear of the Dark" closed the main set.</p>
 
   <p>The song opens slowly — that hesitant, building guitar figure that creeps up on you like something following you down an unlit street. Harris wrote it because he genuinely was afraid of the dark. The most commanding rhythm section in heavy metal history, animated by a childhood fear of the shadows.</p>
 
@@ -361,11 +357,56 @@
 </article>
 
 <div class="story-end">
-  <div id="prevNext"></div>
+  <div class="pn-wrap">
+  <a href="urge-overkill-underworld-2004.html" class="pn-btn pn-prev">
+    <span class="pn-arrow">←</span>
+    <span class="pn-info">
+      <span class="pn-label">Previous</span>
+      <span class="pn-title">Dressed to Thrill</span>
+      <span class="pn-band">Urge Overkill</span>
+    </span>
+  </a>
+  <a href="nirvana-paramount-1991.html" class="pn-btn pn-next">
+    <span class="pn-info" style="text-align:right">
+      <span class="pn-label">Next</span>
+      <span class="pn-title">Halloween in the Palace of Splendor</span>
+      <span class="pn-band">Nirvana</span>
+    </span>
+    <span class="pn-arrow">→</span>
+  </a>
+</div>
 
   <div class="sc-section">
     <div class="sc-heading">More Stories</div>
-    <div class="sc-grid" id="recGrid"></div>
+    <div class="sc-grid">
+    <a href="urge-overkill-underworld-2004.html" class="sc-card">
+      <div class="sc-thumb"><img src="https://img.youtube.com/vi/CK4f4ItYfhE/hqdefault.jpg"></div>
+      <div class="sc-body">
+        <div class="sc-num">11</div>
+        <div class="sc-title">Dressed to Thrill</div>
+        <div class="sc-band">Urge Overkill</div>
+        <div class="sc-venue">The Underworld, London · 2004</div>
+      </div>
+    </a>
+    <a href="nirvana-paramount-1991.html" class="sc-card">
+      <div class="sc-thumb"><img src="https://img.youtube.com/vi/Z53nb74H7Vc/hqdefault.jpg"></div>
+      <div class="sc-body">
+        <div class="sc-num">01</div>
+        <div class="sc-title">Halloween in the Palace of Splendor</div>
+        <div class="sc-band">Nirvana</div>
+        <div class="sc-venue">The Paramount, Seattle · 1991</div>
+      </div>
+    </a>
+    <a href="dylan-lesh-chicago-1999.html" class="sc-card">
+      <div class="sc-thumb"><img src="https://img.youtube.com/vi/guyhRMGsyG4/hqdefault.jpg"></div>
+      <div class="sc-body">
+        <div class="sc-num">08</div>
+        <div class="sc-title">Two Worlds Collide on Halloween</div>
+        <div class="sc-band">Bob Dylan & Phil Lesh</div>
+        <div class="sc-venue">UIC Pavilion, Chicago · 1999</div>
+      </div>
+    </a>
+    </div>
   </div>
 </div>
 
@@ -378,7 +419,6 @@
   </p>
 </footer>
 
-<script src="../gohearlive.js"></script>
 <script>
   function openDrawer() {
     document.getElementById('drawer').classList.add('open');
@@ -389,13 +429,6 @@
     document.getElementById('drawer').classList.remove('open');
     document.getElementById('drawerOverlay').classList.remove('open');
     document.body.style.overflow = '';
-  }
-  if (typeof GHL !== 'undefined') {
-    Promise.all([GHL.load(), GHL.loadVenues()]).then(() => {
-      GHL.renderDrawer('drawerList');
-      GHL.renderRecommendations('recGrid', 12);
-      GHL.renderPrevNext('prevNext', 12);
-    });
   }
 </script>
 </body>
