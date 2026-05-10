@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two Kinds of Electric — Go Hear Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {--void:#0a0907;--ember:#c84b11;--amber:#e8930a;--fog:#8a8070;--parchment:#e8e0d0;}
+  * {margin:0;padding:0;box-sizing:border-box;}
+  body {background:var(--void);color:var(--parchment);font-family:'Lora',Georgia,serif;font-size:18px;line-height:1.8;}
+  .site-nav {position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:linear-gradient(to bottom,rgba(10,9,7,.98),transparent);}
+  .nav-logo {font-family:'Abril Fatface',serif;font-size:22px;color:var(--parchment);text-decoration:none;letter-spacing:.02em;}
+  .nav-logo span {color:var(--ember);font-style:italic;}
+  .back-btn {font-family:'Cabin Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);text-decoration:none;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;margin-right:50px;}
+  .back-btn:hover {color:var(--ember);border-color:var(--ember);}
+  .story-hero {padding:120px 40px 60px;max-width:800px;margin:0 auto;}
+  .story-meta {font-family:'Cabin Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--ember);margin-bottom:24px;}
+  .story-meta span {color:var(--fog);margin:0 8px;}
+  .story-title {font-family:'Abril Fatface',serif;font-size:clamp(36px,6vw,64px);line-height:1.1;color:var(--parchment);margin-bottom:16px;}
+  .story-subtitle {font-family:'Cabin Condensed',sans-serif;font-size:16px;font-weight:400;letter-spacing:.05em;color:var(--fog);margin-bottom:48px;}
+  .video-wrap {max-width:800px;margin:0 auto 40px;padding:0 40px;}
+  .video-frame {width:100%;aspect-ratio:16/9;background:#000;border:1px solid rgba(255,255,255,.08);}
+  .video-frame iframe {width:100%;height:100%;border:none;display:block;}
+  .video-caption {font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--fog);margin-top:12px;text-align:center;}
+  .video-pair {max-width:800px;margin:0 auto 40px;padding:0 40px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .video-pair .video-frame {width:100%;}
+  @media (max-width:700px) {.video-pair {grid-template-columns:1fr;}}
+  .story-body {max-width:680px;margin:0 auto;padding:0 40px 80px;}
+  .story-body p {margin-bottom:28px;color:rgba(232,224,208,.88);}
+  .story-body p:first-of-type::first-letter {font-family:'Abril Fatface',serif;font-size:72px;line-height:.8;float:left;margin:8px 12px 0 0;color:var(--ember);}
+  .story-body hr {border:none;border-top:1px solid rgba(255,255,255,.08);margin:48px 0;}
+  .story-body em {color:var(--amber);font-style:italic;}
+  .story-body strong {color:var(--parchment);font-weight:600;}
+  .story-body blockquote {border-left:2px solid var(--ember);padding-left:24px;margin:40px 0;font-style:italic;color:var(--fog);}
+  .story-end {max-width:680px;margin:0 auto;padding:0 40px 100px;}
+  .site-footer {text-align:center;padding:40px;border-top:1px solid rgba(255,255,255,.06);font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);}
+  .site-footer a {color:var(--ember);text-decoration:none;}
+  @media (max-width:600px) {
+    .site-nav {padding:16px 20px;}
+    .story-hero,.video-wrap,.story-body,.story-end {padding-left:20px;padding-right:20px;}
+    .story-hero {padding-top:90px;}
+    .video-pair {padding:0 20px;}
+  }
+
+  /* ── drawer ── */
+  .drawer-overlay { display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,.7); backdrop-filter:blur(4px); }
+  .drawer-overlay.open { display:block; }
+  .drawer { position:fixed; top:0; right:0; bottom:0; z-index:201; width:min(380px,90vw); background:#111009; border-left:1px solid rgba(255,255,255,.08); transform:translateX(100%); transition:transform .35s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; overflow:hidden; }
+  .drawer.open { transform:translateX(0); }
+  .drawer-head { display:flex; align-items:center; justify-content:space-between; padding:24px 24px 20px; border-bottom:1px solid rgba(255,255,255,.08); flex-shrink:0; }
+  .drawer-logo { font-family:'Abril Fatface',serif; font-size:18px; color:var(--parchment); text-decoration:none; }
+  .drawer-logo span { color:var(--ember); font-style:italic; }
+  .drawer-close { font-family:'Cabin Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--fog); background:none; border:none; cursor:pointer; transition:color .2s; }
+  .drawer-close:hover { color:var(--ember); }
+  .drawer-label { padding:16px 24px 10px; font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.25em; text-transform:uppercase; color:var(--fog); flex-shrink:0; }
+  .drawer-list { overflow-y:auto; flex:1; padding:0 0 24px; }
+  .drawer-list::-webkit-scrollbar { width:4px; }
+  .drawer-list::-webkit-scrollbar-thumb { background:rgba(255,255,255,.1); border-radius:2px; }
+  .drawer-item { display:flex; align-items:flex-start; gap:14px; padding:14px 24px; text-decoration:none; border-bottom:1px solid rgba(255,255,255,.04); transition:background .2s; }
+  .drawer-item:hover { background:rgba(255,255,255,.04); }
+  .drawer-item.active { background:rgba(200,75,17,.08); }
+  .drawer-num { font-family:'Cabin Condensed',sans-serif; font-size:11px; font-weight:700; color:var(--fog); min-width:22px; margin-top:2px; flex-shrink:0; }
+  .drawer-item.active .drawer-num { color:var(--ember); }
+  .drawer-info { display:flex; flex-direction:column; gap:3px; }
+  .drawer-title { font-family:'Lora',serif; font-size:14px; color:var(--parchment); line-height:1.3; }
+  .drawer-item.active .drawer-title { color:var(--ember); }
+  .drawer-band { font-family:'Cabin Condensed',sans-serif; font-size:10px; letter-spacing:.08em; color:var(--fog); }
+  .hamburger { position:fixed; top:18px; right:20px; z-index:150; background:rgba(10,9,7,.85); border:1px solid rgba(255,255,255,.1); border-radius:3px; padding:8px 10px; cursor:pointer; display:flex; flex-direction:column; gap:4px; transition:border-color .2s,background .2s; }
+  .hamburger:hover { border-color:var(--ember); background:rgba(200,75,17,.15); }
+  .hamburger span { display:block; width:18px; height:2px; background:var(--parchment); transition:background .2s; }
+  .hamburger:hover span { background:var(--ember); }
+
+  /* ── prev/next ── */
+  .pn-wrap { display:flex; gap:16px; margin:60px 0 0; padding-top:40px; border-top:1px solid rgba(255,255,255,.08); }
+  .pn-btn { flex:1; display:flex; align-items:center; gap:16px; padding:20px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); text-decoration:none; transition:background .2s, border-color .2s; }
+  .pn-btn:hover { background:rgba(200,75,17,.08); border-color:var(--ember); }
+  .pn-next { justify-content:flex-end; }
+  .pn-arrow { font-size:24px; color:var(--ember); flex-shrink:0; font-family:'Abril Fatface',serif; }
+  .pn-info { display:flex; flex-direction:column; gap:3px; }
+  .pn-label { font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--fog); }
+  .pn-title { font-family:'Lora',serif; font-size:14px; color:var(--parchment); line-height:1.3; }
+  .pn-band { font-family:'Cabin Condensed',sans-serif; font-size:10px; letter-spacing:.08em; color:var(--fog); }
+  @media (max-width:500px) { .pn-wrap { flex-direction:column; } }
+
+  /* ── suggestion cards ── */
+  .sc-section { margin-top:60px; padding-top:40px; border-top:1px solid rgba(255,255,255,.08); }
+  .sc-heading { font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.25em; text-transform:uppercase; color:var(--fog); margin-bottom:24px; }
+  .sc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .sc-card { text-decoration:none; display:flex; flex-direction:column; background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.06); transition:background .2s,border-color .2s; }
+  .sc-card:hover { background:rgba(200,75,17,.07); border-color:var(--ember); }
+  .sc-thumb { width:100%; aspect-ratio:16/9; overflow:hidden; background:#000; }
+  .sc-thumb img { width:100%; height:100%; object-fit:cover; display:block; opacity:.6; transition:opacity .3s; }
+  .sc-card:hover .sc-thumb img { opacity:.8; }
+  .sc-body { padding:14px; display:flex; flex-direction:column; gap:4px; flex:1; }
+  .sc-num { font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.2em; color:var(--ember); }
+  .sc-title { font-family:'Lora',serif; font-size:13px; color:var(--parchment); line-height:1.35; }
+  .sc-band { font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.08em; color:var(--fog); margin-top:2px; }
+  .sc-venue { font-family:'Cabin Condensed',sans-serif; font-size:9px; letter-spacing:.06em; color:rgba(138,128,112,.6); }
+  @media (max-width:600px) { .sc-grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="openDrawer()" aria-label="All stories">
+  <span></span><span></span><span></span>
+</button>
+
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <a href="../index.html" class="drawer-logo">Go Hear <span>Live</span></a>
+    <button class="drawer-close" onclick="closeDrawer()">✕ Close</button>
+  </div>
+  <div class="drawer-label">All Stories</div>
+  <div class="drawer-list" id="drawerList">
+    <!-- populated by GHL.renderDrawer -->
+    <a href="nirvana-paramount-1991.html" class="drawer-item">
+      <span class="drawer-num">01</span>
+      <span class="drawer-info">
+        <span class="drawer-title">Halloween in the Palace of Splendor</span>
+        <span class="drawer-band">Nirvana · The Paramount, Seattle · 1991</span>
+      </span>
+    </a>
+    <a href="mad-season-moore-1995.html" class="drawer-item">
+      <span class="drawer-num">02</span>
+      <span class="drawer-info">
+        <span class="drawer-title">A Brief Lightning Bolt</span>
+        <span class="drawer-band">Mad Season · The Moore, Seattle · 1995</span>
+      </span>
+    </a>
+    <a href="neil-young-pearl-jam-moes-1995.html" class="drawer-item">
+      <span class="drawer-num">03</span>
+      <span class="drawer-info">
+        <span class="drawer-title">The Godfather Comes to Capitol Hill</span>
+        <span class="drawer-band">Neil Young & Pearl Jam · Moe's, Seattle · 1995</span>
+      </span>
+    </a>
+    <a href="alice-in-chains-central-saloon-1990.html" class="drawer-item">
+      <span class="drawer-num">04</span>
+      <span class="drawer-info">
+        <span class="drawer-title">Before the Box</span>
+        <span class="drawer-band">Alice in Chains · Central Saloon, Seattle · 1990</span>
+      </span>
+    </a>
+    <a href="nirvana-foufounes-1991.html" class="drawer-item">
+      <span class="drawer-num">05</span>
+      <span class="drawer-info">
+        <span class="drawer-title">The Night Before Everything Changed</span>
+        <span class="drawer-band">Nirvana · Les Foufounes, Montréal · 1991</span>
+      </span>
+    </a>
+    <a href="further-festival-oob-1996.html" class="drawer-item">
+      <span class="drawer-num">06</span>
+      <span class="drawer-info">
+        <span class="drawer-title">Without Jerry</span>
+        <span class="drawer-band">Further Festival · The Ballpark, Maine · 1996</span>
+      </span>
+    </a>
+    <a href="alanis-zaphod-1995.html" class="drawer-item">
+      <span class="drawer-num">07</span>
+      <span class="drawer-info">
+        <span class="drawer-title">The Girl Who Came Home</span>
+        <span class="drawer-band">Alanis Morissette · Zaphod Beeblebrox, Ottawa · 1995</span>
+      </span>
+    </a>
+    <a href="dylan-lesh-chicago-1999.html" class="drawer-item">
+      <span class="drawer-num">08</span>
+      <span class="drawer-info">
+        <span class="drawer-title">Two Worlds Collide on Halloween</span>
+        <span class="drawer-band">Bob Dylan & Phil Lesh · UIC Pavilion, Chicago · 1999</span>
+      </span>
+    </a>
+    <a href="walkmen-troubadour-2008.html" class="drawer-item">
+      <span class="drawer-num">09</span>
+      <span class="drawer-info">
+        <span class="drawer-title">Four Minutes and Fifteen Seconds</span>
+        <span class="drawer-band">The Walkmen · The Troubadour, LA · 2008</span>
+      </span>
+    </a>
+    <a href="bowie-earls-court-1978.html" class="drawer-item">
+      <span class="drawer-num">10</span>
+      <span class="drawer-info">
+        <span class="drawer-title">We Can Be Heroes</span>
+        <span class="drawer-band">David Bowie · Earls Court, London · 1978</span>
+      </span>
+    </a>
+    <a href="urge-overkill-underworld-2004.html" class="drawer-item">
+      <span class="drawer-num">11</span>
+      <span class="drawer-info">
+        <span class="drawer-title">Dressed to Thrill</span>
+        <span class="drawer-band">Urge Overkill · The Underworld, London · 2004</span>
+      </span>
+    </a>
+    <a href="iron-maiden-ottawa-1992.html" class="drawer-item">
+      <span class="drawer-num">12</span>
+      <span class="drawer-info">
+        <span class="drawer-title">The Longest Song in the World</span>
+        <span class="drawer-band">Iron Maiden · Coliseum, Ottawa · 1992</span>
+      </span>
+    </a>
+    <a href="van-morrison-bb-king-nola-2001.html" class="drawer-item">
+      <span class="drawer-num">13</span>
+      <span class="drawer-info">
+        <span class="drawer-title">The Mystic and the King</span>
+        <span class="drawer-band">Van Morrison & B.B. King · New Orleans · 2001</span>
+      </span>
+    </a>
+    <a href="arc-angels-antones-1990.html" class="drawer-item">
+      <span class="drawer-num">14</span>
+      <span class="drawer-info">
+        <span class="drawer-title">New Year's Eve at the Home of the Blues</span>
+        <span class="drawer-band">Arc Angels · Antone's, Austin · 1990</span>
+      </span>
+    </a>
+    <a href="iggy-pop-olympia-1991.html" class="drawer-item">
+      <span class="drawer-num">15</span>
+      <span class="drawer-info">
+        <span class="drawer-title">Raw Power at the House of Piaf</span>
+        <span class="drawer-band">Iggy Pop · L'Olympia, Paris · 1991</span>
+      </span>
+    </a>
+    <a href="phish-lucerna-prague-1998.html" class="drawer-item">
+      <span class="drawer-num">16</span>
+      <span class="drawer-info">
+        <span class="drawer-title">Five Hundred People Below the Square</span>
+        <span class="drawer-band">Phish · Lucerna Music Bar, Prague · 1998</span>
+      </span>
+    </a>
+    <a href="neil-young-crazy-horse-fillmore-east-1970.html" class="drawer-item active">
+      <span class="drawer-num">17</span>
+      <span class="drawer-info">
+        <span class="drawer-title">Two Kinds of Electric</span>
+        <span class="drawer-band">Neil Young & Crazy Horse · Fillmore East, NYC · 1970</span>
+      </span>
+    </a>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <a href="../index.html" class="nav-logo">Go Hear <span>Live</span></a>
+  <a href="../all-stories.html" class="back-btn">← All Stories</a>
+</nav>
+
+<header class="story-hero">
+  <div class="story-meta">Neil Young & Crazy Horse (with Miles Davis)<span>·</span>Fillmore East, New York City<span>·</span>March 7, 1970</div>
+  <h1 class="story-title">Two Kinds of Electric</h1>
+  <p class="story-subtitle">The music and the room. The band and the moment.</p>
+</header>
+
+<div class="video-pair">
+  <div>
+    <div class="video-frame">
+      <iframe src="https://www.youtube.com/embed/q4XXdESX4-o" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <p class="video-caption">Neil Young & Crazy Horse — Live at the Fillmore East, 1970</p>
+  </div>
+  <div>
+    <div class="video-frame">
+      <iframe src="https://www.youtube.com/embed/bLmfyuEBg44" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <p class="video-caption">Miles Davis — Live at the Fillmore East, March 7, 1970</p>
+  </div>
+</div>
+
+<article class="story-body">
+
+  <p>Picture it. A Friday night in March 1970, on a block of Second Avenue in lower Manhattan where the paint is peeling and the storefronts pull their iron grates down at dusk, and the marquee of the Fillmore East is lit up against the dark. The crowd pressing through the doors doesn't quite know what is about to happen. They've come for Neil Young and Crazy Horse, the scrappy new band from the West Coast who are already making noise with their debut record, <em>Everybody Knows This Is Nowhere</em>. Maybe they've also heard that some jazz guy is opening. The kind of jazz guy, it will turn out, who is about to shake the whole room like a seismic event they'll spend the rest of their lives trying to describe.</p>
+
+  <p>That jazz guy is Miles Davis. And in the spring of 1970, Miles Davis is not opening for anyone. Miles Davis is a force of nature. The fact that he is third on the bill — below Neil Young and Crazy Horse, and below the Steve Miller Band — is one of those profound accidents of timing that rock and roll history occasionally produces, as if the universe needed to line the pieces up just so in order to show you something you didn't know you needed to see.</p>
+
+  <hr>
+
+  <p>By March of 1970, Neil Young had been through about fifteen years of music in the span of four. He had survived Buffalo Springfield and its implosions, launched a solo career, played both acoustic troubadour and electric roughneck, and was finding his most important partnership — with Crazy Horse. They had come together barely a year earlier, built around the songs that became <em>Everybody Knows This Is Nowhere</em>: "Cinnamon Girl," "Down by the River," the slow-burning "Cowgirl in the Sand." These were not songs so much as scaffolding for something larger. Songs that opened up at their centres and let the players fall in.</p>
+
+  <p>The band that took the Fillmore East stage that night was the original, definitive Crazy Horse — a configuration that would never exist again in quite this form. Billy Talbot on bass, Ralph Molina behind the drums, Jack Nitzsche on piano, filling out the sound with a rolling, slightly detuned grandeur. And at the other guitar: Danny Whitten.</p>
+
+  <p>You have to understand what Danny Whitten meant to this band. Neil Young has said it plainly, in the way that simple sentences sometimes carry the heaviest loads: "Every musician has one guy on the planet that he can play with better than anyone else. You only get one guy. My guy was Danny Whitten." Whitten had a quality that is almost impossible to engineer and completely impossible to fake — he played second guitar to Young in the way a great conversation partner completes your thought before you've finished it, then adds something you hadn't considered. His voice braided with Young's on <em>Cinnamon Girl</em> with a naturalness that made both of them sound more like themselves. On "Down by the River" and "Cowgirl in the Sand," the two men traded guitar lines in a push-pull that could stretch to twelve, fourteen, fifteen minutes without losing a single thread of tension.</p>
+
+  <p>Whitten had found Talbot and Molina in a doo-wop outfit called Danny and the Memories before they all migrated through San Francisco into the Rockets, a loose psychedelic band whose orbit eventually intersected with Young's. Young jammed with them, heard something he hadn't heard anywhere else, and built Crazy Horse around that chemistry. They were raw in all the best ways — loud, shambling, pulling at songs until those songs gave up their secrets.</p>
+
+  <p>What only a few people in that room could know was that these Fillmore East shows were, essentially, the peak of this version of the band. Whitten's addiction was already tightening its grip, already beginning to cost him things he couldn't afford to lose. The full weight of what was coming would land two years later: on November 18, 1972, Young fired Whitten from rehearsals for a new tour and handed him fifty dollars and a plane ticket back to Los Angeles. Whitten died that night. He was twenty-nine. The elegy Young wrote around that loss — the album <em>Tonight's the Night</em>, raw and barely contained — became one of the most grief-soaked records ever committed to tape. And it would carry, preserved inside it, a piece of the Fillmore East that March.</p>
+
+  <p>But all of that was still ahead. On March 7, 1970, Danny Whitten was very much alive, and very much playing.</p>
+
+  <hr>
+
+  <p>The Fillmore East had been open for exactly two years and one day. Bill Graham had taken over a shuttered Yiddish theater at 105 Second Avenue — a building that had once hosted vaudeville and melodrama for the Jewish immigrant community of the Lower East Side — and in twelve frantic days in the spring of 1968, turned it into the premier rock venue on the East Coast. The front-of-house sound system, custom designed by Bill Hanley, was one of the first genuinely powerful loud systems in New York. The Joshua Light Show painted the back wall in molten psychedelia. Graham ran it with an intensity that the musicians absorbed the moment they walked in: this room expected everything.</p>
+
+  <p>To understand the Fillmore East you have to understand the street it sat on. Second Avenue in 1970 was not a destination. The neighborhood around it — a few strides from the corner of Sixth Street — was a world of walk-up tenements and shuttered storefronts, bodegas with iron grates, fire escapes draped with laundry, the residue of a dozen immigrant communities stacked on top of each other across a century of arrival and departure. The city was fiscally broken, the social contract fraying, and whole blocks had been emptied by abandonment. But into that friction had poured something else — the Beat poets had lived here, the Velvet Underground had rehearsed nearby, and by 1970 the neighborhood was dense with the counterculture's last optimistic surge: art collectives, underground newspapers, the East Village Other operating out of the building directly above the Fillmore's lobby. You could walk three blocks in any direction and find a dozen languages, a dozen ways of being alive in the world. It was the city at its most compressed and electric.</p>
+
+  <p>Graham had not chosen this block by accident. The cheap rent was part of it, but so was what the neighborhood represented — a world where nothing came easy and nothing was fake. The artists who came downtown to play knew they were playing somewhere that mattered. And the audiences who filled those 2,600 seats, night after night, knew it too. New York crowds have always been the toughest room in the world. At the Fillmore East, that toughness was a gift: it made everything that happened on that stage feel earned.</p>
+
+  <p>Jimi Hendrix had rung in the new year on that stage just weeks earlier. The Allman Brothers played it so often they were called Graham's house band. The Grateful Dead, the Who, Led Zeppelin, Janis Joplin. The Doors played an extra hour one night after most of the crowd had gone home. The street outside and the room inside were always in conversation — the pressure of that neighborhood, its history of struggle and reinvention, pressing up through the floorboards.</p>
+
+  <p>The Fillmore East closed in June 1971. The building is a bank now, the auditorium long since demolished. But in March 1970, Second Avenue felt like a city in mid-transformation — between old and new, between decades, balanced on something it couldn't quite name. Into that charged moment came two bands who were themselves in the middle of becoming.</p>
+
+  <hr>
+
+  <p>Miles Davis that spring was in the middle of what might be the single most radical reinvention in the history of jazz. <em>Bitches Brew</em> — the double album that would upend the genre and help invent fusion — had just been released. He had traded Italian suits for leather and chains, put away the acoustic quintet, and arrived at something that defied easy categorisation: part jazz, part rock, part the sound of a restless genius refusing to stand still. He had looked at what Jimi Hendrix and Sly Stone were doing and decided, with the magnificent arrogance that had always propelled him, that he could get there too — and go further.</p>
+
+  <p>The band he brought to the Fillmore East was extraordinary by any measure. Wayne Shorter on soprano and tenor saxophone — this was, it would turn out, the very last concert Shorter would play with Davis, an end to a partnership that had produced <em>Miles Smiles</em>, <em>Nefertiti</em>, and the foundational quintet recordings of the late sixties. Chick Corea on Fender Rhodes electric piano — dissonant, funky, reaching past both jazz and rock into territory that didn't have a name yet. Dave Holland anchoring it all on bass. Airto Moreira on percussion, adding a Brazilian pulse unlike anything New York audiences had encountered in either genre. And Jack DeJohnette on drums, whose polyrhythmic intelligence became the room's nervous system, holding everything together while simultaneously pulling it apart.</p>
+
+  <p>They opened the evening. The people who had come expecting to wait out the warm-up act were, by most accounts, rooted to the spot. The story goes that Steve Miller, the other headliner, watched from the wings and muttered something along the lines of: "How am I supposed to follow that?" This band, playing pieces from <em>Bitches Brew</em> — "Spanish Key," "Miles Runs the Voodoo Down," "Directions" — had the volume and forward momentum of rock but the structural freedom of jazz at its most exploratory. It asked something of you. And that Fillmore East crowd, used to being asked, gave it back.</p>
+
+  <hr>
+
+  <p>Then Neil Young and Crazy Horse took the stage.</p>
+
+  <p>The set moved, as Young often arranged it then, from a solo acoustic opening into the full electric band. The electric set — the one that survived as the album <em>Live at the Fillmore East</em> — was something else. "Everybody Knows This Is Nowhere." "Down by the River" stretching past twelve minutes. "Cowgirl in the Sand" approaching fifteen. Young and Whitten circling each other on the guitar solos, discovering things in the exchange that neither could have found alone. These were songs still new enough to be dangerous — not yet monuments, not yet museum pieces, still capable of going somewhere unexpected.</p>
+
+  <p>They would become monuments. "Cinnamon Girl," "Down by the River," "Cowgirl in the Sand" — all of them would follow Young for the rest of his career, appearing in setlists across five decades, still capable of igniting into something unpredictable on the right night. Miles Davis' pieces from that same evening — the churning structures of <em>Bitches Brew</em>, "Directions," "Spanish Key" — would similarly anchor the vocabulary of jazz fusion for a generation. Both bodies of music, played that Friday night to an audience that couldn't fully know what it was hearing, turned out to be foundational in ways that are still being traced.</p>
+
+  <p>And then there is "Come On Baby Let's Go Downtown." It's a song that could only have come from a world like the one outside those Fillmore doors — the downtown of shadows and transactions, of corners where things happen after dark, the city in its rougher register. Whitten's song, essentially his alone, sung that night with a kind of ragged joy that made it feel like pure rock and roll until you listened closer. There's an edge in it, the familiar downtown edge: the awareness that you're somewhere exposed, that the night has eyes. That tension — bright and dangerous all at once — was something Whitten understood from the inside. It was one of the great performances of the evening, and it survived only as a ghost. When <em>Tonight's the Night</em> was finally released in 1975, the Fillmore East recording of the song was lifted from that night and placed inside the album, Whitten's voice arriving out of the past like a transmission from a world that had already ended. Young never sang it. After Whitten was gone, there was no version of the song that made sense without him. It appeared on that one album and then retreated from the live world almost entirely. Some songs belong to the person who made them in a way that can't be transferred.</p>
+
+  <p>Nobody in the audience that night knew any of this was coming. They were watching a band at its absolute beginning — loose and loud and full of a promise that hadn't yet been tested by time or loss. The kind of energy that doesn't survive being handled too carefully.</p>
+
+  <p>Out on Second Avenue, the city was doing what it always did: pushing forward without asking permission, carrying its contradictions as best it could. Inside, two bands were doing the same thing. Miles Davis and Chick Corea and Wayne Shorter, standing at the edge of one musical world and jumping into another, the future already assembled and waiting in that room. Neil Young and Danny Whitten, building something out of electricity and trust that would outlast both of them. The same Friday night, the same stage, the same audience moving between two kinds of music — and coming out the other side into a world those performances had helped create.</p>
+
+  <p>The stage remembers.</p>
+
+  <hr>
+
+</article>
+
+<div class="story-end">
+  <div id="prevNext">
+    <div class="pn-wrap">
+      <a href="phish-lucerna-prague-1998.html" class="pn-btn pn-prev">
+        <span class="pn-arrow">←</span>
+        <span class="pn-info">
+          <span class="pn-label">Previous</span>
+          <span class="pn-title">Five Hundred People Below the Square</span>
+          <span class="pn-band">Phish</span>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <div class="sc-section">
+    <div class="sc-heading">More Stories</div>
+    <div class="sc-grid" id="recGrid">
+      <a href="neil-young-pearl-jam-moes-1995.html" class="sc-card">
+        <div class="sc-thumb"><img src="https://img.youtube.com/vi/c1Ji69G3Jnw/hqdefault.jpg" alt="Neil Young & Pearl Jam"></div>
+        <div class="sc-body">
+          <div class="sc-num">03</div>
+          <div class="sc-title">The Godfather Comes to Capitol Hill</div>
+          <div class="sc-band">Neil Young & Pearl Jam</div>
+          <div class="sc-venue">Moe's, Seattle · 1995</div>
+        </div>
+      </a>
+      <a href="dylan-lesh-chicago-1999.html" class="sc-card">
+        <div class="sc-thumb"><img src="https://img.youtube.com/vi/guyhRMGsyG4/hqdefault.jpg" alt="Bob Dylan & Phil Lesh"></div>
+        <div class="sc-body">
+          <div class="sc-num">08</div>
+          <div class="sc-title">Two Worlds Collide on Halloween</div>
+          <div class="sc-band">Bob Dylan & Phil Lesh</div>
+          <div class="sc-venue">UIC Pavilion, Chicago · 1999</div>
+        </div>
+      </a>
+      <a href="bowie-earls-court-1978.html" class="sc-card">
+        <div class="sc-thumb"><img src="https://img.youtube.com/vi/4qcAtflfVYs/hqdefault.jpg" alt="David Bowie"></div>
+        <div class="sc-body">
+          <div class="sc-num">10</div>
+          <div class="sc-title">We Can Be Heroes</div>
+          <div class="sc-band">David Bowie</div>
+          <div class="sc-venue">Earls Court, London · 1978</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>The Stage Remembers &nbsp;·&nbsp; <a href="../index.html">gohearlive.com</a></p>
+  <p style="margin-top:8px;">The music and the room. The band and the moment.</p>
+  <p style="margin-top:18px; font-size:10px; letter-spacing:0; text-transform:none; color:rgba(255,255,255,.35); line-height:1.6;">
+    Story © 2026 Go Hear Live. Original editorial writing — all rights reserved.<br>
+    Embedded video remains the property of its respective uploaders. Concert photographs used under Creative Commons license, unless otherwise noted; see <a href="../about.html" style="color:inherit; text-decoration:underline;">credits</a>.
+  </p>
+</footer>
+
+<script src="../gohearlive.js"></script>
+<script>
+  function openDrawer() {
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('drawerOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('drawerOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  if (typeof GHL !== 'undefined') {
+    Promise.all([GHL.load(), GHL.loadVenues()]).then(() => {
+      GHL.renderDrawer('drawerList');
+      GHL.renderRecommendations('recGrid', 17);
+      GHL.renderPrevNext('prevNext', 17);
+    });
+  }
+</script>
+</body>
+</html>

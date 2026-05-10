@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lost in the Crowd — Go Hear Live</title>
+<meta name="description" content="That page doesn't exist — but the stage still remembers. Go Hear Live.">
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --void:      #0a0806;
+  --ember:     #c45a10;
+  --amber:     #d4821a;
+  --gold:      #c8961e;
+  --wheat:     #d4b87a;
+  --bone:      #e8d9b8;
+  --fog:       #8a7d6a;
+  --smoke:     #5a5048;
+  --rust:      #7a2e08;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height: 100%; }
+body {
+  background: var(--void); color: var(--bone); font-family: 'Lora', Georgia, serif;
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px 20px; position: relative; overflow: hidden;
+}
+
+/* Background tone to match other pages */
+body::before {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 47px, rgba(255,255,255,0.012) 47px, rgba(255,255,255,0.012) 48px),
+    repeating-linear-gradient(90deg, transparent, transparent 47px, rgba(255,255,255,0.012) 47px, rgba(255,255,255,0.012) 48px),
+    radial-gradient(ellipse at 40% 40%, rgba(60,40,10,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 70%, rgba(80,20,0,0.28) 0%, transparent 55%),
+    #0d0906;
+}
+
+.wrap {
+  position: relative; z-index: 10;
+  max-width: 560px; text-align: center;
+  animation: rise .6s ease both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.eyebrow {
+  font-family:'Cabin Condensed',sans-serif; font-size:10px; font-weight:700;
+  letter-spacing:.35em; text-transform:uppercase; color:var(--ember);
+  margin-bottom: 18px;
+}
+
+.code {
+  font-family: 'Abril Fatface', serif;
+  font-size: clamp(92px, 16vw, 156px); line-height: .88;
+  color: var(--bone);
+  text-shadow: 3px 3px 0 var(--ember), 6px 6px 0 rgba(196,90,16,.2);
+  margin-bottom: 8px;
+}
+
+.hl {
+  font-family: 'Abril Fatface', serif;
+  font-size: clamp(28px, 4vw, 42px);
+  color: var(--wheat); font-style: italic;
+  margin-bottom: 20px;
+}
+
+.rule { display:flex; align-items:center; gap:14px; justify-content:center; margin:20px 0; }
+.rule-line { flex:1; max-width:80px; height:1px; background:linear-gradient(90deg,transparent,var(--smoke),transparent); }
+.rule-gem { width:6px; height:6px; background:var(--ember); transform:rotate(45deg); }
+
+.deck {
+  font-family: 'Lora', serif; font-style: italic;
+  font-size: 17px; line-height: 1.7; color: var(--wheat);
+  margin-bottom: 36px;
+}
+
+.actions {
+  display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+}
+
+.btn {
+  font-family:'Cabin Condensed',sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:.22em; text-transform:uppercase;
+  padding:12px 22px;
+  text-decoration: none; transition: all .2s;
+}
+.btn-primary {
+  background:var(--ember); color:#fff; border:1px solid var(--ember);
+}
+.btn-primary:hover { background:var(--amber); border-color: var(--amber); transform: translateY(-1px); }
+.btn-ghost {
+  background:transparent; color:var(--bone);
+  border:1px solid rgba(255,255,255,.2);
+}
+.btn-ghost:hover { border-color: var(--ember); color: var(--amber); }
+
+.sig {
+  margin-top: 48px;
+  font-family: 'Special Elite', monospace;
+  font-size: 11px; letter-spacing: .18em;
+  color: var(--smoke);
+}
+
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="eyebrow">Go Hear Live</div>
+  <div class="code">404</div>
+  <div class="hl">Lost in the Crowd</div>
+  <div class="rule"><div class="rule-line"></div><div class="rule-gem"></div><div class="rule-line"></div></div>
+  <p class="deck">
+    The page you were looking for didn't make it to soundcheck. Maybe the link
+    was typed wrong. Maybe the story moved. Either way — the stage is still here,
+    and so is everything else we've written down.
+  </p>
+  <div class="actions">
+    <a href="/" class="btn btn-primary">Back to the main stage</a>
+    <a href="/all-stories.html" class="btn btn-ghost">Browse all stories</a>
+  </div>
+  <div class="sig">— The stage remembers —</div>
+</div>
+
+</body>
+</html>
