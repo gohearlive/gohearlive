@@ -312,7 +312,7 @@
     "decade": "1990s",
     "file": "stories/phish-lucerna-prague-1998.html"
   },
-{
+  {
     "id": 17,
     "slug": "neil-young-crazy-horse-fillmore-east-1970",
     "title": "Two Kinds of Electric",
@@ -330,5 +330,27 @@
     ],
     "decade": "1970s",
     "file": "stories/neil-young-crazy-horse-fillmore-east-1970.html"
+  },
+  {
+    "id": 18,
+    "slug": "foo-fighters-first-avenue-1995",
+    "title": "From the Back of the Van",
+    "artist": "Foo Fighters",
+    "venue": "First Avenue",
+    "city": "Minneapolis",
+    "date": "May 8 & Aug 4, 1995",
+    "youtubeId": "BIwtZgimDZw",
+    "youtubeId2": "N7pP9MOoMwo",
+    "genre": [
+      "Rock",
+      "Grunge"
+    ],
+    "mood": [
+      "Electric",
+      "Inspirational",
+      "Historic"
+    ],
+    "decade": "1990s",
+    "file": "stories/foo-fighters-first-avenue-1995.html"
   }
 ]

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From the Back of the Van — Go Hear Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cabin+Condensed:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {--void:#0a0907;--ember:#c84b11;--amber:#e8930a;--fog:#8a8070;--parchment:#e8e0d0;}
+  * {margin:0;padding:0;box-sizing:border-box;}
+  body {background:var(--void);color:var(--parchment);font-family:'Lora',Georgia,serif;font-size:18px;line-height:1.8;}
+  .site-nav {position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:linear-gradient(to bottom,rgba(10,9,7,.98),transparent);}
+  .nav-logo {font-family:'Abril Fatface',serif;font-size:22px;color:var(--parchment);text-decoration:none;letter-spacing:.02em;}
+  .nav-logo span {color:var(--ember);font-style:italic;}
+  .back-btn {font-family:'Cabin Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);text-decoration:none;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;margin-right:50px;}
+  .back-btn:hover {color:var(--ember);border-color:var(--ember);}
+  .story-hero {padding:120px 40px 60px;max-width:800px;margin:0 auto;}
+  .story-meta {font-family:'Cabin Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--ember);margin-bottom:24px;}
+  .story-meta span {color:var(--fog);margin:0 8px;}
+  .story-title {font-family:'Abril Fatface',serif;font-size:clamp(36px,6vw,64px);line-height:1.1;color:var(--parchment);margin-bottom:16px;}
+  .story-subtitle {font-family:'Cabin Condensed',sans-serif;font-size:16px;font-weight:400;letter-spacing:.05em;color:var(--fog);margin-bottom:48px;}
+  .video-frame {width:100%;aspect-ratio:16/9;background:#000;border:1px solid rgba(255,255,255,.08);}
+  .video-frame iframe {width:100%;height:100%;border:none;display:block;}
+  .video-caption {font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--fog);margin-top:12px;}
+  .story-body {max-width:680px;margin:0 auto;padding:0 40px 80px;}
+  .story-body p {margin-bottom:28px;color:rgba(232,224,208,.88);}
+  .story-body p:first-of-type::first-letter {font-family:'Abril Fatface',serif;font-size:72px;line-height:.8;float:left;margin:8px 12px 0 0;color:var(--ember);}
+  .story-body hr {border:none;border-top:1px solid rgba(255,255,255,.08);margin:48px 0;}
+  .story-body em {color:var(--amber);font-style:italic;}
+  .story-body strong {color:var(--parchment);font-weight:600;}
+  .story-body blockquote {border-left:2px solid var(--ember);padding-left:24px;margin:40px 0;font-style:italic;color:var(--fog);}
+  /* show title blocks */
+  .show-marker {margin:48px 0 32px;padding:20px 24px;border-left:3px solid var(--ember);background:rgba(200,75,17,.05);}
+  .show-marker .show-num {font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--ember);margin-bottom:6px;}
+  .show-marker .show-date {font-family:'Abril Fatface',serif;font-size:22px;color:var(--parchment);line-height:1.15;margin-bottom:4px;}
+  .show-marker .show-role {font-family:'Cabin Condensed',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--fog);}
+  .story-end {max-width:680px;margin:0 auto;padding:0 40px 100px;}
+  .site-footer {text-align:center;padding:40px;border-top:1px solid rgba(255,255,255,.06);font-family:'Cabin Condensed',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);}
+  .site-footer a {color:var(--ember);text-decoration:none;}
+  @media (max-width:600px) {
+    .site-nav {padding:16px 20px;}
+    .story-hero,.story-body,.story-end {padding-left:20px;padding-right:20px;}
+    .story-hero {padding-top:90px;}
+    .dual-video-wrap {padding:0 20px;}
+  }
+  /* drawer */
+  .drawer-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);}
+  .drawer-overlay.open{display:block;}
+  .drawer{position:fixed;top:0;right:0;bottom:0;z-index:201;width:min(380px,90vw);background:#111009;border-left:1px solid rgba(255,255,255,.08);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden;}
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{display:flex;align-items:center;justify-content:space-between;padding:24px 24px 20px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;}
+  .drawer-logo{font-family:'Abril Fatface',serif;font-size:18px;color:var(--parchment);text-decoration:none;}
+  .drawer-logo span{color:var(--ember);font-style:italic;}
+  .drawer-close{font-family:'Cabin Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);background:none;border:none;cursor:pointer;transition:color .2s;}
+  .drawer-close:hover{color:var(--ember);}
+  .drawer-label{padding:16px 24px 10px;font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--fog);flex-shrink:0;}
+  .drawer-list{overflow-y:auto;flex:1;padding:0 0 24px;}
+  .drawer-list::-webkit-scrollbar{width:4px;}
+  .drawer-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px;}
+  .drawer-item{display:flex;align-items:flex-start;gap:14px;padding:14px 24px;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);transition:background .2s;}
+  .drawer-item:hover{background:rgba(255,255,255,.04);}
+  .drawer-item.active{background:rgba(200,75,17,.08);}
+  .drawer-num{font-family:'Cabin Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--fog);min-width:22px;margin-top:2px;flex-shrink:0;}
+  .drawer-item.active .drawer-num{color:var(--ember);}
+  .drawer-info{display:flex;flex-direction:column;gap:3px;}
+  .drawer-title{font-family:'Lora',serif;font-size:14px;color:var(--parchment);line-height:1.3;}
+  .drawer-item.active .drawer-title{color:var(--ember);}
+  .drawer-band{font-family:'Cabin Condensed',sans-serif;font-size:10px;letter-spacing:.08em;color:var(--fog);}
+  .hamburger{position:fixed;top:18px;right:20px;z-index:150;background:rgba(10,9,7,.85);border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:8px 10px;cursor:pointer;display:flex;flex-direction:column;gap:4px;transition:border-color .2s,background .2s;}
+  .hamburger:hover{border-color:var(--ember);background:rgba(200,75,17,.15);}
+  .hamburger span{display:block;width:18px;height:2px;background:var(--parchment);transition:background .2s;}
+  .hamburger:hover span{background:var(--ember);}
+  /* prev/next */
+  .pn-wrap{display:flex;gap:16px;margin:60px 0 0;padding-top:40px;border-top:1px solid rgba(255,255,255,.08);}
+  .pn-btn{flex:1;display:flex;align-items:center;gap:16px;padding:20px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);text-decoration:none;transition:background .2s,border-color .2s;}
+  .pn-btn:hover{background:rgba(200,75,17,.08);border-color:var(--ember);}
+  .pn-next{justify-content:flex-end;}
+  .pn-arrow{font-size:24px;color:var(--ember);flex-shrink:0;font-family:'Abril Fatface',serif;}
+  .pn-info{display:flex;flex-direction:column;gap:3px;}
+  .pn-label{font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);}
+  .pn-title{font-family:'Lora',serif;font-size:14px;color:var(--parchment);line-height:1.3;}
+  .pn-band{font-family:'Cabin Condensed',sans-serif;font-size:10px;letter-spacing:.08em;color:var(--fog);}
+  @media(max-width:500px){.pn-wrap{flex-direction:column;}}
+  /* suggestion cards */
+  .sc-section{margin-top:60px;padding-top:40px;border-top:1px solid rgba(255,255,255,.08);}
+  .sc-heading{font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--fog);margin-bottom:24px;}
+  .sc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .sc-card{text-decoration:none;display:flex;flex-direction:column;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);transition:background .2s,border-color .2s;}
+  .sc-card:hover{background:rgba(200,75,17,.07);border-color:var(--ember);}
+  .sc-thumb{width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;}
+  .sc-thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:.6;transition:opacity .3s;}
+  .sc-card:hover .sc-thumb img{opacity:.8;}
+  .sc-body{padding:14px;display:flex;flex-direction:column;gap:4px;flex:1;}
+  .sc-num{font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--ember);}
+  .sc-title{font-family:'Lora',serif;font-size:13px;color:var(--parchment);line-height:1.35;}
+  .sc-band{font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--fog);margin-top:2px;}
+  .sc-venue{font-family:'Cabin Condensed',sans-serif;font-size:9px;letter-spacing:.06em;color:rgba(138,128,112,.6);}
+  @media(max-width:600px){.sc-grid{grid-template-columns:1fr;}}
+  /* dual video */
+  .dual-video-wrap{max-width:800px;margin:0 auto 60px;padding:0 40px;}
+  .dual-video-header{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:10px;}
+  .dual-video-col-label{font-family:'Cabin Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ember);}
+  .dual-videos{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:620px){.dual-video-header,.dual-videos{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="openDrawer()" aria-label="All stories">
+  <span></span><span></span><span></span>
+</button>
+
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <a href="../index.html" class="drawer-logo">Go Hear <span>Live</span></a>
+    <button class="drawer-close" onclick="closeDrawer()">✕ Close</button>
+  </div>
+  <div class="drawer-label">All Stories</div>
+  <div class="drawer-list">
+    <a href="nirvana-paramount-1991.html" class="drawer-item"><span class="drawer-num">01</span><span class="drawer-info"><span class="drawer-title">Halloween in the Palace of Splendor</span><span class="drawer-band">Nirvana · The Paramount, Seattle · 1991</span></span></a>
+    <a href="mad-season-moore-1995.html" class="drawer-item"><span class="drawer-num">02</span><span class="drawer-info"><span class="drawer-title">A Brief Lightning Bolt</span><span class="drawer-band">Mad Season · The Moore, Seattle · 1995</span></span></a>
+    <a href="neil-young-pearl-jam-moes-1995.html" class="drawer-item"><span class="drawer-num">03</span><span class="drawer-info"><span class="drawer-title">The Godfather Comes to Capitol Hill</span><span class="drawer-band">Neil Young & Pearl Jam · Moe's, Seattle · 1995</span></span></a>
+    <a href="alice-in-chains-central-saloon-1990.html" class="drawer-item"><span class="drawer-num">04</span><span class="drawer-info"><span class="drawer-title">Before the Box</span><span class="drawer-band">Alice in Chains · Central Saloon, Seattle · 1990</span></span></a>
+    <a href="nirvana-foufounes-1991.html" class="drawer-item"><span class="drawer-num">05</span><span class="drawer-info"><span class="drawer-title">The Night Before Everything Changed</span><span class="drawer-band">Nirvana · Les Foufounes, Montréal · 1991</span></span></a>
+    <a href="further-festival-oob-1996.html" class="drawer-item"><span class="drawer-num">06</span><span class="drawer-info"><span class="drawer-title">Without Jerry</span><span class="drawer-band">Further Festival · The Ballpark, Maine · 1996</span></span></a>
+    <a href="alanis-zaphod-1995.html" class="drawer-item"><span class="drawer-num">07</span><span class="drawer-info"><span class="drawer-title">The Girl Who Came Home</span><span class="drawer-band">Alanis Morissette · Zaphod Beeblebrox, Ottawa · 1995</span></span></a>
+    <a href="dylan-lesh-chicago-1999.html" class="drawer-item"><span class="drawer-num">08</span><span class="drawer-info"><span class="drawer-title">Two Worlds Collide on Halloween</span><span class="drawer-band">Bob Dylan & Phil Lesh · UIC Pavilion, Chicago · 1999</span></span></a>
+    <a href="walkmen-troubadour-2008.html" class="drawer-item"><span class="drawer-num">09</span><span class="drawer-info"><span class="drawer-title">Four Minutes and Fifteen Seconds</span><span class="drawer-band">The Walkmen · The Troubadour, LA · 2008</span></span></a>
+    <a href="bowie-earls-court-1978.html" class="drawer-item"><span class="drawer-num">10</span><span class="drawer-info"><span class="drawer-title">We Can Be Heroes</span><span class="drawer-band">David Bowie · Earls Court, London · 1978</span></span></a>
+    <a href="urge-overkill-underworld-2004.html" class="drawer-item"><span class="drawer-num">11</span><span class="drawer-info"><span class="drawer-title">Dressed to Thrill</span><span class="drawer-band">Urge Overkill · The Underworld, London · 2004</span></span></a>
+    <a href="iron-maiden-ottawa-1992.html" class="drawer-item"><span class="drawer-num">12</span><span class="drawer-info"><span class="drawer-title">The Longest Song in the World</span><span class="drawer-band">Iron Maiden · Coliseum, Ottawa · 1992</span></span></a>
+    <a href="van-morrison-bb-king-nola-2001.html" class="drawer-item"><span class="drawer-num">13</span><span class="drawer-info"><span class="drawer-title">The Mystic and the King</span><span class="drawer-band">Van Morrison & B.B. King · New Orleans · 2001</span></span></a>
+    <a href="arc-angels-antones-1990.html" class="drawer-item"><span class="drawer-num">14</span><span class="drawer-info"><span class="drawer-title">New Year's Eve at the Home of the Blues</span><span class="drawer-band">Arc Angels · Antone's, Austin · 1990</span></span></a>
+    <a href="iggy-pop-olympia-1991.html" class="drawer-item"><span class="drawer-num">15</span><span class="drawer-info"><span class="drawer-title">Raw Power at the House of Piaf</span><span class="drawer-band">Iggy Pop · L'Olympia, Paris · 1991</span></span></a>
+    <a href="foo-fighters-first-avenue-1995.html" class="drawer-item active"><span class="drawer-num">17</span><span class="drawer-info"><span class="drawer-title">From the Back of the Van</span><span class="drawer-band">Foo Fighters · First Avenue, Minneapolis · 1995</span></span></a>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <a href="../index.html" class="nav-logo">Go Hear <span>Live</span></a>
+  <a href="../all-stories.html" class="back-btn">← All Stories</a>
+</nav>
+
+<header class="story-hero">
+  <div class="story-meta">Foo Fighters <span>·</span> First Avenue <span>·</span> Minneapolis, MN <span>·</span> May 8 & August 4, 1995</div>
+  <h1 class="story-title">From the Back of the Van</h1>
+  <p class="story-subtitle">The music and the room. The band and the moment.</p>
+</header>
+
+<div class="dual-video-wrap">
+  <div class="dual-video-header">
+    <div class="dual-video-col-label">Show One — May 8 · Support Act</div>
+    <div class="dual-video-col-label">Show Two — Aug 4 · Headliners</div>
+  </div>
+  <div class="dual-videos">
+    <div>
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/BIwtZgimDZw" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="video-caption">Foo Fighters — spring 1995 support-slot era</p>
+    </div>
+    <div>
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/N7pP9MOoMwo" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="video-caption">Foo Fighters — headlining, summer 1995</p>
+    </div>
+  </div>
+</div>
+
+<article class="story-body">
+
+  <p>The first time Foo Fighters ever played in front of anybody, they were above a boating supply store.</p>
+
+  <p>February 19, 1995. The second floor of the West Marine store on Mercer Street in Seattle — a stark white space normally used for storage, just large enough to cram in a band, their gear, and a keg of beer that Dave Grohl himself had supplied. Fifty or so friends and family crowded in. Dave Grohl, Nate Mendel, Pat Smear, and William Goldsmith plugged in. The songs nobody in the room had ever heard before crashed off the bare walls. Everyone in that loft was watching something they would spend years trying to describe. The building is long gone — demolished in 2010 during Mercer Street's redevelopment — which gives the whole thing the quality of a dream you can't quite prove. But it happened.</p>
+
+  <p>Less than three months later, Foo Fighters walked onto the stage at First Avenue in Minneapolis as an opening act. Three months after that, they walked onto the same stage as headliners. Two shows, eighty-nine days apart, in the same room, with a completely different relationship to the night. Together they are the story of a band becoming a band — and of a man discovering, in real time, exactly who he was when he stepped out from behind the drum kit and walked to a microphone of his own.</p>
+
+  <hr>
+
+  <p>When Kurt Cobain died in April 1994, Dave Grohl didn't know what to do with himself. He couldn't listen to music — not a song on the radio, not a record he loved, not anything. "Losing Kurt was earth-shattering," he said years later, "and I was afraid of music after he died. If I heard a song that even touched on an emotion in me, I would turn it off. I was so terrified because to me, that's what music always was. It was a direct connection to my heart." He retreated. He drove the country roads of County Kerry in Ireland trying to outrun his grief, until he came across a hitchhiker wearing a Kurt Cobain T-shirt and understood that you couldn't outrun this. So he flew back to Seattle and booked six days at Robert Lang Studios.</p>
+
+  <p>In those six days, playing every instrument himself — drums, bass, guitar, all the vocals — Grohl recorded fifteen tracks of thrashing, melodic, emotionally complex rock music. He wasn't making a record. He was processing something he couldn't talk about. He called the project Foo Fighters, borrowing a term Allied pilots used in World War II for unidentified aerial phenomena, and put no names on the cassettes he passed out to friends. He wanted people to think it was a band. He wasn't ready to be Dave Grohl from Nirvana standing in the front of a room singing his own songs. He was insecure about his voice, unsure what singing actually felt like from the front — the drum kit sits between the player and the room, a physical presence that anchors you; the microphone offers nothing to hold but itself.</p>
+
+  <p>The tapes landed at Capitol Records. There was a deal. Which meant there needed to be a real band.</p>
+
+  <p>By Christmas of 1994, the lineup was in place: Nate Mendel and William Goldsmith — both recently free from Sunny Day Real Estate — on bass and drums. Pat Smear, former Germs guitarist and Nirvana's touring second guitarist in their final years, rounded out the four-piece. They rehearsed through January and into February, three musicians learning songs that had been written and recorded entirely by a fourth. Then came the West Marine show. Then a handful of small club dates along the West Coast. Then, in the spring, the first real tour: opening for Mike Watt.</p>
+
+  <hr>
+
+  <p>First Avenue understood, perhaps better than any venue in America, what it meant to stand in the shadow of something enormous and find your own way forward. The building started as a Greyhound bus depot in 1937. It became a live music room in 1970, booking Joe Cocker for the opening run. By the early 1980s, rechristened First Avenue, it was the ground zero of the Minneapolis punk and hardcore scene — the room where Hüsker Dü, The Replacements, and Soul Asylum hammered out their mythology, where the walls absorbed a thousand nights of noise and sweat. And then Prince made it his home. The <em>Purple Rain</em> film turned First Avenue into a national symbol, the stage where the kid from North Minneapolis had become something the music industry couldn't categorize. After that film, when you played First Avenue, you were playing in a room that had already witnessed transcendence.</p>
+
+  <p>The club maintained a tradition that mattered enormously: artists who headlined a significant show earned a silver star on the building's black exterior wall, their name painted there for the city to see. Dylan. Hüsker Dü. U2. Metallica. Tina Turner. Names that had passed through on their way to somewhere larger, and left something permanent behind. The star was given to headliners. Not to support acts. That distinction would mean a great deal before 1995 was out.</p>
+
+  <hr>
+
+  <div class="show-marker">
+    <div class="show-num">First Avenue · Show One</div>
+    <div class="show-date">May 8, 1995</div>
+    <div class="show-role">Opening for Mike Watt &amp; Hovercraft · No album · No star</div>
+  </div>
+
+  <p>The spring tour with Mike Watt was precisely the right place to begin. Watt — Minutemen co-founder, bass legend, survivor of the devastating 1985 death of his bandmate D. Boon — had assembled an extraordinary bill: Foo Fighters opening, and Eddie Vedder's experimental noise project Hovercraft also on the card. A lineup built from grief and new beginnings, from people who had been through enormous loss and decided, against all reasonable expectation, to keep making noise. Grohl was even serving as Watt's touring drummer on this run as well as fronting his own band — an absurd doubling of roles that tells you something about where his head still was. The drumkit remained, for now, a fallback position.</p>
+
+  <p>When Foo Fighters took the First Avenue stage on May 8, the album was still two months from release. There was no record to buy. The crowd had come for Mike Watt primarily, and for the curiosity of Hovercraft — the chance to see what Eddie Vedder did when he was being something very much other than Pearl Jam. Foo Fighters were the unknown quantity: the band whose name people recognised from whispers about Nirvana's drummer starting something new, but whose music was completely unheard. The set was a sprint: <em>Wattershed, For All the Cows, Podunk, Alone + Easy Target, Exhausted</em>, and a handful more — eight songs in total, maybe thirty minutes, crashing into a crowd that had no frame of reference, no songs memorised, no investment yet.</p>
+
+  <p>The dynamic in the room was what you'd expect. Some people leaned in hard. Most held back, saving themselves for the headliner. Grohl worked the stage with enormous physical energy — that kinetic force that years of drumming had drilled into his bones — but the authority of a frontman was something he was still reaching toward rather than inhabiting. The songs were extraordinary; the singer was still learning that they were his to claim. The band itself was tight in the way a sharp new band is tight — rehearsed, energetic, together — but without the looser, more dangerous confidence that comes only from knowing how to read a room, show after show, city after city.</p>
+
+  <p>Minneapolis got a preview that night. Not the finished article. The van drove away with Watt's tour rolling on.</p>
+
+  <hr>
+
+  <p>What happened in the eighty-nine days between the two First Avenue shows is the real story.</p>
+
+  <p>The Mike Watt tour ran through May and into early June — night after night of support slots, shorter sets, borrowed crowds. It is relentless and valuable and humbling in ways that headlining never is. You learn to grab attention from people who aren't offering it. You learn what the songs can do when they have to fight for their place in the night. Every show files something down in a frontman — something that has to be filed down before the real authority can emerge. Grohl later put it plainly: he was more comfortable in his hour onstage than in the twenty-three he spent as a band leader. The spring tour was him learning both, every day, at full speed.</p>
+
+  <p>Then the album dropped. July 4, 1995. The self-titled debut hit the Billboard 200 at number 23 with 40,000 copies sold in its first week. The single <em>This Is a Call</em> was on radio. <em>I'll Stick Around</em> followed. Critics compared everything to Nirvana, dissected lyrics he'd written years before Kurt died, hunted for grief between the lines of songs that were simply songs. Even the gun on the album cover — a vintage Buck Rogers ray gun meant to evoke the band name's UFO mythology — was taken as coded tragedy. Grohl answered every question carefully and said as little as possible about the thing everyone wanted to hear most.</p>
+
+  <p>But here is what the album changed that nothing else could have: when the headlining tour launched in late July and the van rolled back toward Minneapolis, people in those crowds already knew the songs. Had played the record. Were there specifically, deliberately, for Foo Fighters. For Dave Grohl. That shift — from borrowed audience to your audience — transforms what it feels like to hold a microphone. The notes are the same. The rooms are the same. But singing words that a crowd already knows changes the relationship between the singer and the song in a way that can't be manufactured. It can only be earned by making music people actually want to carry home.</p>
+
+  <p>And the band had been transformed too. Mendel had found his footing in songs he'd learned as a stranger — what had been another man's music in January now lived in his hands the way only road miles put things there. Goldsmith, driving everything from behind the kit, had the settled confidence of a drummer who no longer needed to think about the parts. Smear — who had watched Nirvana in its final chaotic years — had something loose and joyful about his playing by summer that the spring had lacked. By August, Foo Fighters played like they'd been doing this for years. In the compressed way that touring works on a band, they had.</p>
+
+  <hr>
+
+  <div class="show-marker">
+    <div class="show-num">First Avenue · Show Two</div>
+    <div class="show-date">August 4, 1995</div>
+    <div class="show-role">Headliners · Their room now · Rolling Stone in the van</div>
+  </div>
+
+  <p>The Rolling Stone journalist — Chris Mundy, assigned to document the band's first headlining tour for the magazine's first major feature on Foo Fighters — had been riding in the van since Denver. Grohl sometimes took his turns driving. This image matters: the man who had been the drummer of the biggest rock band on the planet, steering a tour vehicle down an American highway, hauling his own equipment, talking to a journalist who kept circling back to questions about Kurt Cobain while Grohl kept answering the other ones. He was twenty-six years old and attempting — as Mundy put it — to steer not only from Denver to Minneapolis but from supporting musician to frontman.</p>
+
+  <p>Backstage at First Avenue that August night, the four waited in their familiar styles. Mendel sat with his bass, eyes closed. Goldsmith stripped to his underwear and stretched, preparing to pound. Grohl bounced on his heels, that restless energy with nowhere yet to go. And Pat Smear was not there. A dressing room was checked. Nothing. Crew members scrambled through the club. No luck. The tour manager finally phoned the hotel, listened, and rolled his eyes: "He'll be here in a second. He was watching Matlock." A short time later Smear strolled in, antique vanity case in hand, wearing the serene expression of a man who has never once been in a hurry. Instead of anger, his bandmates broke into laughter. Grohl grabbed Smear's hand and led him to the stage.</p>
+
+  <p>The set opened with <em>Winnebago</em> — not a Foo Fighters song at all, but a track from Grohl's own pre-band cassette tape <em>Pocketwatch</em>, recorded years earlier under the name Late! It was a private joke and a statement simultaneously: you might think you know exactly when and how I started, but I've been making music like this longer than you realise. Then <em>I'll Stick Around</em> — the riff crashing in, and then the chorus: <em>I don't owe you anything</em>. People in this room had spent a month with that line. When Grohl sang it, they sang it back. That is a completely different experience from singing it at a crowd that doesn't know the words yet. May had been the former. August was the latter, and you could feel it from the first song.</p>
+
+  <p>The headlining set was twice the length of the May show: fourteen songs, sixty-five minutes, a band filling a room rather than borrowing one. <em>Butterflies, Wattershed, Big Me</em> — the one that was quietly becoming a crossover hit, sunny and melodic and massively hook-driven, already getting the band pelted with Mentos candies at shows after the parody video launched. <em>This Is a Call</em> landed like a freight train with a crowd that had been living inside it all summer. <em>Weenie Beenie, For All the Cows,</em> then something new and not yet named for most ears: an early version of what would eventually become <em>My Hero</em>, still raw enough that the Star Tribune's Jon Bream heard it as "startlingly plain." <em>Podunk, Alone + Easy Target, Exhausted</em> — songs that had also appeared in May's support slot but sounded entirely different now, owned rather than introduced. The gorgeous, floating <em>Floaty.</em> And then, to close, a Gary Numan cover: <em>Down in the Park,</em> British post-punk from 1979, something with no connection to grunge or Seattle or anything anyone had come expecting. Which was precisely the point.</p>
+
+  <p>Bream's review in the Star Tribune was honest in the way that only a slightly skeptical witness can be. He called the band "a well-drilled, powerhouse band" that put on an excellent show. He noted the singing's inconsistency — an AC/DC scream, an "alterna-pop James Taylor croon," a Bob Mould-like quality in the power-pop surge. "No matter the style," Bream wrote, "Grohl was passionate but not always confident." What Bream was actually documenting was a frontman three months into becoming one, with an audience now fully his, still working something out in public. The confidence had arrived. It wasn't there in full. But anyone in the room could feel it coming, song by song, accelerating.</p>
+
+  <p>This was the essential difference from May. In May, the authority in Grohl's voice had been something he was reaching toward — the songs were great but the singer held them at a slight distance, as if he hadn't yet decided he was allowed to live inside them fully. In August, that distance had collapsed. The becoming was visible, and that was its own extraordinary thing to witness — a man in the middle of figuring something out in front of you, not failing at it, but solving it, right there, in real time.</p>
+
+  <p>When the last note faded, Foo Fighters earned their star on the exterior wall of First Avenue. Not for the support slot. For the headlining show. Their name went up in silver on the black façade, alongside the others who had come through this room and left something permanent — for sixty-five minutes of a band that had found itself somewhere between Denver and Minneapolis, somewhere between a boating supply store in February and a sold-out room in August where a crowd sang the words back to the man who had written them alone, in grief, in secret, less than a year before.</p>
+
+  <hr>
+
+  <p>A few days later the van rolled east: Chicago, Detroit, Toronto, Montréal — the same Foufounes Électriques where Nirvana had played the night before everything changed for them — then Boston, New York, Philadelphia, Washington. Thirteen days after the First Avenue headliner, Foo Fighters played the Ed Sullivan Theater for David Letterman. The headlining dates kept selling out. The album kept climbing. By December, 900,000 copies in the United States. Two million worldwide.</p>
+
+  <p>The band that Grohl had hidden behind a fictional name, passed out on cassettes with no photo and no credits — that band was on its way to becoming one of the biggest rock acts on earth. It didn't happen all at once. It happened night by night, city by city, one opening slot giving way to the next, until the night you open for nobody because the room is already yours. The nervousness metabolised into swagger. The borrowed authority became genuine. The singer stopped holding the songs at arm's length and started living inside them.</p>
+
+  <p>Two shows. The same room. The same black walls. Eighty-nine days. Everything changed.</p>
+
+  <p>The stage remembers.</p>
+
+  <hr>
+
+</article>
+
+<div class="story-end">
+  <div class="pn-wrap">
+    <a href="iggy-pop-olympia-1991.html" class="pn-btn pn-prev">
+      <span class="pn-arrow">←</span>
+      <span class="pn-info">
+        <span class="pn-label">Previous</span>
+        <span class="pn-title">Raw Power at the House of Piaf</span>
+        <span class="pn-band">Iggy Pop</span>
+      </span>
+    </a>
+    <a href="nirvana-paramount-1991.html" class="pn-btn pn-next">
+      <span class="pn-info" style="text-align:right">
+        <span class="pn-label">Also worth reading</span>
+        <span class="pn-title">Halloween in the Palace of Splendor</span>
+        <span class="pn-band">Nirvana</span>
+      </span>
+      <span class="pn-arrow">→</span>
+    </a>
+  </div>
+
+  <div class="sc-section">
+    <div class="sc-heading">More Stories</div>
+    <div class="sc-grid">
+      <a href="nirvana-paramount-1991.html" class="sc-card">
+        <div class="sc-thumb"><img src="https://img.youtube.com/vi/Z53nb74H7Vc/hqdefault.jpg" alt="Nirvana Paramount 1991"></div>
+        <div class="sc-body"><div class="sc-num">01</div><div class="sc-title">Halloween in the Palace of Splendor</div><div class="sc-band">Nirvana</div><div class="sc-venue">The Paramount, Seattle · 1991</div></div>
+      </a>
+      <a href="mad-season-moore-1995.html" class="sc-card">
+        <div class="sc-thumb"><img src="https://img.youtube.com/vi/StqioKCPqF8/hqdefault.jpg" alt="Mad Season Moore 1995"></div>
+        <div class="sc-body"><div class="sc-num">02</div><div class="sc-title">A Brief Lightning Bolt</div><div class="sc-band">Mad Season</div><div class="sc-venue">The Moore, Seattle · 1995</div></div>
+      </a>
+      <a href="nirvana-foufounes-1991.html" class="sc-card">
+        <div class="sc-thumb"><img src="https://img.youtube.com/vi/Kl8vJlHUWSs/hqdefault.jpg" alt="Nirvana Foufounes 1991"></div>
+        <div class="sc-body"><div class="sc-num">05</div><div class="sc-title">The Night Before Everything Changed</div><div class="sc-band">Nirvana</div><div class="sc-venue">Les Foufounes, Montréal · 1991</div></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>The Stage Remembers &nbsp;·&nbsp; <a href="../index.html">gohearlive.com</a></p>
+  <p style="margin-top:8px;">The music and the room. The band and the moment.</p>
+  <p style="margin-top:18px; font-size:10px; letter-spacing:0; text-transform:none; color:rgba(255,255,255,.35); line-height:1.6;">
+    Story © 2026 Go Hear Live. Original editorial writing — all rights reserved.<br>
+    Embedded video remains the property of its respective uploaders. Concert photographs used under Creative Commons license, unless otherwise noted; see <a href="../about.html" style="color:inherit; text-decoration:underline;">credits</a>.
+  </p>
+</footer>
+
+<script>
+  function openDrawer() {
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('drawerOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('drawerOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>
+</body>
+</html>
