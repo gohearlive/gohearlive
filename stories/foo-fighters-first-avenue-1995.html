@@ -259,41 +259,11 @@
 </article>
 
 <div class="story-end">
-  <div class="pn-wrap">
-    <a href="iggy-pop-olympia-1991.html" class="pn-btn pn-prev">
-      <span class="pn-arrow">←</span>
-      <span class="pn-info">
-        <span class="pn-label">Previous</span>
-        <span class="pn-title">Raw Power at the House of Piaf</span>
-        <span class="pn-band">Iggy Pop</span>
-      </span>
-    </a>
-    <a href="nirvana-paramount-1991.html" class="pn-btn pn-next">
-      <span class="pn-info" style="text-align:right">
-        <span class="pn-label">Also worth reading</span>
-        <span class="pn-title">Halloween in the Palace of Splendor</span>
-        <span class="pn-band">Nirvana</span>
-      </span>
-      <span class="pn-arrow">→</span>
-    </a>
-  </div>
+  <div id="prevNext"></div>
 
   <div class="sc-section">
     <div class="sc-heading">More Stories</div>
-    <div class="sc-grid">
-      <a href="nirvana-paramount-1991.html" class="sc-card">
-        <div class="sc-thumb"><img src="https://img.youtube.com/vi/Z53nb74H7Vc/hqdefault.jpg" alt="Nirvana Paramount 1991"></div>
-        <div class="sc-body"><div class="sc-num">01</div><div class="sc-title">Halloween in the Palace of Splendor</div><div class="sc-band">Nirvana</div><div class="sc-venue">The Paramount, Seattle · 1991</div></div>
-      </a>
-      <a href="mad-season-moore-1995.html" class="sc-card">
-        <div class="sc-thumb"><img src="https://img.youtube.com/vi/StqioKCPqF8/hqdefault.jpg" alt="Mad Season Moore 1995"></div>
-        <div class="sc-body"><div class="sc-num">02</div><div class="sc-title">A Brief Lightning Bolt</div><div class="sc-band">Mad Season</div><div class="sc-venue">The Moore, Seattle · 1995</div></div>
-      </a>
-      <a href="nirvana-foufounes-1991.html" class="sc-card">
-        <div class="sc-thumb"><img src="https://img.youtube.com/vi/Kl8vJlHUWSs/hqdefault.jpg" alt="Nirvana Foufounes 1991"></div>
-        <div class="sc-body"><div class="sc-num">05</div><div class="sc-title">The Night Before Everything Changed</div><div class="sc-band">Nirvana</div><div class="sc-venue">Les Foufounes, Montréal · 1991</div></div>
-      </a>
-    </div>
+    <div class="sc-grid" id="recGrid"></div>
   </div>
 </div>
 
@@ -306,6 +276,7 @@
   </p>
 </footer>
 
+<script src="../gohearlive.js"></script>
 <script>
   function openDrawer() {
     document.getElementById('drawer').classList.add('open');
@@ -316,6 +287,13 @@
     document.getElementById('drawer').classList.remove('open');
     document.getElementById('drawerOverlay').classList.remove('open');
     document.body.style.overflow = '';
+  }
+  if (typeof GHL !== 'undefined') {
+    Promise.all([GHL.load(), GHL.loadVenues()]).then(() => {
+      GHL.renderDrawer('drawerList');
+      GHL.renderRecommendations('recGrid', 18);
+      GHL.renderPrevNext('prevNext', 18);
+    });
   }
 </script>
 </body>
