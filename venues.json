@@ -144,5 +144,30 @@
     "opened": "1893",
     "capacity": "2,000",
     "status": "Active"
+  },
+  "Lucerna Music Bar": {
+    "city": "Prague",
+    "neighbourhood": "Nové Město",
+    "address": "Vodičkova 36, Lucerna Palace",
+    "opened": "Oct 24, 1995",
+    "capacity": "800",
+    "status": "Active — housed in the art-nouveau Lucerna Palace passage (built 1907–1921 by Václav Havel's grandfather)"
+  },
+  "Fillmore East": {
+    "city": "New York City",
+    "neighbourhood": "East Village",
+    "address": "105 Second Avenue at East 6th Street",
+    "opened": "Mar 8, 1968",
+    "capacity": "~2,700",
+    "builtBy": "Bill Graham (operated; building was a former Yiddish theatre, then movie house)",
+    "status": "Closed Jun 27, 1971 — theatre portion demolished 1996; site is now an Emigrant Bank branch"
+  },
+  "First Avenue": {
+    "city": "Minneapolis",
+    "neighbourhood": "Downtown",
+    "address": "701 First Avenue North",
+    "opened": "Apr 3, 1970",
+    "capacity": "1,550 (Mainroom) + 250 (7th St Entry)",
+    "status": "Active — opened as The Depot in 1970; renamed First Avenue on New Year's Eve 1981; the room where Prince filmed the *Purple Rain* stage scenes on Aug 3, 1983"
   }
 }
