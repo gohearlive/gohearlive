@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+._*
+
+# Claude Cowork / private working files — never publish to the site
+.claude/
+CLAUDE.md
+SKILL.md
+*.skill
+/_working/
+/notes/
+/drafts/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
